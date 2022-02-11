@@ -1,10 +1,10 @@
 # BAMO - Block And Move On
 A tool to simplify importing custom assets in Minecraft
 
-Currently only allows you to quickly prototype models in minecraft, but further functionality is coming
+Currently only allows you to quickly prototype models in-game, but further functionality is coming
 
 ## WARNING - STILL AN EARLY VERSION SO USE AT YOUR OWN RISK
-I would Highly recommend backup up any model files before attempting to use this plugin/mod
+I would **HIGHLY** recommend you backup up any model files before attempting to use this plugin/mod
 
 ## Installation
  1. Download the [BAMO.jar](https://github.com/tmudway/MinecraftMods/releases/download/0.1.0-alpha/bamo-0.1.jar) mod file and move it to the mods folder in your minecraft directory
@@ -16,7 +16,7 @@ I would Highly recommend backup up any model files before attempting to use this
  7. Click File -> Preferences -> Settings -> Export and add the location of the resourcepacks folder in the minecraft directory to the text box under "Resource Pack Folder Location"
 ## How to use
 ### Blockbench Plugin
- 1. Make sure the file you're working on is saved and click File -> Export -> BAMO
+ 1. Make sure the file you're working on is saved and click File -> BAMO Export
  2. Input your chosen block properties
 	 * Display Name - The name of the block ingame
 	 * [Material](https://minecraft.fandom.com/wiki/Materials) - The type of block that the majority of the new block's properties will be inhereted from
@@ -30,7 +30,7 @@ I would Highly recommend backup up any model files before attempting to use this
 	 * Fireproof - TBA
 	 * Creative Tab - Which tab on the creative mode item panel the new block will be added to
  3. Click "Confirm"
-#### Minecraft Mod
+### Minecraft Mod
 * Ensure that the BAMO resource pack is enabled
 * Reboot the game if you add new blocks or change the properties of a block
 * Textures and models can be reloaded without rebooting with the shortcut F3+T
