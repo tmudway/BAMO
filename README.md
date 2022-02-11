@@ -7,9 +7,9 @@ Currently only allows you to quickly prototype models in minecraft, but further 
 I would Highly recommend backup up any model files before attempting to use this plugin/mod
 
 ## Installation
- 1. Download the BAMO.jar mod file and move it to the mods folder in your minecraft directory
+ 1. Download the [BAMO.jar](https://github.com/tmudway/MinecraftMods/releases/download/0.1.0-alpha/bamo-0.1.jar) mod file and move it to the mods folder in your minecraft directory
  2. Download [Kotlin for Forge 1.16.0](https://www.curseforge.com/minecraft/mc-mods/kotlin-for-forge/files/3527736) and move it to the same directory
- 3. Download the BAMO.js plugin file
+ 3. Download the [BAMO.js](https://github.com/tmudway/MinecraftMods/releases/download/0.1.0-alpha/BAMO.js) plugin file
  4. Open Blockbench, click File -> Plugins -> Load Plugins from File
  5. Select the BAMO.js file you just downloaded
  6. Restart Blockbench
