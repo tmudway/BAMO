@@ -44,3 +44,9 @@ I would **HIGHLY** recommend you backup up any model files before attempting to 
 * Fixed bug causing files to fail to load when BAMO was installed
 * Started conversion of BAMO to a wizard based interface
 * Added Instant Export function
+### 0.1.2
+* Fixed issue with advanced mode on blockbench plugin not showing correctly
+* Added transparency option
+### 0.1.3
+* Revamped blockbench plugin UI
+* Created placeholder settings for future export options
