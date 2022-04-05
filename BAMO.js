@@ -1,8 +1,9 @@
 (function () {
-    var button;
+    var btn;
     var exportWindow;
     var fileName;
     
+    // Arrays for drop-down menus
     rotationTypes = [
         "default",
         "axis",
@@ -120,13 +121,17 @@
         "Transportation"
     ];
 
+    // Core menu component
     vueComponent = {
-        data: function(){
-            return{
-                namespace: "bamo",
-                blockName: "",
+        data: {
 
-                displayName: "test",
+            step: "start",
+            error: false,
+
+            // Data to be exported
+            form: {
+                namespace: "bamo",
+                displayName: "",
                 material: materialOptions[0],
                 blastRes: 6,
                 slip: 0.6,
@@ -137,75 +142,95 @@
                 maxStack: 64,
                 fireproof: true,
                 creativeTab: tabOptions[0],
-                advModeDisplay: false
             }
         },
         template: `
-            <div>
-                <div id="MainWindow">
+        <div class="container pt-5 pb-5 center">
+
+            <div v-if="step=='start'">
+                <h3>BAMO Editor</h3><br>
+                <div>
+                    <p v-if="error==true" style="color:red">Block display name cannot be blank</p>
+                    <input type="text" class="dark_bordered form-control form-control-lg" v-model="form.displayName" placeholder="Block Display Name"><br><br>
+                    <button @click.prevent="selectMethod">Next</button>
+                </div>
+            </div>
+
+            <div v-if="step=='method'">
+                <h3>Please select an export method</h3>
+                <div>
+                    <button @click.prevent="createJSON">Instant</button>
+                    <!--<button type="button">Simple</button>-->
+                    <button @click.prevent="startAdvanced">Advanced</button>
+                </div>
+            </div>
+
+            <div v-if="step=='Advanced Block Creation'">
+                <h3>Advanced</h3>
+                <div>
                     <table>
                         <tr>
-                            <td>Display Name: </td>
-                            <td><input type="text" class="dark_bordered" v-model="displayName"></td>
-                        </tr>
-                        <tr>
                             <td>Material: </td>
-                            <td><select v-model="material"><option v-for="op in materialOptions" v-bind:value="op">{{ op }}</option></select></td>
+                            <td><select v-model="form.material"><option v-for="op in materialOptions" v-bind:value="op">{{ op }}</option></select></td>
                         </tr>
                         <tr>
                             <td>Blast Resistance: </td>
-                            <td><input type="number" class="dark_bordered" v-model.number="blastRes" min=0></td>
+                            <td><input type="number" class="dark_bordered" v-model.number="form.blastRes" min=0></td>
                         </tr>
                         <tr>
                             <td>Slipperiness: </td>
-                            <td><input type="number" class="dark_bordered" v-model.number="slip" min=0></td>
+                            <td><input type="number" class="dark_bordered" v-model.number="form.slip" min=0></td>
                         </tr>
                         <tr>
                             <td>Gravity: </td>
-                            <td><input type="checkbox" v-model="gravity"></td>
+                            <td><input type="checkbox" v-model="form.gravity"></td>
                         </tr>
                         <tr>
                             <td>Rotation Type: </td>
-                            <td><select id="RotationType" v-model="rotType"><option v-for="op in rotationTypes" v-bind:value="op">{{ op }}</option></select></td>
+                            <td><select id="RotationType" v-model="form.rotType"><option v-for="op in rotationTypes" v-bind:value="op">{{ op }}</option></select></td>
                         </tr>
                         <tr>
                             <td>Block Sounds: </td>
-                            <td><select v-model="sounds"><option v-for="op in soundOptions" v-bind:value="op">{{ op }}</option></select></td>
+                            <td><select v-model="form.sounds"><option v-for="op in soundOptions" v-bind:value="op">{{ op }}</option></select></td>
                         </tr>
                         <tr>
                             <td>Luminance: </td>
-                            <td><input type="number" class="dark_bordered" v-model.number="lum" min=0></td>
+                            <td><input type="number" class="dark_bordered" v-model.number="form.lum" min=0></td>
                         </tr>
                         <tr>
                             <td>Max Stack Size: </td>
-                            <td><input type="number" class="dark_bordered" v-model.number="maxStack" min=0></td>
+                            <td><input type="number" class="dark_bordered" v-model.number="form.maxStack" min=0></td>
                         </tr>
                         <tr>
                             <td>Fireproof: </td>
-                            <td><input type="checkbox" v-model="fireproof"></td>
+                            <td><input type="checkbox" v-model="form.fireproof"></td>
                         </tr>
                         <tr>
                             <td>Creative Tab: </td>
-                            <td><select v-model="creativeTab"><option v-for="op in tabOptions" v-bind:value="op">{{ op }}</option></select></td>
+                            <td><select v-model="form.creativeTab"><option v-for="op in tabOptions" v-bind:value="op">{{ op }}</option></select></td>
                         </tr>
                     </table>
+                    <br>
+                    <button @click.prevent="createJSON">Export</button>
                 </div>
             </div>
+        </div>
         `,
         methods: {
-            changeDisplayName: function(str){
-                this.displayName = str;
-                return;
+
+            reset: function(event){
+                this.error = false
+                this.step = "start"
             },
 
             createJSON: function(event){
 
                 // Define folder locations
                 var dataFolder = settings.minecraftFolder.value + "\\bamo\\data\\"
-                var blockstatesFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.namespace + "\\blockstates\\"
-                var blockModelsFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.namespace + "\\models\\block\\"
-                var itemModelsFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.namespace + "\\models\\item\\"
-                var blockTexturesFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.namespace + "\\textures\\blocks\\"
+                var blockstatesFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.form.namespace + "\\blockstates\\"
+                var blockModelsFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.form.namespace + "\\models\\block\\"
+                var itemModelsFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.form.namespace + "\\models\\item\\"
+                var blockTexturesFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.form.namespace + "\\textures\\blocks\\"
 
                 // Create the folders if they dont exist
                 var folderList = [dataFolder, blockstatesFolder, blockModelsFolder, itemModelsFolder, blockTexturesFolder]
@@ -224,10 +249,10 @@
                 }
 
                 // Generate block name from the displayname
-                var blockName = this.displayName.replace(/\s+/g, '').toLowerCase();
+                var blockName = this.form.displayName.replace(/\s+/g, '').toLowerCase();
 
                 // Create blockstates files
-                var stateData = {"variants" : {"" : {"model" : this.namespace + ":block/" + blockName}}};
+                var stateData = {"variants" : {"" : {"model" : this.form.namespace + ":block/" + blockName}}};
                 fs.writeFile(blockstatesFolder + "\\" + blockName + ".json", JSON.stringify(stateData), "utf8", (err) => {if (err != null) {console.log("Error generating blockstate:", err);}});
 
                 // Pull the model data from the codec
@@ -239,7 +264,7 @@
                 // Add namespace to textures if needed
                 Object.keys(modelData.textures).forEach((key) => {
                     if (modelData.textures[key].includes(":") == false){
-                        modelData.textures[key] = this.namespace + ":blocks/" + modelData.textures[key]
+                        modelData.textures[key] = this.form.namespace + ":blocks/" + modelData.textures[key]
                     }
                 })
 
@@ -256,20 +281,36 @@
                 // Write block properties file
 
                 var data = {
-                    "displayName" : this.displayName,
-                    "material" : this.material,
-                    "blastRes" : this.blastRes,
-                    "slip" : this.slip,
-                    "gravity" : this.gravity,
-                    "rotType" : this.rotType,
-                    "sounds" : this.sounds,
-                    "lum" : this.lum,
-                    "maxStack" : this.maxStack,
-                    "fireproof" : this.fireproof,
-                    "creativeTab" : this.creativeTab,
+                    "displayName" : this.form.displayName,
+                    "material" : this.form.material,
+                    "blastRes" : this.form.blastRes,
+                    "slip" : this.form.slip,
+                    "gravity" : this.form.gravity,
+                    "rotType" : this.form.rotType,
+                    "sounds" : this.form.sounds,
+                    "lum" : this.form.lum,
+                    "maxStack" : this.form.maxStack,
+                    "fireproof" : this.form.fireproof,
+                    "creativeTab" : this.form.creativeTab,
                 };
 
                 fs.writeFile(dataFolder + "\\" + blockName + ".json", JSON.stringify(data), "utf8", err => {if (err != null) {console.log("Error writing block properties:", err);}});
+
+                let e = open_interface;
+                e.hide()
+            },
+
+            selectMethod: function(event){
+                if (this.form.displayName == ""){
+                    this.error = true
+                }else{
+                    this.error = false
+                    this.step = 'method'
+                }
+            },
+
+            startAdvanced:function(event){
+                this.step = "advanced"
             }
         }
     }
@@ -296,7 +337,7 @@
             })
             
             // Export button in menu
-            button = new Action('block_mod', {
+            btn = new Action('block_mod', {
                 name: 'BAMO',
                 description: 'Exports block metadata for BAMO mod',
                 icon: 'fa-cube',
@@ -304,6 +345,7 @@
                     if (Project.name != undefined){
                         if ((Settings.get('minecraftFolder') != undefined) && (Settings.get('minecraftFolder') != '')){
                             exportWindow.show()
+                            exportWindow.content_vue.reset()
                         }else{
                             Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "You must set your Resources folder location under Settings->Export"});
                         }
@@ -313,17 +355,18 @@
                 }
             });
 
-            MenuBar.addAction(button, 'file');
+            MenuBar.addAction(btn, 'file');
 
             // Dialog that opens when you click the button1
             // See the vueComponent object for details
             exportWindow = new Dialog('C&CExportWindow', {
                 title: 'BAMO Exporter',
                 component: vueComponent,
+                buttons: [],
 
-                onConfirm: function(){
+                /*onConfirm: function(){
                     exportWindow.content_vue.createJSON();
-                }
+                }*/
             })
 
             // Pull the filename when loading/saving to use for file dialog
@@ -342,7 +385,7 @@
         },
         
         onunload() {
-            button.delete();
+            btn.delete();
             minecraftFolder.delete();
         }
     });
