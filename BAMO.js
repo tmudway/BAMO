@@ -165,8 +165,8 @@
                 </div>
             </div>
 
-            <div v-if="step=='Advanced Block Creation'">
-                <h3>Advanced</h3>
+            <div v-if="step=='advanced'">
+                <h3>Advanced Block Creation</h3>
                 <div>
                     <table>
                         <tr>
@@ -265,6 +265,8 @@
                 Object.keys(modelData.textures).forEach((key) => {
                     if (modelData.textures[key].includes(":") == false){
                         modelData.textures[key] = this.form.namespace + ":blocks/" + modelData.textures[key]
+                    }else{
+                        print(modelData.textures[key])
                     }
                 })
 
