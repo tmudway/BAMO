@@ -220,7 +220,7 @@
                 // Create mcmeta file if it doesnt exist
                 if (!fs.existsSync(settings.minecraftFolder.value + "\\bamo\\pack.mcmeta")){
                     mcmetaData = {"pack" : {"pack_format" : 6, "description" : "Resource Pack for BAMO test files"}};
-                    fs.writeFile(settings.minecraftFolder.value + "\\bamo\\pack.mcmeta", JSON.stringify(mcmetaData), "utf8", (err) => {console.log("Error generating mcmeta file:", err);});
+                    fs.writeFile(settings.minecraftFolder.value + "\\bamo\\pack.mcmeta", JSON.stringify(mcmetaData), "utf8", (err) => {if (err != null) {console.log("Error generating mcmeta file:", err);}});
                 }
 
                 // Generate block name from the displayname
@@ -228,7 +228,7 @@
 
                 // Create blockstates files
                 var stateData = {"variants" : {"" : {"model" : this.namespace + ":block/" + blockName}}};
-                fs.writeFile(blockstatesFolder + "\\" + blockName + ".json", JSON.stringify(stateData), "utf8", (err) => {console.log("Error generating blockstate:", err);});
+                fs.writeFile(blockstatesFolder + "\\" + blockName + ".json", JSON.stringify(stateData), "utf8", (err) => {if (err != null) {console.log("Error generating blockstate:", err);}});
 
                 // Pull the model data from the codec
                 var modelData = JSON.parse(Format.codec.compile())
@@ -244,13 +244,13 @@
                 })
 
                 // Write model files
-                fs.writeFile(blockModelsFolder + "\\" + blockName + ".json", JSON.stringify(modelData), "utf8", err => {console.log("Error Found writing block model data:", err);});
-                fs.writeFile(itemModelsFolder + "\\" + blockName + ".json", JSON.stringify(modelData), "utf8", err => {console.log("Error Found writing item model data:", err);});
+                fs.writeFile(blockModelsFolder + "\\" + blockName + ".json", JSON.stringify(modelData), "utf8", err => {if (err != null) {console.log("Error Found writing block model data:", err);}});
+                fs.writeFile(itemModelsFolder + "\\" + blockName + ".json", JSON.stringify(modelData), "utf8", err => {if (err != null) {console.log("Error Found writing item model data:", err);}});
 
                 // Copy texture files
                 Texture.all.forEach(function(tx){
                     var image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG()
-                    fs.writeFile(blockTexturesFolder + "\\" + tx.name, image, (err) => {console.log("Error Found writing texture data:", err);});
+                    fs.writeFile(blockTexturesFolder + "\\" + tx.name, image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
                 })
                 
                 // Write block properties file
@@ -269,7 +269,7 @@
                     "creativeTab" : this.creativeTab,
                 };
 
-                fs.writeFile(dataFolder + "\\" + blockName + ".json", JSON.stringify(data), "utf8", err => {console.log("Error writing block properties:", err);});
+                fs.writeFile(dataFolder + "\\" + blockName + ".json", JSON.stringify(data), "utf8", err => {if (err != null) {console.log("Error writing block properties:", err);}});
             }
         }
     }
