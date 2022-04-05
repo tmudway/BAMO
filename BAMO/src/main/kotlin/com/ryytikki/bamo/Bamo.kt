@@ -1,6 +1,6 @@
 package com.ryytikki.bamo
 
-import com.ryytikki.bamo.block.ModBlocks
+import com.ryytikki.bamo.block.BlockGenerator
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
@@ -29,9 +29,9 @@ object Bamo {
         LOGGER.log(Level.INFO, "Hello world!")
 
         // Register the KDeferredRegister to the mod-specific event bus
-        ModBlocks.registerObjects()
-        ModBlocks.BLOCK_REGISTRY.register(MOD_BUS)
-        ModBlocks.ITEM_REGISTRY.register(MOD_BUS)
+        BlockGenerator.registerObjects()
+        BlockGenerator.BLOCK_REGISTRY.register(MOD_BUS)
+        BlockGenerator.ITEM_REGISTRY.register(MOD_BUS)
 
         // usage of the KotlinEventBus
         MOD_BUS.addListener(::onClientSetup)
@@ -46,6 +46,7 @@ object Bamo {
      */
     private fun onClientSetup(event: FMLClientSetupEvent) {
         LOGGER.log(Level.INFO, "Initializing client...")
+        BlockGenerator.setRenderLayers()
     }
 
     /**

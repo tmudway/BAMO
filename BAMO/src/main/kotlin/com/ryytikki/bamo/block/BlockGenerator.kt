@@ -1,6 +1,9 @@
 package com.ryytikki.bamo.block
 
 import com.ryytikki.bamo.Bamo
+//import com.ryytikki.bamo.block.CNCBlock
+//import com.tterrag.registrate.Registrate
+//import com.tterrag.registrate.util.entry.RegistryEntry
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -14,26 +17,30 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraftforge.registries.ForgeRegistries
+import net.minecraft.client.renderer.RenderTypeLookup
+import net.minecraft.client.renderer.RenderType
 import thedarkcolour.kotlinforforge.forge.KDeferredRegister
+import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 @Serializable
 data class JSONData(
-    val displayName : String,   // Done
-    val material : String,      // Done
-    val blastRes : Float,       // Done
-    val slip : Float,           // Done
-    val gravity : Boolean,      // Done
-    val rotType : String,       // WIP
-    val sounds : String,        // Done
-    val lum : Int,              // Done
-    val maxStack : Int,         // DONE
-    val fireproof : Boolean,    // WIP
-    val creativeTab : String    // DONE
+    val displayName : String,             // Done
+    val material : String,                // Done
+    val blastRes : Float,                 // Done
+    val slip : Float,                     // Done
+    val gravity : Boolean,                // Done
+    val rotType : String,                 // WIP
+    val sounds : String,                  // Done
+    val lum : Int,                        // Done
+    val maxStack : Int,                   // DONE
+    val fireproof : Boolean,              // WIP
+    val creativeTab : String,             // DONE
+    val transparency: String = "Solid",   // DONE
 )
 
 val matMap = mapOf<String, Material>(
@@ -145,6 +152,13 @@ val tabsMap = mapOf<String, ItemGroup>(
     "Transportation" to ItemGroup.TAB_TRANSPORTATION
 )
 
+val transparencies = mapOf<String, RenderType>(
+    "Solid" to RenderType.solid(),
+    "Translucent" to RenderType.translucent(),
+    "Cutout" to RenderType.cutout(),
+    "Cutout (Mipped)" to RenderType.cutoutMipped()
+)
+
 // Get list of JSON files in the bamoFiles folder
 fun getJSONPaths() : MutableList<String>{
     val JSONPaths = Paths.get(Minecraft.getInstance().gameDirectory.toString(), "/resourcepacks/bamo/data")
@@ -156,14 +170,16 @@ fun getJSONPaths() : MutableList<String>{
         return paths
     }
     else{
-        return Collections.emptyList();
+        return Collections.emptyList()
     }
 }
 
-object ModBlocks {
+object BlockGenerator {
     // use of the new KDeferredRegister
     val BLOCK_REGISTRY = KDeferredRegister(ForgeRegistries.BLOCKS, Bamo.ID)
     val ITEM_REGISTRY = KDeferredRegister(ForgeRegistries.ITEMS, Bamo.ID)
+
+    private val blockData = mutableMapOf<ObjectHolderDelegate<Block>, JSONData>()
 
     fun registerObjects(){
         val paths = getJSONPaths()
@@ -176,13 +192,14 @@ object ModBlocks {
             val data = Json.decodeFromString<JSONData>(txt)
 
             // Turn JSON data into object
+            println(data.displayName)
             val block = BLOCK_REGISTRY.registerObject(data.displayName) {
                 if (data.gravity){
                     FallingBlock(AbstractBlock.Properties.of(matMap[data.material]).strength(3.0f, data.blastRes).friction(data.slip).sound(
-                        soundsMap[data.sounds]).lightLevel(){data.lum}.noOcclusion())
+                        soundsMap[data.sounds]).lightLevel{data.lum}.noOcclusion())
                 }else{
                     Block(AbstractBlock.Properties.of(matMap[data.material]).strength(3.0f, data.blastRes).friction(data.slip).sound(
-                        soundsMap[data.sounds]).lightLevel(){data.lum}.noOcclusion())
+                        soundsMap[data.sounds]).lightLevel{data.lum}.noOcclusion())
                 }
             }
 
@@ -190,10 +207,41 @@ object ModBlocks {
             ITEM_REGISTRY.registerObject(data.displayName){
                 BlockItem(block.get(), Item.Properties().tab(tabsMap[data.creativeTab]).stacksTo(data.maxStack))
             }
+            blockData[block] = data
         }
     }
 
-
-
-
+    fun setRenderLayers(){
+        for ((block, data) in blockData){
+            RenderTypeLookup.setRenderLayer(block.get(), transparencies[data.transparency])
+        }
+    }
 }
+
+
+/*object BlockGeneratorRegistrate {
+    val REGISTRATE: Registrate = Registrate.create("test")
+
+    val BLOCK_REGISTRY = KDeferredRegister(ForgeRegistries.BLOCKS, Bamo.ID)
+    val ITEM_REGISTRY = KDeferredRegister(ForgeRegistries.ITEMS, Bamo.ID)
+
+    fun registerObjects(){
+        val paths = getJSONPaths()
+
+        // Loop through all the files
+        paths.forEach {
+
+            // Extract and deserialize JSON data
+            val txt: String = File(it).readText(Charsets.UTF_8)
+            val data = Json.decodeFromString<JSONData>(txt)
+
+            //val BLOCK: RegistryEntry<Block> = REGISTRATE.`object`("block").block(new Block()).register()
+
+
+        }
+    }
+}
+
+public class RegistrateTest{
+
+}*/

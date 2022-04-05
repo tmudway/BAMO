@@ -109,6 +109,13 @@
         "Wool"
     ];
 
+    transparencyOptions = [
+        "Solid",
+        "Translucent",
+        "Cutout",
+        "Cutout (Mipped)"
+    ];
+
     tabOptions = [
         "Building Blocks",
         "Brewing",
@@ -141,6 +148,7 @@
                 lum: 0,
                 maxStack: 64,
                 fireproof: true,
+                transparency: transparencyOptions[0],
                 creativeTab: tabOptions[0],
             }
         },
@@ -152,15 +160,7 @@
                 <div>
                     <p v-if="error==true" style="color:red">Block display name cannot be blank</p>
                     <input type="text" class="dark_bordered form-control form-control-lg" v-model="form.displayName" placeholder="Block Display Name"><br><br>
-                    <button @click.prevent="selectMethod">Next</button>
-                </div>
-            </div>
-
-            <div v-if="step=='method'">
-                <h3>Please select an export method</h3>
-                <div>
                     <button @click.prevent="createJSON">Instant</button>
-                    <!--<button type="button">Simple</button>-->
                     <button @click.prevent="startAdvanced">Advanced</button>
                 </div>
             </div>
@@ -206,6 +206,10 @@
                             <td><input type="checkbox" v-model="form.fireproof"></td>
                         </tr>
                         <tr>
+                            <td>Transparency: </td>
+                            <td><select v-model="form.transparency"><option v-for="tr in transparencyOptions" v-bind:value="tr">{{ tr }}</option></select></td>
+                        </tr>
+                        <tr>
                             <td>Creative Tab: </td>
                             <td><select v-model="form.creativeTab"><option v-for="op in tabOptions" v-bind:value="op">{{ op }}</option></select></td>
                         </tr>
@@ -219,21 +223,26 @@
         methods: {
 
             reset: function(event){
-                this.error = false
-                this.step = "start"
+                this.error = false;
+                this.step = "start";
             },
 
             createJSON: function(event){
 
+                if (this.form.displayName == ""){
+                    this.error = true;
+                    return;
+                }
+
                 // Define folder locations
-                var dataFolder = settings.minecraftFolder.value + "\\bamo\\data\\"
-                var blockstatesFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.form.namespace + "\\blockstates\\"
-                var blockModelsFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.form.namespace + "\\models\\block\\"
-                var itemModelsFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.form.namespace + "\\models\\item\\"
-                var blockTexturesFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.form.namespace + "\\textures\\blocks\\"
+                var dataFolder = settings.minecraftFolder.value + "\\bamo\\data\\";
+                var blockstatesFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.form.namespace + "\\blockstates\\";
+                var blockModelsFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.form.namespace + "\\models\\block\\";
+                var itemModelsFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.form.namespace + "\\models\\item\\";
+                var blockTexturesFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.form.namespace + "\\textures\\blocks\\";
 
                 // Create the folders if they dont exist
-                var folderList = [dataFolder, blockstatesFolder, blockModelsFolder, itemModelsFolder, blockTexturesFolder]
+                var folderList = [dataFolder, blockstatesFolder, blockModelsFolder, itemModelsFolder, blockTexturesFolder];
                 var fs = require('fs');
 
                 folderList.forEach(function(folder){
@@ -256,17 +265,19 @@
                 fs.writeFile(blockstatesFolder + "\\" + blockName + ".json", JSON.stringify(stateData), "utf8", (err) => {if (err != null) {console.log("Error generating blockstate:", err);}});
 
                 // Pull the model data from the codec
-                var modelData = JSON.parse(Format.codec.compile())
+                var modelData = JSON.parse(Format.codec.compile());
 
                 // Add the parent data
-                modelData["parent"] = "block/block"
+                modelData["parent"] = "block/block";
 
                 // Add namespace to textures if needed
                 Object.keys(modelData.textures).forEach((key) => {
                     if (modelData.textures[key].includes(":") == false){
-                        modelData.textures[key] = this.form.namespace + ":blocks/" + modelData.textures[key]
+                        modelData.textures[key] = this.form.namespace + ":blocks/" + modelData.textures[key];
                     }else{
-                        print(modelData.textures[key])
+                        // KINDA CRUDE, NEEDS UPDATING
+                        splitTexture = modelData.textures[key].split(":");
+                        modelData.textures[key] = this.form.namespace + ":blocks/" + splitTexture[1];
                     }
                 })
 
@@ -276,14 +287,14 @@
 
                 // Copy texture files
                 Texture.all.forEach(function(tx){
-                    var image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG()
+                    var image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
                     fs.writeFile(blockTexturesFolder + "\\" + tx.name, image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
                 })
                 
                 // Write block properties file
 
                 var data = {
-                    "displayName" : this.form.displayName,
+                    "displayName" : blockName, //this.form.displayName,
                     "material" : this.form.material,
                     "blastRes" : this.form.blastRes,
                     "slip" : this.form.slip,
@@ -294,25 +305,22 @@
                     "maxStack" : this.form.maxStack,
                     "fireproof" : this.form.fireproof,
                     "creativeTab" : this.form.creativeTab,
+                    "transparency": this.form.transparency,
                 };
 
                 fs.writeFile(dataFolder + "\\" + blockName + ".json", JSON.stringify(data), "utf8", err => {if (err != null) {console.log("Error writing block properties:", err);}});
 
                 let e = open_interface;
-                e.hide()
-            },
-
-            selectMethod: function(event){
-                if (this.form.displayName == ""){
-                    this.error = true
-                }else{
-                    this.error = false
-                    this.step = 'method'
-                }
+                e.hide();
             },
 
             startAdvanced:function(event){
-                this.step = "advanced"
+                if (this.form.displayName == ""){
+                    this.error = true;
+                }else{
+                    this.error = false;
+                    this.step = 'advanced';
+                }
             }
         }
     }
@@ -336,7 +344,7 @@
                 category: 'export',
                 type: 'text',
                 value: ''
-            })
+            });
             
             // Export button in menu
             btn = new Action('block_mod', {
@@ -346,13 +354,13 @@
                 click: function () {
                     if (Project.name != undefined){
                         if ((Settings.get('minecraftFolder') != undefined) && (Settings.get('minecraftFolder') != '')){
-                            exportWindow.show()
-                            exportWindow.content_vue.reset()
+                            exportWindow.show();
+                            exportWindow.content_vue.reset();
                         }else{
                             Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "You must set your Resources folder location under Settings->Export"});
                         }
                     }else{
-                        Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "Please ensure your file is saved before exporting. If you see this for a saved file, reload it and try again"})
+                        Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "Please ensure your file is saved before exporting. If you see this for a saved file, reload it and try again"});
                     }
                 }
             });
@@ -365,17 +373,13 @@
                 title: 'BAMO Exporter',
                 component: vueComponent,
                 buttons: [],
-
-                /*onConfirm: function(){
-                    exportWindow.content_vue.createJSON();
-                }*/
-            })
+            });
 
             // Pull the filename when loading/saving to use for file dialog
             Blockbench.on("load_project", function() {
                 fileName = Project.name;
                 //exportWindow.content_vue.changeDisplayName(Project.name);
-            })
+            });
 
             Blockbench.on("save_project", function() {
                 if (fileName != Project.name){
@@ -383,7 +387,7 @@
                     //exportWindow.content_vue.changeDisplayName(fileName);
                 }
                // exportWindow.content_vue.displayName = fileName;
-            })
+            });
         },
         
         onunload() {
