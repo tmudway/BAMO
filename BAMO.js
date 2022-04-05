@@ -329,13 +329,13 @@
             // Pull the filename when loading/saving to use for file dialog
             Blockbench.on("load_project", function() {
                 fileName = Project.name;
-                exportWindow.content_vue.changeDisplayName(Project.name);
+                //exportWindow.content_vue.changeDisplayName(Project.name);
             })
 
             Blockbench.on("save_project", function() {
                 if (fileName != Project.name){
                     fileName = Project.name;
-                    exportWindow.content_vue.changeDisplayName(fileName);
+                    //exportWindow.content_vue.changeDisplayName(fileName);
                 }
                // exportWindow.content_vue.displayName = fileName;
             })
