@@ -17,7 +17,9 @@ I would **HIGHLY** recommend you backup up any model files before attempting to 
 ## How to use
 ### Blockbench Plugin
  1. Make sure the file you're working on is saved and click File -> BAMO Export
- 2. Input your chosen block properties
+ 2. Input the name you want to give your block and click "Next". **PLEASE NOTE THIS NAME MUST BE UNIQUE AND WILL OVERRIDE ANY EXISTING EXPORTED FILES OF THE SAME NAME IN YOUR TEST RESOURCE PACK**
+ 3. Select if you want to create a block with the properties of dirt but with your custom model/textures (instant) or manually input the block properties (advanced)
+ 4. If you chose advanced, input your chosen block properties
 	 * Display Name - The name of the block ingame
 	 * [Material](https://minecraft.fandom.com/wiki/Materials) - The type of block that the majority of the new block's properties will be inhereted from
 	 * [Blast Resistance](https://minecraft.fandom.com/wiki/Explosion#Blast_resistance) - How resistant to explosions the block is
@@ -29,7 +31,7 @@ I would **HIGHLY** recommend you backup up any model files before attempting to 
 	 * Max Stack Size - The max number of items in a stack of that block
 	 * Fireproof - TBA
 	 * Creative Tab - Which tab on the creative mode item panel the new block will be added to
- 3. Click "Confirm"
+ 5. Click "Export"
 ### Minecraft Mod
 * Ensure that the BAMO resource pack is enabled
 * Reboot the game if you add new blocks or change the properties of a block
@@ -37,4 +39,8 @@ I would **HIGHLY** recommend you backup up any model files before attempting to 
 * If no BAMO resource pack is shown, make sure you've set the folder setting correctly in Blockbench
 ## Changelog
 ### 0.1
-Launched initial version of both Minecraft mod and Blockbench plugin with support for Block objects
+* Launched initial version of both Minecraft mod and Blockbench plugin with support for Block objects
+### 0.1.1
+* Fixed bug causing files to fail to load when BAMO was installed
+* Started conversion of BAMO to a wizard based interface
+* Added Instant Export function
