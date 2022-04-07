@@ -1,6 +1,6 @@
 package com.ryytikki.bamo
 
-import com.ryytikki.bamo.block.BlockGenerator
+import com.ryytikki.bamo.tools.BlockGenerator
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
@@ -26,10 +26,9 @@ object Bamo {
     val LOGGER: Logger = LogManager.getLogger()
 
     init {
-        LOGGER.log(Level.INFO, "Hello world!")
 
         // Register the KDeferredRegister to the mod-specific event bus
-        BlockGenerator.registerObjects()
+        BlockGenerator.generateBlocks()
         BlockGenerator.BLOCK_REGISTRY.register(MOD_BUS)
         BlockGenerator.ITEM_REGISTRY.register(MOD_BUS)
 

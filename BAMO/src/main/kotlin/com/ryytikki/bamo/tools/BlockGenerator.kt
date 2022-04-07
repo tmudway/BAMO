@@ -1,31 +1,28 @@
-package com.ryytikki.bamo.block
+package com.ryytikki.bamo.tools
 
 import com.ryytikki.bamo.Bamo
-//import com.ryytikki.bamo.block.CNCBlock
-//import com.tterrag.registrate.Registrate
-//import com.tterrag.registrate.util.entry.RegistryEntry
+import com.ryytikki.bamo.blocks.BAMOBlock
+import com.ryytikki.bamo.blocks.BAMOFallingBlock
+
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
-import net.minecraft.block.FallingBlock
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
-import net.minecraft.client.Minecraft
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraft.client.renderer.RenderTypeLookup
 import net.minecraft.client.renderer.RenderType
+import net.minecraftforge.fml.loading.FMLPaths
 import thedarkcolour.kotlinforforge.forge.KDeferredRegister
 import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
-
 
 @Serializable
 data class JSONData(
@@ -41,6 +38,16 @@ data class JSONData(
     val fireproof : Boolean,              // WIP
     val creativeTab : String,             // DONE
     val transparency: String = "Solid",   // DONE
+)
+
+data class BlockData(
+    var material: Material,
+    var displayName: String,
+    var blastRes: Float,
+    var slip: Float,
+    var sounds: SoundType,
+    var lum: Int,
+    var fireproof: Boolean,
 )
 
 val matMap = mapOf<String, Material>(
@@ -152,16 +159,9 @@ val tabsMap = mapOf<String, ItemGroup>(
     "Transportation" to ItemGroup.TAB_TRANSPORTATION
 )
 
-val transparencies = mapOf<String, RenderType>(
-    "Solid" to RenderType.solid(),
-    "Translucent" to RenderType.translucent(),
-    "Cutout" to RenderType.cutout(),
-    "Cutout (Mipped)" to RenderType.cutoutMipped()
-)
-
 // Get list of JSON files in the bamoFiles folder
 fun getJSONPaths() : MutableList<String>{
-    val JSONPaths = Paths.get(Minecraft.getInstance().gameDirectory.toString(), "/resourcepacks/bamo/data")
+    val JSONPaths = Paths.get(FMLPaths.GAMEDIR.get().toString(), "/resourcepacks/bamo/data")
     if (Files.exists((JSONPaths))) {
         val paths: MutableList<String> = ArrayList()
         Files.walk(JSONPaths).filter { item -> Files.isRegularFile(item) }
@@ -181,7 +181,7 @@ object BlockGenerator {
 
     private val blockData = mutableMapOf<ObjectHolderDelegate<Block>, JSONData>()
 
-    fun registerObjects(){
+    fun generateBlocks(){
         val paths = getJSONPaths()
 
         // Loop through all the files
@@ -193,13 +193,15 @@ object BlockGenerator {
 
             // Turn JSON data into object
             println(data.displayName)
+
+            val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName, data.blastRes, data.slip,
+                                  (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof)
+
             val block = BLOCK_REGISTRY.registerObject(data.displayName) {
                 if (data.gravity){
-                    FallingBlock(AbstractBlock.Properties.of(matMap[data.material]).strength(3.0f, data.blastRes).friction(data.slip).sound(
-                        soundsMap[data.sounds]).lightLevel{data.lum}.noOcclusion())
+                    BAMOFallingBlock(bData)
                 }else{
-                    Block(AbstractBlock.Properties.of(matMap[data.material]).strength(3.0f, data.blastRes).friction(data.slip).sound(
-                        soundsMap[data.sounds]).lightLevel{data.lum}.noOcclusion())
+                    BAMOBlock(bData)
                 }
             }
 
@@ -212,36 +214,16 @@ object BlockGenerator {
     }
 
     fun setRenderLayers(){
+
+        val transparencies = mapOf<String, RenderType>(
+            "Solid" to RenderType.solid(),
+            "Translucent" to RenderType.translucent(),
+            "Cutout" to RenderType.cutout(),
+            "Cutout (Mipped)" to RenderType.cutoutMipped()
+        )
+
         for ((block, data) in blockData){
             RenderTypeLookup.setRenderLayer(block.get(), transparencies[data.transparency])
         }
     }
 }
-
-
-/*object BlockGeneratorRegistrate {
-    val REGISTRATE: Registrate = Registrate.create("test")
-
-    val BLOCK_REGISTRY = KDeferredRegister(ForgeRegistries.BLOCKS, Bamo.ID)
-    val ITEM_REGISTRY = KDeferredRegister(ForgeRegistries.ITEMS, Bamo.ID)
-
-    fun registerObjects(){
-        val paths = getJSONPaths()
-
-        // Loop through all the files
-        paths.forEach {
-
-            // Extract and deserialize JSON data
-            val txt: String = File(it).readText(Charsets.UTF_8)
-            val data = Json.decodeFromString<JSONData>(txt)
-
-            //val BLOCK: RegistryEntry<Block> = REGISTRATE.`object`("block").block(new Block()).register()
-
-
-        }
-    }
-}
-
-public class RegistrateTest{
-
-}*/
