@@ -295,6 +295,11 @@
                 <h1 style="padding:0; text-align: center;">BAMO Export Settings</h1>
                 <ul class="settingsList">
                     <li>
+                        <div class = "headerLabel">Set Namespace</div>
+                        <p class="headerDescription">WIP</p>
+                    </li>
+
+                    <li>
                         <div class = "headerLabel">Only export textures currently used</div>
                         <p class="headerDescription">WIP</p>
                     </li>
@@ -302,6 +307,12 @@
                     <li>
                         <div class = "headerLabel">reuse model file</div>
                         <p class="headerDescription">WIP</p>
+                    </li>
+
+                    <li>
+                        <div class = "headerLabel">show warning if model with same name exists</div>
+                        <p class="headerDescription">WIP</p>
+                        <div class = "headerLabel" style="padding-left: 40px;">Only do this if file is closed/new file loaded</div>
                     </li>
                 </ul>
             </div>
