@@ -169,7 +169,8 @@ val tabsMap = mapOf<String, ItemGroup>(
 
 // Get list of JSON files in the bamoFiles folder
 fun getJSONPaths() : MutableList<String>{
-    val JSONPaths = Paths.get(FMLPaths.GAMEDIR.get().toString(), "/resourcepacks/bamo/data")
+    // TODO: Load multiple packs, maybe use BamoPackFinder#findPacks
+    val JSONPaths = Paths.get(FMLPaths.GAMEDIR.get().toString(), "/bamopacks/bamo/objects")
     if (Files.exists((JSONPaths))) {
         val paths: MutableList<String> = ArrayList()
         Files.walk(JSONPaths).filter { item -> Files.isRegularFile(item) }
