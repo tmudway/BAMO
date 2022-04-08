@@ -2,34 +2,28 @@ package com.ryytikki.bamo.tools
 
 import com.ryytikki.bamo.Bamo
 import com.ryytikki.bamo.blocks.*
-import com.ryytikki.bamo.tools.initBlockProperties
-
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
+import net.minecraft.client.renderer.RenderType
+import net.minecraft.client.renderer.RenderTypeLookup
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraftforge.registries.ForgeRegistries
-import net.minecraft.client.renderer.RenderTypeLookup
-import net.minecraft.client.renderer.RenderType
-import net.minecraft.tags.BlockTags
-import net.minecraft.tags.ItemTags
-import net.minecraft.util.ResourceLocation
-import net.minecraftforge.fml.loading.FMLPaths
 import thedarkcolour.kotlinforforge.forge.KDeferredRegister
 import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
-import java.io.File
 import java.nio.file.Files
-import java.nio.file.Paths
-import java.util.*
 import java.util.function.Supplier
-import javax.swing.text.html.parser.TagElement
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
+import kotlin.io.path.readText
 
 @Serializable
 data class JSONData(
@@ -167,21 +161,41 @@ val tabsMap = mapOf<String, ItemGroup>(
     "Transportation" to ItemGroup.TAB_TRANSPORTATION
 )
 
-// Get list of JSON files in the bamoFiles folder
-fun getJSONPaths() : MutableList<String>{
-    // TODO: Load multiple packs, maybe use BamoPackFinder#findPacks
-    val JSONPaths = Paths.get(FMLPaths.GAMEDIR.get().toString(), "/bamopacks/bamo/objects")
-    if (Files.exists((JSONPaths))) {
-        val paths: MutableList<String> = ArrayList()
-        Files.walk(JSONPaths).filter { item -> Files.isRegularFile(item) }
-            .filter { item -> item.toString().endsWith(".json") }
-            .forEach { paths.add(it.toString()) }
-        return paths
-    }
-    else{
-        return Collections.emptyList()
+/** Helper to simplify iterating over zip entries */
+private fun ZipFile.forEntries(func: (ZipFile, ZipEntry) -> Unit) = use { zip ->
+    val entries = zip.entries()
+    while (entries.hasMoreElements()) {
+        func(zip, entries.nextElement())
     }
 }
+
+@Suppress("OPT_IN_IS_NOT_ENABLED") // ???
+@OptIn(ExperimentalSerializationApi::class)
+/** Collects all JSON objects in all BAMO packs */
+private fun collectJsonObjects(): List<JSONData> {
+    val data = ArrayList<JSONData>()
+    // Would prefer to use the vanilla resource pack system for this, but that's not usable this early
+    BamoPackFinder.packFiles.forEach { (_, file) ->
+        if (file.isDirectory) {
+            // Collect all JSON objects in the directory
+            Files.walk(file.toPath().resolve("objects")).filter(Files::isRegularFile)
+                .filter { it.toString().endsWith(".json") }.map { it.readText(Charsets.UTF_8) }
+                .map<JSONData>(Json::decodeFromString).forEach(data::add)
+        } else {
+            // Collect all JSON objects in the zip file
+            ZipFile(file).forEntries { zip, entry ->
+                val name = entry.name
+                if (!entry.isDirectory && name.startsWith("objects/", true) && name.endsWith(".json", true)) {
+                    zip.getInputStream(entry).use { stream ->
+                        data.add(Json.decodeFromStream(stream))
+                    }
+                }
+            }
+        }
+    }
+    return data
+}
+
 
 object BlockGenerator {
     // use of the new KDeferredRegister
@@ -190,17 +204,10 @@ object BlockGenerator {
 
     private val blockData = mutableMapOf<ObjectHolderDelegate<Block>, JSONData>()
 
-    fun generateBlocks(){
-        val paths = getJSONPaths()
-
-        // Loop through all the files
-        paths.forEach{
-
-            // Extract and deserialize JSON data
-            val txt : String = File(it).readText(Charsets.UTF_8)
-            val data = Json.decodeFromString<JSONData>(txt)
-
-            // Turn JSON data into object
+    fun generateBlocks() {
+        // Loop through all the objects
+        collectJsonObjects().forEach { data ->
+            // Turn JSON object into block
             println("Generating block: " + data.displayName)
 
             val block = registerBlockFromJson(data)
