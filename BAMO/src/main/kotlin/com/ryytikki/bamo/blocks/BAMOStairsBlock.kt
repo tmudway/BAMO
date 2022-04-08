@@ -2,10 +2,12 @@ package com.ryytikki.bamo.blocks
 
 import com.ryytikki.bamo.tools.BamoFunctionProvider
 import com.ryytikki.bamo.tools.BlockData
-import com.ryytikki.bamo.tools.initBlockProperties
-import net.minecraft.block.Block
 
-class BAMOBlock(prop:Properties, data: BlockData) : Block(prop){
+import net.minecraft.block.BlockState
+import net.minecraft.block.StairsBlock
+import java.util.function.Supplier
+
+class BAMOStairsBlock(state: Supplier<BlockState>, prop:Properties, data: BlockData) : StairsBlock(state, prop){
 
     private val bamoFunc:BamoFunctionProvider
 

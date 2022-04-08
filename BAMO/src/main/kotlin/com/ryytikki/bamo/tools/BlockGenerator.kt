@@ -1,13 +1,15 @@
 package com.ryytikki.bamo.tools
 
 import com.ryytikki.bamo.Bamo
-import com.ryytikki.bamo.blocks.BAMOBlock
-import com.ryytikki.bamo.blocks.BAMOFallingBlock
+import com.ryytikki.bamo.blocks.*
+import com.ryytikki.bamo.tools.initBlockProperties
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import net.minecraft.block.Block
+import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.item.BlockItem
@@ -16,6 +18,9 @@ import net.minecraft.item.ItemGroup
 import net.minecraftforge.registries.ForgeRegistries
 import net.minecraft.client.renderer.RenderTypeLookup
 import net.minecraft.client.renderer.RenderType
+import net.minecraft.tags.BlockTags
+import net.minecraft.tags.ItemTags
+import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fml.loading.FMLPaths
 import thedarkcolour.kotlinforforge.forge.KDeferredRegister
 import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
@@ -23,10 +28,13 @@ import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.*
+import java.util.function.Supplier
+import javax.swing.text.html.parser.TagElement
 
 @Serializable
 data class JSONData(
     val displayName : String,             // Done
+    val typeList: List<String>,           // WIP
     val material : String,                // Done
     val blastRes : Float,                 // Done
     val slip : Float,                     // Done
@@ -192,25 +200,63 @@ object BlockGenerator {
             val data = Json.decodeFromString<JSONData>(txt)
 
             // Turn JSON data into object
-            println(data.displayName)
+            println("Generating block: " + data.displayName)
 
-            val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName, data.blastRes, data.slip,
-                                  (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof)
+            val block = registerBlockFromJson(data)
+            blockData[block] = data
 
-            val block = BLOCK_REGISTRY.registerObject(data.displayName) {
-                if (data.gravity){
-                    BAMOFallingBlock(bData)
-                }else{
-                    BAMOBlock(bData)
+            if (data.typeList.isNotEmpty()){
+                data.typeList.forEach{ type ->
+                    val chBlock = registerDependantBlockFromJson(data, block, type)
+                    blockData[chBlock] = data
                 }
             }
-
-            // Register the item version of the block
-            ITEM_REGISTRY.registerObject(data.displayName){
-                BlockItem(block.get(), Item.Properties().tab(tabsMap[data.creativeTab]).stacksTo(data.maxStack))
-            }
-            blockData[block] = data
         }
+    }
+
+    private fun registerBlockFromJson(data: JSONData): ObjectHolderDelegate<Block>{
+
+        val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName, data.blastRes, data.slip,
+            (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof)
+
+        val block = BLOCK_REGISTRY.registerObject(data.displayName) {
+            if (data.gravity) {
+                BAMOFallingBlock(bData)
+            } else {
+                BAMOBlock(initBlockProperties(bData), bData)
+            }
+        }
+        // Register the item version of the block
+        ITEM_REGISTRY.registerObject(data.displayName){
+            BlockItem(block.get(), Item.Properties().tab((tabsMap[data.creativeTab]?: ItemGroup.TAB_BUILDING_BLOCKS)).stacksTo(data.maxStack))
+        }
+
+        return block
+    }
+
+    private fun registerDependantBlockFromJson(data: JSONData, pBlock: ObjectHolderDelegate<Block>, type:String): ObjectHolderDelegate<Block>{
+        val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName, data.blastRes, data.slip,
+            (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof)
+
+        val block = BLOCK_REGISTRY.registerObject(data.displayName + "_" + type) {
+            if(type == "stairs"){
+                val state: Supplier<BlockState> = Supplier {pBlock.get().defaultBlockState()}
+                BAMOStairsBlock(state, initBlockProperties(bData), bData)
+            }else if(type == "slab") {
+                BAMOSlabBlock(initBlockProperties(bData), bData)
+            }else if(type == "wall"){
+                BAMOWallBlock(initBlockProperties(bData), bData)
+            }else{
+                BAMOBlock(initBlockProperties(bData), bData)
+            }
+        }
+
+        // Register the item version of the block
+        ITEM_REGISTRY.registerObject(data.displayName + "_" + type){
+            BlockItem(block.get(), Item.Properties().tab((tabsMap[data.creativeTab]?: ItemGroup.TAB_BUILDING_BLOCKS)).stacksTo(data.maxStack))
+        }
+
+        return block
     }
 
     fun setRenderLayers(){
@@ -223,7 +269,7 @@ object BlockGenerator {
         )
 
         for ((block, data) in blockData){
-            RenderTypeLookup.setRenderLayer(block.get(), transparencies[data.transparency])
+            RenderTypeLookup.setRenderLayer(block.get(), (transparencies[data.transparency]?:RenderType.solid()))
         }
     }
 }
