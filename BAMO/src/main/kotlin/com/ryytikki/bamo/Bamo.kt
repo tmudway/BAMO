@@ -1,14 +1,19 @@
 package com.ryytikki.bamo
 
+import com.ryytikki.bamo.tools.BamoPackFinder
 import com.ryytikki.bamo.tools.BlockGenerator
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.fml.DistExecutor
+import net.minecraftforge.fml.DistExecutor.SafeRunnable
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
+
 
 /**
  * Main mod class. Should be an `object` declaration annotated with `@Mod`.
@@ -34,8 +39,10 @@ object Bamo {
 
         // usage of the KotlinEventBus
         MOD_BUS.addListener(::onClientSetup)
-        FORGE_BUS.addListener(::onServerAboutToStart)
+        FORGE_BUS.addListener(::onServerStarting)
 
+        // Add our resource pack finder (FMLClientSetupEvent is too late to do this)
+        DistExecutor.safeRunWhenOn(Dist.CLIENT) { SafeRunnable { BamoPackFinder.addToResourcePacks() } }
     }
 
     /**
@@ -51,7 +58,7 @@ object Bamo {
     /**
      * Fired on the global Forge bus.
      */
-    private fun onServerAboutToStart(event: FMLServerAboutToStartEvent) {
-        LOGGER.log(Level.INFO, "Server starting...")
+    private fun onServerStarting(event: FMLServerStartingEvent) {
+        BamoPackFinder.addToDataPacks(event.server)
     }
 }

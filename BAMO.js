@@ -556,7 +556,7 @@
                 }
 
                 // Define folder locations
-                var dataFolder = settings.minecraftFolder.value + "\\bamo\\data\\";
+                var dataFolder = settings.minecraftFolder.value + "\\bamo\\objects\\";
                 var blockstatesFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.properties.namespace + "\\blockstates\\";
                 var blockModelsFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.properties.namespace + "\\models\\block\\";
                 var itemModelsFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.properties.namespace + "\\models\\item\\";
