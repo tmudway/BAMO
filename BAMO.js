@@ -555,15 +555,18 @@
                     return;
                 }
 
+                var packName = "bamo";
+
                 // Define folder locations
-                var dataFolder = settings.minecraftFolder.value + "\\bamo\\objects\\";
-                var blockstatesFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.properties.namespace + "\\blockstates\\";
-                var blockModelsFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.properties.namespace + "\\models\\block\\";
-                var itemModelsFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.properties.namespace + "\\models\\item\\";
-                var blockTexturesFolder = settings.minecraftFolder.value + "\\bamo\\assets\\" + this.properties.namespace + "\\textures\\blocks\\";
+                var objFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\objects\\";
+                var blockstatesFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\blockstates\\";
+                var blockModelsFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\models\\block\\";
+                var itemModelsFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\models\\item\\";
+                var blockTexturesFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\textures\\blocks\\";
+                var dataFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\data\\";
 
                 // Create the folders if they dont exist
-                var folderList = [dataFolder, blockstatesFolder, blockModelsFolder, itemModelsFolder, blockTexturesFolder];
+                var folderList = [objFolder, blockstatesFolder, blockModelsFolder, itemModelsFolder, blockTexturesFolder, dataFolder];
                 var fs = require('fs');
 
                 folderList.forEach(function(folder){
@@ -573,9 +576,9 @@
                 })
 
                 // Create mcmeta file if it doesnt exist
-                if (!fs.existsSync(settings.minecraftFolder.value + "\\bamo\\pack.mcmeta")){
+                if (!fs.existsSync(settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\pack.mcmeta")){
                     mcmetaData = {"pack" : {"pack_format" : 6, "description" : "Resource Pack for BAMO test files"}};
-                    fs.writeFile(settings.minecraftFolder.value + "\\bamo\\pack.mcmeta", JSON.stringify(mcmetaData), "utf8", (err) => {if (err != null) {console.log("Error generating mcmeta file:", err);}});
+                    fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\pack.mcmeta", JSON.stringify(mcmetaData), "utf8", (err) => {if (err != null) {console.log("Error generating mcmeta file:", err);}});
                 }
 
                 // Generate block name from the displayname
@@ -611,8 +614,9 @@
 
                 // Regular Block
                 if (this.types.block){
-                    var modelData = baseBlockData;
+                    var modelData = {};
                     modelData["credit"] = codecData["credit"];
+                    modelData["parent"] = "block/cube_all";
                     modelData["textures"] = {
                         "all": imageNameToTexture(this.properties.namespace, "blocks", Texture.all[0]),
                         "particle": imageNameToTexture(this.properties.namespace, "blocks", Texture.all[0])
@@ -719,6 +723,22 @@
                     // Side Tall
                     modelData["parent"] = "minecraft:block/template_wall_side_tall"
                     fs.writeFile(blockModelsFolder + "\\" + name + "_side_tall.json", JSON.stringify(modelData), "utf8", err => {if (err != null) {console.log("Error Found writing item model data:", err);}});
+
+                    // Deal with the tags
+                    var wallTags = dataFolder + "minecraft\\tags\\blocks\\walls.json"
+                    var tagVal = this.properties.namespace + ":" + name
+
+                    if (!fs.existsSync(wallTags)){
+                        fs.mkdirSync(wallTags, {recursive: true});
+                        tagData = {"replace" : false, "values": [tagVal]};
+                    }else{
+                        d = fs.readFileSync(wallTags);
+                        tagData = JSON.parse(d);
+                        if (!tagData["values"].includes(tagVal)){
+                            tagData["values"].push(tagVal);
+                        }
+                    }   
+                    fs.writeFile(wallTags, JSON.stringify(tagData), "utf8", err => {if (err != null) {console.log("Error found when writing wall tags:", err)}});
                 }
 
                 var modelData = JSON.parse(codecData);
@@ -759,7 +779,7 @@
                         "transparency": this.properties.transparency,
                     };
 
-                    fs.writeFile(dataFolder + "\\" + block["name"] + ".json", JSON.stringify(data), "utf8", err => {if (err != null) {console.log("Error writing block properties:", err);}});
+                    fs.writeFile(objFolder + "\\" + block["name"] + ".json", JSON.stringify(data), "utf8", err => {if (err != null) {console.log("Error writing block properties:", err);}});
                 })
                 let e = open_interface;
                 e.hide();
@@ -783,8 +803,8 @@
 
             // Setting that holds the resource pack folder location
             minecraftFolder = new Setting('minecraftFolder', {
-                name : 'Resource Pack Folder Location',
-                description: 'Location of the resource pack folder on your PC',
+                name : 'Minecraft Folder Location',
+                description: 'Location of the Minecraft folder on your PC',
                 category: 'export',
                 type: 'text',
                 value: ''
@@ -801,7 +821,7 @@
                             exportWindow.show();
                             //exportWindow.content_vue.reset();
                         }else{
-                            Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "You must set your Resources folder location under Settings->Export"});
+                            Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "You must set your Minecraft folder location under Settings->Export"});
                         }
                     }else{
                         Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "Please ensure your file is saved before exporting. If you see this for a saved file, reload it and try again"});
