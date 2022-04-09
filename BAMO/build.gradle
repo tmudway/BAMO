@@ -42,7 +42,7 @@ dependencies{
     shade registrate
 }
 */
-version = '0.1.3'
+version = '0.2.0'
 group = 'com.ryytikki.bamo' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'bamo'
 

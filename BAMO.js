@@ -324,7 +324,8 @@
                         <p class="headerDescription">Standard minecraft block with identical textures on all faces</p>
                     </li>
                 </ul><br>
-                
+
+                <button @click.prevent="changePage($event, 'start')">Previous</button>
                 <button @click.prevent="changePage($event, 'physical')">Continue</button>
                 <button @click.prevent="createJSON" style = "float: right;">Export</button>
             </div>
@@ -380,7 +381,7 @@
 
                     <li>
                         <input type="checkbox" v-model="types.wall">
-                        <div class = "headerLabel">Wall</div>
+                        <div class = "headerLabel">Create Wall Block</div>
                     </li>
                     <li style="padding-left: 20px" v-if="types.wall">
                         <div class = "headerLabel">Wall Texture</div>
@@ -389,7 +390,7 @@
                         </select>
                     </li>
                 </ul><br>
-                
+                <button @click.prevent="changePage($event, 'types')">Previous</button>
                 <button @click.prevent="changePage($event, 'physical')">Continue</button>
                 <button @click.prevent="createJSON" style = "float: right;">Export</button>
             </div>
@@ -422,7 +423,7 @@
                         <p class="headerDescription">Determines if the block falls due to gravity</p>
                     </li>
                 </ul>
-                <button @click.prevent="changePage($event, 'start')">Previous</button>
+                <button @click.prevent="changePage($event, 'types')">Previous</button>
                 <button @click.prevent="changePage($event, 'advPhys')">Continue</button>
                 <button @click.prevent="createJSON" style = "float: right;">Export</button>
             </div>
@@ -525,6 +526,11 @@
                 if (this.properties.displayName == ""){
                     this.error = true;
                 }else{
+
+                    if ((this.step == "types" && page == "physical") || (this.step == "physical" && page == "types")){
+                        if (this.types.block) {page = "variant"}
+                    }
+
                     this.error = false;
                     this.step = page;
                 }
@@ -812,7 +818,7 @@
             
             // Export button in menu
             btn = new Action('block_mod', {
-                name: 'BAMO',
+                name: 'BAMO Export',
                 description: 'Exports block metadata for BAMO mod',
                 icon: 'fa-cube',
                 click: function () {
