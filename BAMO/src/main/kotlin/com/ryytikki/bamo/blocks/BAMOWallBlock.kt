@@ -6,6 +6,7 @@ import com.ryytikki.bamo.tools.BlockData
 import net.minecraft.block.BlockState
 import net.minecraft.block.StairsBlock
 import net.minecraft.block.WallBlock
+import net.minecraft.util.text.IFormattableTextComponent
 import java.util.function.Supplier
 
 class BAMOWallBlock(prop:Properties, data: BlockData) : WallBlock(prop){
@@ -14,5 +15,15 @@ class BAMOWallBlock(prop:Properties, data: BlockData) : WallBlock(prop){
 
     init {
         bamoFunc = BamoFunctionProvider(this, data)
+    }
+
+    override fun getName(): IFormattableTextComponent {
+        println("Test getName")
+        return bamoFunc.getName()
+    }
+
+    override fun getDescriptionId(): String {
+        println("Test getDescID")
+        return bamoFunc.getDescID()
     }
 }

@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.vector.Vector3d
+import net.minecraft.util.text.IFormattableTextComponent
 import net.minecraft.world.IBlockReader
 import net.minecraft.world.World
 import kotlin.math.abs
@@ -52,5 +53,15 @@ class BAMOSlimeBlock(prop: Properties, data: BlockData) : SlimeBlock(prop){
             entityIn.deltaMovement = entityIn.deltaMovement.multiply(d1, 1.0, d1)
         }
         super.stepOn(worldIn, pos,entityIn)
+    }
+
+    override fun getName(): IFormattableTextComponent {
+        println("Test getName")
+        return bamoFunc.getName()
+    }
+
+    override fun getDescriptionId(): String {
+        println("Test getDescID")
+        return bamoFunc.getDescID()
     }
 }

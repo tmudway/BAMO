@@ -16,9 +16,11 @@ import net.minecraft.client.renderer.RenderTypeLookup
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
+import net.minecraftforge.fml.loading.FMLPaths
 import net.minecraftforge.registries.ForgeRegistries
 import thedarkcolour.kotlinforforge.forge.KDeferredRegister
 import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
+import java.io.File
 import java.nio.file.Files
 import java.util.function.Supplier
 import java.util.zip.ZipEntry
@@ -40,6 +42,8 @@ data class JSONData(
     val fireproof : Boolean,              // WIP
     val creativeTab : String,             // DONE
     val transparency: String = "Solid",   // DONE
+    val hitbox: List<Array<DoubleArray>>, // DONE
+//    val lang: String,                     // WIP
 )
 
 data class BlockData(
@@ -50,6 +54,7 @@ data class BlockData(
     var sounds: SoundType,
     var lum: Int,
     var fireproof: Boolean,
+    var hitbox: List<Array<DoubleArray>>,
 )
 
 val matMap = mapOf<String, Material>(
@@ -196,7 +201,6 @@ private fun collectJsonObjects(): List<JSONData> {
     return data
 }
 
-
 object BlockGenerator {
     // use of the new KDeferredRegister
     val BLOCK_REGISTRY = KDeferredRegister(ForgeRegistries.BLOCKS, Bamo.ID)
@@ -225,17 +229,26 @@ object BlockGenerator {
     private fun registerBlockFromJson(data: JSONData): ObjectHolderDelegate<Block>{
 
         val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName, data.blastRes, data.slip,
-            (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof)
+            (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof, data.hitbox)
 
-        val block = BLOCK_REGISTRY.registerObject(data.displayName) {
+        val blockName = data.displayName.replace(" ", "").lowercase()
+
+        val block = BLOCK_REGISTRY.registerObject(blockName) {
             if (data.gravity) {
                 BAMOFallingBlock(bData)
             } else {
-                BAMOBlock(initBlockProperties(bData), bData)
+                if (data.rotType == "y_axis") {
+                    println("Generating Y_Axis block")
+                    BAMOHorizontalBlock(initBlockProperties(bData), bData)
+                //}else if (data.rotType == "y_axis_player"){
+                    //BAMOHorizontalFaceBlock(initBlockProperties(bData), bData)
+                }else{
+                    BAMOBlock(initBlockProperties(bData), bData)
+                }
             }
         }
         // Register the item version of the block
-        ITEM_REGISTRY.registerObject(data.displayName){
+        ITEM_REGISTRY.registerObject(blockName){
             BlockItem(block.get(), Item.Properties().tab((tabsMap[data.creativeTab]?: ItemGroup.TAB_BUILDING_BLOCKS)).stacksTo(data.maxStack))
         }
 
@@ -244,9 +257,11 @@ object BlockGenerator {
 
     private fun registerDependantBlockFromJson(data: JSONData, pBlock: ObjectHolderDelegate<Block>, type:String): ObjectHolderDelegate<Block>{
         val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName, data.blastRes, data.slip,
-            (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof)
+            (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof, data.hitbox)
 
-        val block = BLOCK_REGISTRY.registerObject(data.displayName + "_" + type) {
+        val blockName = data.displayName.replace(" ", "").lowercase()
+
+        val block = BLOCK_REGISTRY.registerObject(blockName + "_" + type) {
             if(type == "stairs"){
                 val state: Supplier<BlockState> = Supplier {pBlock.get().defaultBlockState()}
                 BAMOStairsBlock(state, initBlockProperties(bData), bData)
@@ -260,7 +275,7 @@ object BlockGenerator {
         }
 
         // Register the item version of the block
-        ITEM_REGISTRY.registerObject(data.displayName + "_" + type){
+        ITEM_REGISTRY.registerObject(blockName + "_" + type){
             BlockItem(block.get(), Item.Properties().tab((tabsMap[data.creativeTab]?: ItemGroup.TAB_BUILDING_BLOCKS)).stacksTo(data.maxStack))
         }
 

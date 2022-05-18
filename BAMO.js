@@ -6,11 +6,11 @@
     // Arrays for drop-down menus
     rotationTypes = [
         "default",
-        "axis",
-        "y_axis_player",
+        //"axis",
+        //"y_axis_player",
         "y_axis",
-        "all_player",
-        "all",
+        //"all_player",
+        //"all",
     ];
 
     soundOptions = [
@@ -316,7 +316,7 @@
                     <li>
                         <input type="checkbox" v-model="types.custom" v-on:change="toggleType($event, 'custom')">
                         <div class = "headerLabel">Custom Block</div>
-                        <p class="headerDescription">Block with a custom model</p>
+                        <p class="headerDescription">Block with a custom model and hitbox</p>
                     </li>
                     <li>
                         <input type="checkbox" v-model="types.block" v-on:change="toggleType($event, 'block')">
@@ -561,7 +561,7 @@
                     return;
                 }
 
-                var packName = "bamo";
+                var packName = this.properties.displayName.replace(/\s+/g, '').toLowerCase();//"bamo";
 
                 // Define folder locations
                 var objFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\objects\\";
@@ -600,22 +600,54 @@
                     // Pull the model data from the codec
                     var modelData = JSON.parse(codecData);
                     modelData["parent"] = "block/block";
-                    // Create blockstates files
-                    var stateData = JSON.stringify({"variants" : {"" : {"model" : this.properties.namespace + ":block/" + blockName}}});
+
+                    var stateData = "";
+                    // Create blockstates data
+                    if (this.properties.rotType == "y_axis"){
+                        stateData = JSON.stringify({"variants" : {"facing=north" : {"model" : this.properties.namespace + ":block/" + blockName},
+                                                                  "facing=east" : {"model" : this.properties.namespace + ":block/" + blockName, "y": 90},
+                                                                  "facing=south" : {"model" : this.properties.namespace + ":block/" + blockName, "y": 180},
+                                                                  "facing=west" : {"model" : this.properties.namespace + ":block/" + blockName, "y": 270},
+                                                                  }})
+                    }else{
+                        stateData = JSON.stringify({"variants" : {"" : {"model" : this.properties.namespace + ":block/" + blockName}}});
+                    }
+                    
+
+                   
+                    var textureData = {}
 
                     // Add namespace to textures if needed
                     Object.keys(modelData.textures).forEach((key) => {
-                        if (modelData.textures[key].includes(":") == false){
-                            modelData.textures[key] = this.properties.namespace + ":blocks/" + modelData.textures[key];
+
+                        // Need to work out what format the texture is in
+                        console.log(modelData.textures[key])
+                        // Object
+                        if (modelData.textures[key].constructor == Object){
+                            textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key]["name"].split(".")[0].replace(/\s+/g, '').toLowerCase()
+                        
+                        // String, but with multiple /
+                        }else if (modelData.textures[key].match("[a-z_]+/[a-z_]+")){
+                            textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key].split("/")[1].replace(/\s+/g, '').toLowerCase();
+
+                        // Other unformatted String
+                        }else if (!modelData.textures[key].match("bamo:blocks/[a-z_]+")){
+                            textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key].replace(/\s+/g, '').toLowerCase();
+
+                        // Formatted String
                         }else{
-                            // KINDA CRUDE, NEEDS UPDATING
-                            splitTexture = modelData.textures[key].split(":");
-                            imageName = splitTexture[1].split("/");
-                            modelData.textures[key] = this.properties.namespace + ":blocks/" + imageName.pop();
+                            textureData[key] = modelData.textures[key].replace(/\s+/g, '').toLowerCase()
                         }
                     })
 
-                    blockList.push({"name": blockName, "types": [], "model": modelData, "state": stateData});
+                    modelData.textures = textureData
+
+                    boxList = [];
+                    modelData.elements.forEach((model) =>{
+                        boxList.push([model["from"], model["to"]]);
+                    });
+
+                    blockList.push({"name": blockName, "types": [], "model": modelData, "state": stateData, "hitbox": boxList});
                 }
 
                 // Regular Block
@@ -635,7 +667,7 @@
                     if (this.types.slab) typeList.push("slab");
                     if (this.types.wall) typeList.push("wall");
 
-                    blockList.push({"name": blockName, "types": typeList, "state": state, "model": modelData});
+                    blockList.push({"name": blockName, "types": typeList, "state": state, "model": modelData, "hitbox": []});
                 }
 
                 // Stair Block
@@ -734,16 +766,9 @@
                     var wallTags = dataFolder + "minecraft\\tags\\blocks\\walls.json"
                     var tagVal = this.properties.namespace + ":" + name
 
-                    if (!fs.existsSync(wallTags)){
-                        fs.mkdirSync(wallTags, {recursive: true});
-                        tagData = {"replace" : false, "values": [tagVal]};
-                    }else{
-                        d = fs.readFileSync(wallTags);
-                        tagData = JSON.parse(d);
-                        if (!tagData["values"].includes(tagVal)){
-                            tagData["values"].push(tagVal);
-                        }
-                    }   
+                    fs.mkdirSync(dataFolder + "minecraft\\tags\\blocks\\", {recursive: true});
+                    tagData = {"replace" : false, "values": [tagVal]};
+
                     fs.writeFile(wallTags, JSON.stringify(tagData), "utf8", err => {if (err != null) {console.log("Error found when writing wall tags:", err)}});
                 }
 
@@ -758,10 +783,11 @@
                         image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
                     }
         
-                    fs.writeFile(blockTexturesFolder + "\\" + tx.name, image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
+                    fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/\s+/g, '').toLowerCase(), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
                 })
 
                 blockList.forEach(block => {
+                    // Write state file
                     fs.writeFile(blockstatesFolder + "\\" + block["name"] + ".json", block["state"], "utf8", (err) => {if (err != null) {console.log("Error generating blockstate:", err);}});
 
                     // Write model files
@@ -770,7 +796,7 @@
                     
                     // Write block properties file
                     var data = {
-                        "displayName" : block["name"], //this.properties.displayName,
+                        "displayName" : this.properties.displayName, //block["name"], 
                         "typeList" : block["types"],
                         "material" : this.properties.material,
                         "blastRes" : this.properties.blastRes,
@@ -783,6 +809,7 @@
                         "fireproof" : this.properties.fireproof,
                         "creativeTab" : this.properties.creativeTab,
                         "transparency": this.properties.transparency,
+                        "hitbox": block["hitbox"],
                     };
 
                     fs.writeFile(objFolder + "\\" + block["name"] + ".json", JSON.stringify(data), "utf8", err => {if (err != null) {console.log("Error writing block properties:", err);}});
