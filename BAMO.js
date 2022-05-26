@@ -480,7 +480,7 @@
 
                     <li>
                         <div class = "headerLabel">Rotation Type</div>
-                        <p class="headerDescription">WIP: Currently not working</p>
+                        <p class="headerDescription">WIP: Only default and y-axis added so far</p>
                         <select class="dark_bordered" v-model="properties.rotType"><option v-for="op in rotationTypes" v-bind:value="op">{{ op }}</option></select>
                     </li>
 
