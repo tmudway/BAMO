@@ -47,6 +47,10 @@ I would **HIGHLY** recommend you backup up any model files before attempting to 
 * Textures and models can be reloaded without rebooting with the shortcut F3+T
 * If no BAMO resource pack is shown, make sure you've set the folder setting correctly in Blockbench
 ## Changelog
+### 0.3.0
+* Added collision support
+* Added rotateable blocks (currently y-axis only)
+* Fixed block names by overriding function that returns it (vs using a lang file)
 ### 0.2.0
 * Continued developing plugin UI
 * Revamped mod to use custom block classes
