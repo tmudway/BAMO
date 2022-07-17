@@ -116,10 +116,11 @@ export default {
 
             // Define folder locations
             var objFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\objects\\";
-            var blockstatesFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\blockstates\\";
-            var blockModelsFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\models\\block\\";
-            var itemModelsFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\models\\item\\";
-            var blockTexturesFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\textures\\blocks\\";
+            var assetsBaseFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\";
+            var blockstatesFolder = assetsBaseFolder + this.properties.namespace + "\\blockstates\\";
+            var blockModelsFolder = assetsBaseFolder + this.properties.namespace + "\\models\\block\\";
+            var itemModelsFolder = assetsBaseFolder + this.properties.namespace + "\\models\\item\\";
+            var blockTexturesFolder = assetsBaseFolder + this.properties.namespace + "\\textures\\blocks\\";
             var dataFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\data\\";
 
             // Create the folders if they dont exist
@@ -365,6 +366,22 @@ export default {
 
                 fs.writeFile(objFolder + "\\" + block["name"] + ".json", JSON.stringify(data), "utf8", err => {if (err != null) {console.log("Error writing block properties:", err);}});
             })
+
+            var JSZip = require("jszip");
+            var zip = new JSZip();
+            zip.folder(dataFolder)
+               .folder(objFolder)
+               .folder(assetsBaseFolder)
+               .file(settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\pack.mcmeta")
+
+            zip.generateAsync({type:"nodebuffer"})
+               .then(function(content){
+                    fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + ".zip", content, function(err){});
+               });
+
+            fs.rm(settings.minecraftFolder.value + "\\bamopacks\\" + packName, {recursive: true, force: true}, function(err){});
+            
+
             let e = open_interface;
             e.hide();
         },

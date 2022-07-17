@@ -22,6 +22,7 @@
   "dependencies": {
     "blockbench-types": "^4.2.0",
     "core-js": "^3.22.8",
+    "jszip": "^3.10.0",
     "vue": "^2.6.11",
     "vue-loader": "^15.9.6",
     "vue-router": "^3.5.4",
