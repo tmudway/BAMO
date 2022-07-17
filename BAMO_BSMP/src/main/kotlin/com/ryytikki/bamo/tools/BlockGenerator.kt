@@ -25,21 +25,21 @@ import kotlin.io.path.readText
 
 @Serializable
 data class JSONData(
-    val displayName : String,             // Done
-    val typeList: List<String>,           // WIP
-    val material : String,                // Done
-    val blastRes : Float,                 // Done
-    val slip : Float,                     // Done
-    val gravity : Boolean,                // Done
-    val rotType : String,                 // WIP
-    val sounds : String,                  // Done
-    val lum : Int,                        // Done
-    val maxStack : Int,                   // DONE
-    val fireproof : Boolean,              // WIP
-    val creativeTab : String,             // DONE
-    val transparency: String = "Solid",   // DONE
-    val hitbox: List<Array<DoubleArray>>, // DONE
-//    val lang: String,                     // WIP
+    val displayName : String,                           // Done
+    val typeList: List<String>,                         // WIP
+    val material : String,                              // Done
+    val blastRes : Float,                               // Done
+    val slip : Float,                                   // Done
+    val gravity : Boolean,                              // Done
+    val rotType : String,                               // WIP
+    val sounds : String,                                // Done
+    val lum : Int,                                      // Done
+    val maxStack : Int,                                 // DONE
+    val fireproof : Boolean,                            // WIP
+    val creativeTab : String,                           // DONE
+    val transparency: String = "Solid",                 // DONE
+    val hitbox: List<Array<DoubleArray>> = emptyList(), // DONE
+//    val lang: String,                                   // WIP
 )
 
 data class BlockData(
