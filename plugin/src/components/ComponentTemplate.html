@@ -99,19 +99,19 @@
             <li style="padding-left: 20px" v-if="types.slab">
                 <div class = "headerLabel">Top Texture</div>
                 <select class="dark_bordered" v-model="variant.slab.top" >
-                    <option v-for="op in Textures" v-bind:key="op">{{op.name}}</option>
+                    <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
             <li style="padding-left: 20px" v-if="types.slab"> 
                 <div class = "headerLabel">Bottom Texture</div>
                 <select class="dark_bordered" v-model="variant.slab.bottom">
-                    <option v-for="op in Textures" v-bind:key="op">{{op.name}}</option>
+                    <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
             <li style="padding-left: 20px" v-if="types.slab"> 
                 <div class = "headerLabel">Side Texture</div>
                 <select class="dark_bordered" v-model="variant.slab.side">
-                    <option v-for="op in Textures" v-bind:key="op">{{op.name}}</option>
+                    <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
 
@@ -122,7 +122,7 @@
             <li style="padding-left: 20px" v-if="types.wall">
                 <div class = "headerLabel">Wall Texture</div>
                 <select class="dark_bordered" v-model="variant.wall.wall" >
-                    <option v-for="op in Textures" v-bind:key="op">{{op.name}}</option>
+                    <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
         </ul><br>

@@ -1,3 +1,9 @@
 export function imageNameToTexture(namespace, type, image){
-    return namespace + ":" + type + "/" + image.name.split(".")[0]
+    var nm = ""
+    if (image.name){
+        nm = image.name.split(".")[0]
+    }else{
+        nm = image.split(".")[0]
+    }
+    return namespace + ":" + type + "/" + nm
 }

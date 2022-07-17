@@ -146,15 +146,17 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
+      var JSZip = __webpack_require__(/*! jszip */ "./node_modules/jszip/lib/index.js");
+
+      var zip = new JSZip();
       var packName = this.properties.displayName.replace(/\s+/g, '').toLowerCase(); //"bamo";
       // Define folder locations
 
       var objFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\objects\\";
-      var assetsBaseFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\";
-      var blockstatesFolder = assetsBaseFolder + this.properties.namespace + "\\blockstates\\";
-      var blockModelsFolder = assetsBaseFolder + this.properties.namespace + "\\models\\block\\";
-      var itemModelsFolder = assetsBaseFolder + this.properties.namespace + "\\models\\item\\";
-      var blockTexturesFolder = assetsBaseFolder + this.properties.namespace + "\\textures\\blocks\\";
+      var blockstatesFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\blockstates\\";
+      var blockModelsFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\models\\block\\";
+      var itemModelsFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\models\\item\\";
+      var blockTexturesFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\textures\\blocks\\";
       var dataFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\data\\"; // Create the folders if they dont exist
 
       var folderList = [objFolder, blockstatesFolder, blockModelsFolder, itemModelsFolder, blockTexturesFolder, dataFolder];
@@ -167,22 +169,20 @@ __webpack_require__.r(__webpack_exports__);
             recursive: true
           });
         }
-      }); // Create mcmeta file if it doesnt exist
+      }); // Create mcmeta file
 
-      if (!fs.existsSync(settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\pack.mcmeta")) {
-        var mcmetaData = {
-          "pack": {
-            "pack_format": 6,
-            "description": "Resource Pack for BAMO test files"
-          }
-        };
-        fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\pack.mcmeta", JSON.stringify(mcmetaData), "utf8", function (err) {
-          if (err != null) {
-            console.log("Error generating mcmeta file:", err);
-          }
-        });
-      } // Generate block name from the displayname
-
+      var mcmetaData = {
+        "pack": {
+          "pack_format": 6,
+          "description": "Resource Pack for BAMO test files"
+        }
+      };
+      fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\pack.mcmeta", JSON.stringify(mcmetaData), "utf8", function (err) {
+        if (err != null) {
+          console.log("Error generating mcmeta file:", err);
+        }
+      });
+      zip.file("pack.mcmeta", JSON.stringify(mcmetaData)); // Generate block name from the displayname
 
       var blockName = this.properties.displayName.replace(/\s+/g, '').toLowerCase(); //generate the list of blocks to be exported
 
@@ -302,27 +302,31 @@ __webpack_require__.r(__webpack_exports__);
           if (err != null) {
             console.log("Error generating blockstate:", err);
           }
-        }); // write the 4 stair models
+        });
+        zip.file("assets/" + this.properties.namespace + "/blockstates/" + name + ".json", state); // write the 4 stair models
         // Base
 
         fs.writeFile(blockModelsFolder + "\\" + name + ".json", JSON.stringify(modelData), "utf8", function (err) {
           if (err != null) {
             console.log("Error Found writing block model data:", err);
           }
-        }); // Item
+        });
+        zip.file("assets/" + this.properties.namespace + "/models/block/" + name + ".json", JSON.stringify(modelData)); // Item
 
         fs.writeFile(itemModelsFolder + "\\" + name + ".json", JSON.stringify(modelData), "utf8", function (err) {
           if (err != null) {
             console.log("Error Found writing item model data:", err);
           }
-        }); // Inner
+        });
+        zip.file("assets/" + this.properties.namespace + "/models/item/" + name + ".json", JSON.stringify(modelData)); // Inner
 
         modelData["parent"] = "minecraft:block/inner_stairs";
         fs.writeFile(blockModelsFolder + "\\" + name + "_inner.json", JSON.stringify(modelData), "utf8", function (err) {
           if (err != null) {
             console.log("Error Found writing block model data:", err);
           }
-        }); // Outer
+        });
+        zip.file("assets/" + this.properties.namespace + "/models/block/" + name + "_inner.json", JSON.stringify(modelData)); // Outer
 
         modelData["parent"] = "minecraft:block/outer_stairs";
         fs.writeFile(blockModelsFolder + "\\" + name + "_outer.json", JSON.stringify(modelData), "utf8", function (err) {
@@ -330,6 +334,7 @@ __webpack_require__.r(__webpack_exports__);
             console.log("Error Found writing block model data:", err);
           }
         });
+        zip.file("assets/" + this.properties.namespace + "/models/block/" + name + "_outer.json", JSON.stringify(modelData));
       }
 
       if (this.types.slab) {
@@ -361,20 +366,23 @@ __webpack_require__.r(__webpack_exports__);
           if (err != null) {
             console.log("Error generating blockstate:", err);
           }
-        }); // Write the 3 slab models
+        });
+        zip.file("assets/" + this.properties.namespace + "/blockstates/" + name + ".json", JSON.stringify(state)); // Write the 3 slab models
         // Base
 
         fs.writeFile(blockModelsFolder + "\\" + name + ".json", JSON.stringify(modelData), "utf8", function (err) {
           if (err != null) {
             console.log("Error Found writing block model data:", err);
           }
-        }); // Item
+        });
+        zip.file("assets/" + this.properties.namespace + "/models/block/" + name + ".json", JSON.stringify(modelData)); // Item
 
         fs.writeFile(itemModelsFolder + "\\" + name + ".json", JSON.stringify(modelData), "utf8", function (err) {
           if (err != null) {
             console.log("Error Found writing item model data:", err);
           }
-        }); // Top
+        });
+        zip.file("assets/" + this.properties.namespace + "/models/item/" + name + ".json", JSON.stringify(modelData)); // Top
 
         modelData["parent"] = "minecraft:block/slab_top";
         fs.writeFile(blockModelsFolder + "\\" + name + "_top.json", JSON.stringify(modelData), "utf8", function (err) {
@@ -382,6 +390,7 @@ __webpack_require__.r(__webpack_exports__);
             console.log("Error Found writing block model data:", err);
           }
         });
+        zip.file("assets/" + this.properties.namespace + "/models/block/" + name + "_top.json", JSON.stringify(modelData));
       }
 
       if (this.types.wall) {
@@ -399,42 +408,47 @@ __webpack_require__.r(__webpack_exports__);
           if (err != null) {
             console.log("Error generating blockstate:", err);
           }
-        }); // Write the 4  wall models
+        });
+        zip.file("assets/" + this.properties.namespace + "/blockstates/" + name + ".json", state); // Write the 4  wall models
         // Base
 
         fs.writeFile(blockModelsFolder + "\\" + name + "_post.json", JSON.stringify(modelData), "utf8", function (err) {
           if (err != null) {
             console.log("Error Found writing block model data:", err);
           }
-        }); // Item
+        });
+        zip.file("assets/" + this.properties.namespace + "/models/block/" + name + "_post.json", JSON.stringify(modelData)); // Item
 
         modelData["parent"] = "minecraft:block/wall_inventory";
         fs.writeFile(itemModelsFolder + "\\" + name + ".json", JSON.stringify(modelData), "utf8", function (err) {
           if (err != null) {
             console.log("Error Found writing item model data:", err);
           }
-        }); // Side
+        });
+        zip.file("assets/" + this.properties.namespace + "/models/item/" + name + ".json", JSON.stringify(modelData)); // Side
 
         modelData["parent"] = "minecraft:block/template_wall_side";
         fs.writeFile(blockModelsFolder + "\\" + name + "_side.json", JSON.stringify(modelData), "utf8", function (err) {
           if (err != null) {
             console.log("Error Found writing block model data:", err);
           }
-        }); // Side Tall
+        });
+        zip.file("assets/" + this.properties.namespace + "/models/block/" + name + "_side.json", JSON.stringify(modelData)); // Side Tall
 
         modelData["parent"] = "minecraft:block/template_wall_side_tall";
         fs.writeFile(blockModelsFolder + "\\" + name + "_side_tall.json", JSON.stringify(modelData), "utf8", function (err) {
           if (err != null) {
             console.log("Error Found writing item model data:", err);
           }
-        }); // Deal with the tags
+        });
+        zip.file("assets/" + this.properties.namespace + "/models/block/" + name + "_side_tall.json", JSON.stringify(modelData)); // Deal with the tags
 
         var wallTags = dataFolder + "minecraft\\tags\\blocks\\walls.json";
         var tagVal = this.properties.namespace + ":" + name;
         fs.mkdirSync(dataFolder + "minecraft\\tags\\blocks\\", {
           recursive: true
         });
-        tagData = {
+        var tagData = {
           "replace": false,
           "values": [tagVal]
         };
@@ -443,9 +457,11 @@ __webpack_require__.r(__webpack_exports__);
             console.log("Error found when writing wall tags:", err);
           }
         });
+        zip.file("data/minecraft/tags/blocks/walls.json", JSON.stringify(tagData));
       }
 
-      var modelData = JSON.parse(codecData); // Copy texture files
+      var modelData = JSON.parse(codecData);
+      var ns = this.properties.namespace; // Copy texture files
 
       Texture.all.forEach(function (tx) {
         var image;
@@ -461,6 +477,7 @@ __webpack_require__.r(__webpack_exports__);
             console.log("Error Found writing texture data:", err);
           }
         });
+        zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/\s+/g, '').toLowerCase(), image);
       });
       blockList.forEach(function (block) {
         // Write state file
@@ -468,18 +485,21 @@ __webpack_require__.r(__webpack_exports__);
           if (err != null) {
             console.log("Error generating blockstate:", err);
           }
-        }); // Write model files
+        });
+        zip.file("assets/" + _this.properties.namespace + "/blockstates/" + block["name"] + ".json", block["state"]); // Write model files
 
         fs.writeFile(blockModelsFolder + "\\" + block["name"] + ".json", JSON.stringify(block["model"]), "utf8", function (err) {
           if (err != null) {
             console.log("Error Found writing block model data:", err);
           }
         });
+        zip.file("assets/" + _this.properties.namespace + "/models/block/" + block["name"] + ".json", JSON.stringify(block["model"]));
         fs.writeFile(itemModelsFolder + "\\" + block["name"] + ".json", JSON.stringify(block["model"]), "utf8", function (err) {
           if (err != null) {
             console.log("Error Found writing item model data:", err);
           }
-        }); // Write block properties file
+        });
+        zip.file("assets/" + _this.properties.namespace + "/models/item/" + block["name"] + ".json", JSON.stringify(block["model"])); // Write block properties file
 
         var data = {
           "displayName": _this.properties.displayName,
@@ -503,20 +523,15 @@ __webpack_require__.r(__webpack_exports__);
             console.log("Error writing block properties:", err);
           }
         });
+        zip.file("objects/" + block["name"] + ".json", JSON.stringify(data));
       });
-
-      var JSZip = __webpack_require__(/*! jszip */ "./node_modules/jszip/lib/index.js");
-
-      var zip = new JSZip();
-      zip.folder(dataFolder).folder(objFolder).folder(assetsBaseFolder).file(settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\pack.mcmeta");
       zip.generateAsync({
         type: "nodebuffer"
       }).then(function (content) {
         fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + ".zip", content, function (err) {});
       });
       fs.rm(settings.minecraftFolder.value + "\\bamopacks\\" + packName, {
-        recursive: true,
-        force: true
+        recursive: true
       }, function (err) {});
       var e = open_interface;
       e.hide();
@@ -596,17 +611,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "imageNameToTexture": () => (/* binding */ imageNameToTexture)
 /* harmony export */ });
-/* harmony import */ var core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.regexp.exec.js */ "./node_modules/core-js/modules/es.regexp.exec.js");
-/* harmony import */ var core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.string.split.js */ "./node_modules/core-js/modules/es.string.split.js");
-/* harmony import */ var core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.function.name.js */ "./node_modules/core-js/modules/es.function.name.js");
-/* harmony import */ var core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.function.name.js */ "./node_modules/core-js/modules/es.function.name.js");
+/* harmony import */ var core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.regexp.exec.js */ "./node_modules/core-js/modules/es.regexp.exec.js");
+/* harmony import */ var core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.string.split.js */ "./node_modules/core-js/modules/es.string.split.js");
+/* harmony import */ var core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
 function imageNameToTexture(namespace, type, image) {
-  return namespace + ":" + type + "/" + image.name.split(".")[0];
+  var nm = "";
+
+  if (image.name) {
+    nm = image.name.split(".")[0];
+  } else {
+    nm = image.split(".")[0];
+  }
+
+  return namespace + ":" + type + "/" + nm;
 }
 
 /***/ }),
@@ -20128,7 +20151,7 @@ var render = function () {
                         },
                       },
                     },
-                    _vm._l(_vm.Textures, function (op) {
+                    _vm._l(_vm.Textures(), function (op) {
                       return _c("option", { key: op }, [
                         _vm._v(_vm._s(op.name)),
                       ])
@@ -20176,7 +20199,7 @@ var render = function () {
                         },
                       },
                     },
-                    _vm._l(_vm.Textures, function (op) {
+                    _vm._l(_vm.Textures(), function (op) {
                       return _c("option", { key: op }, [
                         _vm._v(_vm._s(op.name)),
                       ])
@@ -20224,7 +20247,7 @@ var render = function () {
                         },
                       },
                     },
-                    _vm._l(_vm.Textures, function (op) {
+                    _vm._l(_vm.Textures(), function (op) {
                       return _c("option", { key: op }, [
                         _vm._v(_vm._s(op.name)),
                       ])
@@ -20319,7 +20342,7 @@ var render = function () {
                         },
                       },
                     },
-                    _vm._l(_vm.Textures, function (op) {
+                    _vm._l(_vm.Textures(), function (op) {
                       return _c("option", { key: op }, [
                         _vm._v(_vm._s(op.name)),
                       ])
@@ -21376,7 +21399,7 @@ Plugin.register('BAMO', {
   author: 'Ryytikki',
   description: 'Exports block metadata for use in the BAMO mod',
   icon: 'bar_chart',
-  version: '0.2.1',
+  version: '0.3.2',
   variant: 'both',
   onload: function onload() {
     // Setting that holds the resource pack folder location
