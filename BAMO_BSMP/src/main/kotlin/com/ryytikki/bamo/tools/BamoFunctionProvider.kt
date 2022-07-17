@@ -1,13 +1,11 @@
 package com.ryytikki.bamo.tools
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
-import net.minecraft.client.model.ModelPart
+import net.minecraft.text.LiteralText
+import net.minecraft.text.MutableText
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
-/*import net.minecraft.util.text.IFormattableTextComponent
-import net.minecraft.util.text.StringTextComponent
-*/
 
 fun initBlockProperties(data: BlockData) : AbstractBlock.Settings{
     return AbstractBlock.Settings.of(data.material)
@@ -34,7 +32,7 @@ class BamoFunctionProvider(parent: Block, data: BlockData){
         this.data = data
 
         if (data.hitbox.isEmpty()){
-            baseNorth = Block.createCuboidShape(0.0, 16.0, 0.0, 16.0, 0.0, 16.0)
+            baseNorth = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 16.0)
         }else{
             data.hitbox.forEach{box->
                 val hbNorth = Block.createCuboidShape(box[0][0], box[0][1], box[0][2], box[1][0], box[1][1], box[1][2])
@@ -65,11 +63,11 @@ class BamoFunctionProvider(parent: Block, data: BlockData){
         }
     }
 
-    /*public fun getName():  IFormattableTextComponent {
-        return StringTextComponent(data.displayName)
+    public fun getName(): MutableText {
+        return LiteralText(data.displayName)
     }
 
     public fun getDescID(): String {
         return data.displayName
-    }*/
+    }
 }
