@@ -1,6 +1,7 @@
 package com.ryytikki.bamo.tools
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
+import net.minecraft.block.Blocks
 import net.minecraft.state.DirectionProperty
 import net.minecraft.util.Direction
 import net.minecraft.util.math.shapes.VoxelShape
@@ -11,6 +12,15 @@ import net.minecraft.util.text.StringTextComponent
 
 fun initBlockProperties(data: BlockData) : AbstractBlock.Properties{
     return AbstractBlock.Properties.of(data.material)
+        .strength(3.0f, data.blastRes)
+        .friction(data.slip)
+        .sound(data.sounds)
+        .lightLevel{data.lum}
+        .noOcclusion()
+}
+
+fun initFlowerBlockProperties(data: BlockData) : AbstractBlock.Properties{
+    return AbstractBlock.Properties.copy(Blocks.DANDELION)
         .strength(3.0f, data.blastRes)
         .friction(data.slip)
         .sound(data.sounds)
@@ -37,6 +47,13 @@ class BamoFunctionProvider(parent: Block, data: BlockData){
             baseNorth = Block.box(0.0, 16.0, 0.0, 16.0, 0.0, 16.0)
         }else{
             data.hitbox.forEach{box->
+                for (i in 0..2) {
+                    if (box[0][i] == box[1][i]) {
+                        box[0][i] = box[0][i] - 1;
+                        box[1][i] = box[1][i] + 1;
+                    }
+                }
+
                 val hbNorth = Block.box(box[0][0], box[0][1], box[0][2], box[1][0], box[1][1], box[1][2])
                 val hbEast = Block.box(16.0 - box[1][2], box[0][1], box[0][0], 16.0 - box[0][2], box[1][1], box[1][0])
                 val hbSouth = Block.box(16.0 - box[1][0], box[0][1], 16.0 - box[1][2], 16.0 - box[0][0], box[1][1], 16.0 - box[0][2])
