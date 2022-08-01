@@ -28,14 +28,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_object_keys_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_keys_js__WEBPACK_IMPORTED_MODULE_6__);
 /* harmony import */ var core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/es.string.split.js */ "./node_modules/core-js/modules/es.string.split.js");
 /* harmony import */ var core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var core_js_modules_es_string_match_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! core-js/modules/es.string.match.js */ "./node_modules/core-js/modules/es.string.match.js");
-/* harmony import */ var core_js_modules_es_string_match_js__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_match_js__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var core_js_modules_es_array_slice_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! core-js/modules/es.array.slice.js */ "./node_modules/core-js/modules/es.array.slice.js");
-/* harmony import */ var core_js_modules_es_array_slice_js__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice_js__WEBPACK_IMPORTED_MODULE_9__);
-/* harmony import */ var _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../util/OptionArrays.js */ "./src/util/OptionArrays.js");
-/* harmony import */ var _util_GenStates_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../util/GenStates.js */ "./src/util/GenStates.js");
-/* harmony import */ var _util_Utils_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../util/Utils.js */ "./src/util/Utils.js");
-
+/* harmony import */ var core_js_modules_es_array_slice_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! core-js/modules/es.array.slice.js */ "./node_modules/core-js/modules/es.array.slice.js");
+/* harmony import */ var core_js_modules_es_array_slice_js__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice_js__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../util/OptionArrays.js */ "./src/util/OptionArrays.js");
+/* harmony import */ var _util_GenStates_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../util/GenStates.js */ "./src/util/GenStates.js");
+/* harmony import */ var _util_Utils_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../util/Utils.js */ "./src/util/Utils.js");
 
 
 
@@ -53,32 +50,35 @@ __webpack_require__.r(__webpack_exports__);
     return {
       step: "start",
       error: false,
-      rotationTypes: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.rotationTypes,
-      soundOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.soundOptions,
-      materialOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.materialOptions,
-      transparencyOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.transparencyOptions,
-      tabOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.tabOptions,
-      customTypeOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.customTypeOptions,
+      rotationTypes: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.rotationTypes,
+      soundOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.soundOptions,
+      materialOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.materialOptions,
+      transparencyOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.transparencyOptions,
+      tabOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.tabOptions,
+      customTypeOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.customTypeOptions,
       // Data to be exported
       properties: {
         namespace: "bamo",
         displayName: "test",
-        material: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.materialOptions[0],
+        material: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.materialOptions[0],
         blastRes: 6,
         slip: 0.6,
         gravity: false,
-        rotType: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.rotationTypes[0],
-        sounds: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.soundOptions[0],
+        rotType: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.rotationTypes[0],
+        sounds: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.soundOptions[0],
         lum: 0,
         maxStack: 64,
         fireproof: true,
-        transparency: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.transparencyOptions[0],
-        creativeTab: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.tabOptions[0]
+        transparency: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.transparencyOptions[0],
+        creativeTab: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.tabOptions[0]
       },
       custom: {
         bounds: []
       },
       variant: {
+        "default": {
+          all: Texture.all[0].name
+        },
         stair: {
           top: Texture.all[0].name,
           bottom: Texture.all[0].name,
@@ -230,21 +230,19 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
 
-        var textureData = {}; // Add namespace to textures if needed
+        var textureData = {}; // Setup texture dict
 
+        ns = this.properties.namespace;
         Object.keys(modelData.textures).forEach(function (key) {
-          // Need to work out what format the texture is in
-          console.log(modelData.textures[key]); // Object
-
-          if (modelData.textures[key].constructor == Object) {
-            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key]["name"].split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(); // String, but with multiple /
-          } else if (modelData.textures[key].match("[a-z_]+/[a-z_]+")) {
-            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key].split("/")[1].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(); // Other unformatted String
-          } else if (!modelData.textures[key].match("bamo:blocks/[a-z_]+")) {
-            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(); // Formatted String
-          } else {
-            textureData[key] = modelData.textures[key].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
-          }
+          Texture.all.forEach(function (tx) {
+            if (tx.id == key || key == "particle" && tx.particle == true) {
+              if (tx.namespace == "") {
+                textureData[key] = ns + ":blocks/" + tx.name.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
+              } else {
+                textureData[key] = tx.namespace + ":" + tx.folder + "/" + tx.name.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
+              }
+            }
+          });
         });
         modelData.textures = textureData;
         var boxList = [];
@@ -266,8 +264,9 @@ __webpack_require__.r(__webpack_exports__);
         modelData["credit"] = codecData["credit"];
         modelData["parent"] = "block/cube_all";
         modelData["textures"] = {
-          "all": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.imageNameToTexture)(this.properties.namespace, "blocks", Texture.all[0]),
-          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.imageNameToTexture)(this.properties.namespace, "blocks", Texture.all[0])
+          "all": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant["default"].all, this.properties.namespace),
+          //imageNameToTexture(this.properties.namespace, "blocks", Texture.all[0]),
+          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)("particle", this.properties.namespace)
         };
         var state = JSON.stringify({
           "variants": {
@@ -296,13 +295,13 @@ __webpack_require__.r(__webpack_exports__);
         modelData["credit"] = codecData["credit"];
         modelData["parent"] = "minecraft:block/stairs";
         modelData["textures"] = {
-          "top": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.imageNameToTexture)(this.properties.namespace, "blocks", this.variant.stair.top),
-          "bottom": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.imageNameToTexture)(this.properties.namespace, "blocks", this.variant.stair.bottom),
-          "side": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.imageNameToTexture)(this.properties.namespace, "blocks", this.variant.stair.side),
-          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.imageNameToTexture)(this.properties.namespace, "blocks", this.variant.stair.top)
+          "top": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.stair.top, this.properties.namespace),
+          "bottom": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.stair.bottom, this.properties.namespace),
+          "side": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.stair.side, this.properties.namespace),
+          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)("particle", this.properties.namespace)
         }; // Write state
 
-        var state = (0,_util_GenStates_js__WEBPACK_IMPORTED_MODULE_11__.genStairState)(this.properties.namespace, "block/" + name, "block/" + name + "_outer", "block/" + name + "_inner");
+        var state = (0,_util_GenStates_js__WEBPACK_IMPORTED_MODULE_10__.genStairState)(this.properties.namespace, "block/" + name, "block/" + name + "_outer", "block/" + name + "_inner");
         fs.writeFile(blockstatesFolder + "\\" + name + ".json", state, "utf8", function (err) {
           if (err != null) {
             console.log("Error generating blockstate:", err);
@@ -348,10 +347,10 @@ __webpack_require__.r(__webpack_exports__);
         modelData["credit"] = codecData["credit"];
         modelData["parent"] = "minecraft:block/slab";
         modelData["textures"] = {
-          "top": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.imageNameToTexture)(this.properties.namespace, "blocks", this.variant.slab.top),
-          "bottom": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.imageNameToTexture)(this.properties.namespace, "blocks", this.variant.slab.bottom),
-          "side": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.imageNameToTexture)(this.properties.namespace, "blocks", this.variant.slab.side),
-          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.imageNameToTexture)(this.properties.namespace, "blocks", this.variant.slab.top)
+          "top": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.slab.top, this.properties.namespace),
+          "bottom": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.slab.bottom, this.properties.namespace),
+          "side": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.slab.side, this.properties.namespace),
+          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)("particle", this.properties.namespace)
         }; // Write State
 
         var state = {
@@ -404,11 +403,11 @@ __webpack_require__.r(__webpack_exports__);
         modelData["credit"] = codecData["credit"];
         modelData["parent"] = "minecraft:block/template_wall_post";
         modelData["textures"] = {
-          "wall": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.imageNameToTexture)(this.properties.namespace, "blocks", this.variant.wall.wall),
-          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.imageNameToTexture)(this.properties.namespace, "blocks", this.variant.wall.wall)
+          "wall": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.wall.wall, this.properties.namespace),
+          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)("particle", this.properties.namespace)
         }; // Write State
 
-        var state = (0,_util_GenStates_js__WEBPACK_IMPORTED_MODULE_11__.genWallState)(this.properties.namespace, "block/" + name + "_post", "block/" + name + "_side", "block/" + name + "_side_tall");
+        var state = (0,_util_GenStates_js__WEBPACK_IMPORTED_MODULE_10__.genWallState)(this.properties.namespace, "block/" + name + "_post", "block/" + name + "_side", "block/" + name + "_side_tall");
         fs.writeFile(blockstatesFolder + "\\" + name + ".json", state, "utf8", function (err) {
           if (err != null) {
             console.log("Error generating blockstate:", err);
@@ -471,18 +470,20 @@ __webpack_require__.r(__webpack_exports__);
       Texture.all.forEach(function (tx) {
         var image;
 
-        if (tx.img.currentSrc.slice(0, 4) == "data") {
-          image = nativeImage.createFromDataURL(tx.img.currentSrc).toPNG();
-        } else if (tx.img.currentSrc.slice(0, 4) == "file") {
-          image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
-        }
-
-        fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image, function (err) {
-          if (err != null) {
-            console.log("Error Found writing texture data:", err);
+        if (tx.namespace != "minecraft") {
+          if (tx.img.currentSrc.slice(0, 4) == "data") {
+            image = nativeImage.createFromDataURL(tx.img.currentSrc).toPNG();
+          } else if (tx.img.currentSrc.slice(0, 4) == "file") {
+            image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
           }
-        });
-        zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image);
+
+          fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image, function (err) {
+            if (err != null) {
+              console.log("Error Found writing texture data:", err);
+            }
+          });
+          zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image);
+        }
       });
       blockList.forEach(function (block) {
         // Write state file
@@ -508,7 +509,6 @@ __webpack_require__.r(__webpack_exports__);
 
         var data = {
           "displayName": _this.properties.displayName,
-          //block["name"], 
           "typeList": block["types"],
           "material": _this.properties.material,
           "blastRes": _this.properties.blastRes,
@@ -533,8 +533,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       zip.generateAsync({
         type: "nodebuffer"
-      }).then(function (content) {
-        fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + ".zip", content, function (err) {});
+      }).then(function (content) {//fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + ".zip", content, err => {});
       }); //fs.rm(settings.minecraftFolder.value + "\\bamopacks\\" + packName, {recursive: true}, err => {});
 
       var e = open_interface;
@@ -616,6 +615,7 @@ var customTypeOptions = ["Default", "Flower"];
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "dictFromTexture": () => (/* binding */ dictFromTexture),
 /* harmony export */   "imageNameToTexture": () => (/* binding */ imageNameToTexture)
 /* harmony export */ });
 /* harmony import */ var core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.function.name.js */ "./node_modules/core-js/modules/es.function.name.js");
@@ -626,6 +626,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.string.split.js */ "./node_modules/core-js/modules/es.string.split.js");
 /* harmony import */ var core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_array_for_each_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.array.for-each.js */ "./node_modules/core-js/modules/es.array.for-each.js");
+/* harmony import */ var core_js_modules_es_array_for_each_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.object.to-string.js */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each.js */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each_js__WEBPACK_IMPORTED_MODULE_6__);
+
+
+
 
 
 
@@ -640,6 +649,19 @@ function imageNameToTexture(namespace, type, image) {
   }
 
   return namespace + ":" + type + "/" + nm;
+}
+function dictFromTexture(image, ns) {
+  var ret = "";
+  Texture.all.forEach(function (tx) {
+    if (tx.name == image || image == "particle" && tx.particle == true) {
+      if (tx.namespace == "") {
+        ret = ns + ":blocks/" + tx.name.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
+      } else {
+        ret = tx.namespace + ":" + tx.folder + "/" + tx.name.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
+      }
+    }
+  });
+  return ret;
 }
 
 /***/ }),
@@ -3765,64 +3787,6 @@ if (NOT_GENERIC || INCORRECT_NAME) {
     return '/' + pattern + '/' + flags;
   }, { unsafe: true });
 }
-
-
-/***/ }),
-
-/***/ "./node_modules/core-js/modules/es.string.match.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/core-js/modules/es.string.match.js ***!
-  \*********************************************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
-
-"use strict";
-
-var call = __webpack_require__(/*! ../internals/function-call */ "./node_modules/core-js/internals/function-call.js");
-var fixRegExpWellKnownSymbolLogic = __webpack_require__(/*! ../internals/fix-regexp-well-known-symbol-logic */ "./node_modules/core-js/internals/fix-regexp-well-known-symbol-logic.js");
-var anObject = __webpack_require__(/*! ../internals/an-object */ "./node_modules/core-js/internals/an-object.js");
-var toLength = __webpack_require__(/*! ../internals/to-length */ "./node_modules/core-js/internals/to-length.js");
-var toString = __webpack_require__(/*! ../internals/to-string */ "./node_modules/core-js/internals/to-string.js");
-var requireObjectCoercible = __webpack_require__(/*! ../internals/require-object-coercible */ "./node_modules/core-js/internals/require-object-coercible.js");
-var getMethod = __webpack_require__(/*! ../internals/get-method */ "./node_modules/core-js/internals/get-method.js");
-var advanceStringIndex = __webpack_require__(/*! ../internals/advance-string-index */ "./node_modules/core-js/internals/advance-string-index.js");
-var regExpExec = __webpack_require__(/*! ../internals/regexp-exec-abstract */ "./node_modules/core-js/internals/regexp-exec-abstract.js");
-
-// @@match logic
-fixRegExpWellKnownSymbolLogic('match', function (MATCH, nativeMatch, maybeCallNative) {
-  return [
-    // `String.prototype.match` method
-    // https://tc39.es/ecma262/#sec-string.prototype.match
-    function match(regexp) {
-      var O = requireObjectCoercible(this);
-      var matcher = regexp == undefined ? undefined : getMethod(regexp, MATCH);
-      return matcher ? call(matcher, regexp, O) : new RegExp(regexp)[MATCH](toString(O));
-    },
-    // `RegExp.prototype[@@match]` method
-    // https://tc39.es/ecma262/#sec-regexp.prototype-@@match
-    function (string) {
-      var rx = anObject(this);
-      var S = toString(string);
-      var res = maybeCallNative(nativeMatch, rx, S);
-
-      if (res.done) return res.value;
-
-      if (!rx.global) return regExpExec(rx, S);
-
-      var fullUnicode = rx.unicode;
-      rx.lastIndex = 0;
-      var A = [];
-      var n = 0;
-      var result;
-      while ((result = regExpExec(rx, S)) !== null) {
-        var matchStr = toString(result[0]);
-        A[n] = matchStr;
-        if (matchStr === '') rx.lastIndex = advanceStringIndex(S, toLength(rx.lastIndex), fullUnicode);
-        n++;
-      }
-      return n === 0 ? null : A;
-    }
-  ];
-});
 
 
 /***/ }),
@@ -19879,6 +19843,54 @@ var render = function () {
                 ),
               ]),
             ]),
+            _vm._v(" "),
+            _vm.types.block
+              ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                  _c("div", { staticClass: "headerLabel" }, [
+                    _vm._v("Texture"),
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.variant.default.all,
+                          expression: "variant.default.all",
+                        },
+                      ],
+                      staticClass: "dark_bordered",
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.variant.default,
+                            "all",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                      },
+                    },
+                    _vm._l(_vm.Textures(), function (op) {
+                      return _c("option", { key: op }, [
+                        _vm._v(_vm._s(op.name)),
+                      ])
+                    }),
+                    0
+                  ),
+                ])
+              : _vm._e(),
           ]),
           _c("br"),
           _vm._v(" "),

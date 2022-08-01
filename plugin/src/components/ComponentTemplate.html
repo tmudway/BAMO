@@ -64,6 +64,12 @@
                 <div class = "headerLabel">Standard Block</div>
                 <p class="headerDescription">Standard minecraft block with identical textures on all faces</p>
             </li>
+            <li style="padding-left: 20px" v-if="types.block">
+                <div class = "headerLabel">Texture</div>
+                <select class="dark_bordered" v-model="variant.default.all" >
+                    <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
+                </select>
+            </li>
         </ul><br>
 
         <button @click.prevent="changePage($event, 'start')">Previous</button>

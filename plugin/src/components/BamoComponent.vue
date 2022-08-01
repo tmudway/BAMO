@@ -1,7 +1,7 @@
 <script>
 import { rotationTypes, soundOptions, materialOptions, transparencyOptions, tabOptions, customTypeOptions } from '../util/OptionArrays.js';
 import {genWallState, genStairState} from '../util/GenStates.js'
-import {imageNameToTexture} from '../util/Utils.js'
+import {dictFromTexture} from '../util/Utils.js'
 
 export default {
     data() {
@@ -38,6 +38,9 @@ export default {
             },
 
             variant: {
+                default:{
+                    all: Texture.all[0].name,
+                },
                 stair: {
                     top: Texture.all[0].name,
                     bottom: Texture.all[0].name,
@@ -172,31 +175,20 @@ export default {
                     stateData = JSON.stringify({"variants" : {"" : {"model" : this.properties.namespace + ":block/" + blockName}}});
                 }
                 
-
-                
                 var textureData = {}
 
-                // Add namespace to textures if needed
+                // Setup texture dict
+                ns = this.properties.namespace
                 Object.keys(modelData.textures).forEach((key) => {
-
-                    // Need to work out what format the texture is in
-                    console.log(modelData.textures[key])
-                    // Object
-                    if (modelData.textures[key].constructor == Object){
-                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key]["name"].split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()
-                    
-                    // String, but with multiple /
-                    }else if (modelData.textures[key].match("[a-z_]+/[a-z_]+")){
-                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key].split("/")[1].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
-
-                    // Other unformatted String
-                    }else if (!modelData.textures[key].match("bamo:blocks/[a-z_]+")){
-                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
-
-                    // Formatted String
-                    }else{
-                        textureData[key] = modelData.textures[key].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()
-                    }
+                    Texture.all.forEach(function(tx){
+                        if ((tx.id == key) || (key == "particle" && tx.particle == true)){
+                            if (tx.namespace == ""){
+                                textureData[key] = ns + ":blocks/" + tx.name.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()
+                            }else{
+                                textureData[key] = tx.namespace + ":" + tx.folder + "/" + tx.name.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()
+                            } 
+                        }
+                    })
                 })
 
                 modelData.textures = textureData
@@ -215,8 +207,8 @@ export default {
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "block/cube_all";
                 modelData["textures"] = {
-                    "all": imageNameToTexture(this.properties.namespace, "blocks", Texture.all[0]),
-                    "particle": imageNameToTexture(this.properties.namespace, "blocks", Texture.all[0])
+                    "all": dictFromTexture(this.variant.default.all, this.properties.namespace),//imageNameToTexture(this.properties.namespace, "blocks", Texture.all[0]),
+                    "particle": dictFromTexture("particle", this.properties.namespace)
                 };
 
                 var state = JSON.stringify({"variants": {"": {"model": this.properties.namespace + ":block/" + blockName}}});
@@ -238,10 +230,10 @@ export default {
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "minecraft:block/stairs";
                 modelData["textures"] = {
-                    "top": imageNameToTexture(this.properties.namespace, "blocks", this.variant.stair.top),
-                    "bottom": imageNameToTexture(this.properties.namespace, "blocks", this.variant.stair.bottom),
-                    "side": imageNameToTexture(this.properties.namespace, "blocks", this.variant.stair.side),
-                    "particle": imageNameToTexture(this.properties.namespace, "blocks", this.variant.stair.top)
+                    "top": dictFromTexture(this.variant.stair.top, this.properties.namespace),
+                    "bottom": dictFromTexture(this.variant.stair.bottom, this.properties.namespace), 
+                    "side": dictFromTexture(this.variant.stair.side, this.properties.namespace),
+                    "particle": dictFromTexture("particle", this.properties.namespace)
                 };
                 
                 // Write state
@@ -273,10 +265,10 @@ export default {
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "minecraft:block/slab"
                 modelData["textures"] = {
-                    "top": imageNameToTexture(this.properties.namespace, "blocks", this.variant.slab.top),
-                    "bottom": imageNameToTexture(this.properties.namespace, "blocks", this.variant.slab.bottom),
-                    "side": imageNameToTexture(this.properties.namespace, "blocks", this.variant.slab.side),
-                    "particle": imageNameToTexture(this.properties.namespace, "blocks", this.variant.slab.top)
+                    "top": dictFromTexture(this.variant.slab.top, this.properties.namespace),
+                    "bottom": dictFromTexture(this.variant.slab.bottom, this.properties.namespace), 
+                    "side": dictFromTexture(this.variant.slab.side, this.properties.namespace),
+                    "particle": dictFromTexture("particle", this.properties.namespace)
                 }
 
                 // Write State
@@ -308,8 +300,8 @@ export default {
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "minecraft:block/template_wall_post";
                 modelData["textures"] = {
-                    "wall": imageNameToTexture(this.properties.namespace, "blocks", this.variant.wall.wall),
-                    "particle": imageNameToTexture(this.properties.namespace, "blocks", this.variant.wall.wall)
+                    "wall": dictFromTexture(this.variant.wall.wall, this.properties.namespace),
+                    "particle": dictFromTexture("particle", this.properties.namespace)
                 }
 
                 // Write State
@@ -350,14 +342,16 @@ export default {
             // Copy texture files
             Texture.all.forEach(function(tx){
                 var image;
-                if (tx.img.currentSrc.slice(0, 4) == "data"){
-                    image = nativeImage.createFromDataURL(tx.img.currentSrc).toPNG();
-                }else if(tx.img.currentSrc.slice(0, 4) == "file"){
-                    image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
+                if (tx.namespace != "minecraft"){
+                    if (tx.img.currentSrc.slice(0, 4) == "data"){
+                        image = nativeImage.createFromDataURL(tx.img.currentSrc).toPNG();
+                    }else if(tx.img.currentSrc.slice(0, 4) == "file"){
+                        image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
+                    }
+        
+                    fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
+                    zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image)
                 }
-    
-                fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
-                zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image)
             })
 
             blockList.forEach(block => {
@@ -372,7 +366,7 @@ export default {
                 zip.file("assets/" + this.properties.namespace + "/models/item/" + block["name"] + ".json", JSON.stringify(block["model"]))
                 // Write block properties file
                 var data = {
-                    "displayName" : this.properties.displayName, //block["name"], 
+                    "displayName" : this.properties.displayName, 
                     "typeList" : block["types"],
                     "material" : this.properties.material,
                     "blastRes" : this.properties.blastRes,
@@ -395,10 +389,10 @@ export default {
 
             zip.generateAsync({type:"nodebuffer"})
             .then(function (content) {
-                fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + ".zip", content, err => {});
+                //fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + ".zip", content, err => {});
             });
 
-            fs.rm(settings.minecraftFolder.value + "\\bamopacks\\" + packName, {recursive: true}, err => {});
+            //fs.rm(settings.minecraftFolder.value + "\\bamopacks\\" + packName, {recursive: true}, err => {});
 
             let e = open_interface;
             e.hide();
