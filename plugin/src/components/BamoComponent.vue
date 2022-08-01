@@ -121,7 +121,7 @@ export default {
             var JSZip = require("jszip");
             var zip = new JSZip();
 
-            var packName = this.properties.displayName.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();//"bamo";
+            var packName = this.properties.displayName.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();//"bamo";
 
             // Define folder locations
             var objFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\objects\\";
@@ -147,7 +147,7 @@ export default {
             zip.file("pack.mcmeta", JSON.stringify(mcmetaData))
 
             // Generate block name from the displayname
-            var blockName = this.properties.displayName.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();
+            var blockName = this.properties.displayName.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
 
             //generate the list of blocks to be exported
             var blockList = [];
@@ -183,19 +183,19 @@ export default {
                     console.log(modelData.textures[key])
                     // Object
                     if (modelData.textures[key].constructor == Object){
-                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key]["name"].split(".")[0].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase()
+                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key]["name"].split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()
                     
                     // String, but with multiple /
                     }else if (modelData.textures[key].match("[a-z_]+/[a-z_]+")){
-                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key].split("/")[1].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();
+                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key].split("/")[1].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
 
                     // Other unformatted String
                     }else if (!modelData.textures[key].match("bamo:blocks/[a-z_]+")){
-                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();
+                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
 
                     // Formatted String
                     }else{
-                        textureData[key] = modelData.textures[key].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase()
+                        textureData[key] = modelData.textures[key].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()
                     }
                 })
 
@@ -353,11 +353,11 @@ export default {
                 if (tx.img.currentSrc.slice(0, 4) == "data"){
                     image = nativeImage.createFromDataURL(tx.img.currentSrc).toPNG();
                 }else if(tx.img.currentSrc.slice(0, 4) == "file"){
-                    image = nativeImage.createFromPath(tx.source.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase()).toPNG();
+                    image = nativeImage.createFromPath(tx.source.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()).toPNG();
                 }
     
-                fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
-                zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(), image)
+                fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
+                zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image)
             })
 
             blockList.forEach(block => {
@@ -386,6 +386,7 @@ export default {
                     "creativeTab" : this.properties.creativeTab,
                     "transparency": this.properties.transparency,
                     "hitbox": block["hitbox"],
+                    "blockType" : this.types.customType,
                 };
 
                 fs.writeFile(objFolder + "\\" + block["name"] + ".json", JSON.stringify(data), "utf8", err => {if (err != null) {console.log("Error writing block properties:", err);}});
