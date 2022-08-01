@@ -18,12 +18,10 @@ class BAMOWallBlock(prop:Properties, data: BlockData) : WallBlock(prop){
     }
 
     override fun getName(): IFormattableTextComponent {
-        println("Test getName")
         return bamoFunc.getName()
     }
 
     override fun getDescriptionId(): String {
-        println("Test getDescID")
         return bamoFunc.getDescID()
     }
 }

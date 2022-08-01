@@ -17,12 +17,10 @@ class BAMOStairsBlock(state: Supplier<BlockState>, prop:Properties, data: BlockD
     }
 
     override fun getName(): IFormattableTextComponent {
-        println("Test getName")
         return bamoFunc.getName()
     }
 
     override fun getDescriptionId(): String {
-        println("Test getDescID")
         return bamoFunc.getDescID()
     }
 }
