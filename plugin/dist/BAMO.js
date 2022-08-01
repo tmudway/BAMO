@@ -58,6 +58,7 @@ __webpack_require__.r(__webpack_exports__);
       materialOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.materialOptions,
       transparencyOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.transparencyOptions,
       tabOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.tabOptions,
+      customTypeOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_10__.customTypeOptions,
       // Data to be exported
       properties: {
         namespace: "bamo",
@@ -85,18 +86,19 @@ __webpack_require__.r(__webpack_exports__);
           particle: Texture.all[0].name
         },
         slab: {
-          top: Texture.all[0],
-          bottom: Texture.all[0],
-          side: Texture.all[0],
-          particle: Texture.all[0]
+          top: Texture.all[0].name,
+          bottom: Texture.all[0].name,
+          side: Texture.all[0].name,
+          particle: Texture.all[0].name
         },
         wall: {
-          wall: Texture.all[0],
-          particle: Texture.all[0]
+          wall: Texture.all[0].name,
+          particle: Texture.all[0].name
         }
       },
       types: {
         custom: true,
+        customType: "Default",
         block: false,
         stair: false,
         slab: false,
@@ -126,6 +128,9 @@ __webpack_require__.r(__webpack_exports__);
     toggleType: function toggleType(event, type) {
       if (this.types.custom && type == "custom") {
         this.types.block = false;
+        this.types.stair = false;
+        this.types.slab = false;
+        this.types.wall = false;
         return;
       }
 
@@ -149,7 +154,7 @@ __webpack_require__.r(__webpack_exports__);
       var JSZip = __webpack_require__(/*! jszip */ "./node_modules/jszip/lib/index.js");
 
       var zip = new JSZip();
-      var packName = this.properties.displayName.replace(/\s+/g, '').toLowerCase(); //"bamo";
+      var packName = this.properties.displayName.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(); //"bamo";
       // Define folder locations
 
       var objFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\objects\\";
@@ -184,7 +189,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       zip.file("pack.mcmeta", JSON.stringify(mcmetaData)); // Generate block name from the displayname
 
-      var blockName = this.properties.displayName.replace(/\s+/g, '').toLowerCase(); //generate the list of blocks to be exported
+      var blockName = this.properties.displayName.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(); //generate the list of blocks to be exported
 
       var blockList = [];
       var codecData = Format.codec.compile(); // Custom Block
@@ -232,13 +237,13 @@ __webpack_require__.r(__webpack_exports__);
           console.log(modelData.textures[key]); // Object
 
           if (modelData.textures[key].constructor == Object) {
-            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key]["name"].split(".")[0].replace(/\s+/g, '').toLowerCase(); // String, but with multiple /
+            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key]["name"].split(".")[0].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(); // String, but with multiple /
           } else if (modelData.textures[key].match("[a-z_]+/[a-z_]+")) {
-            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key].split("/")[1].replace(/\s+/g, '').toLowerCase(); // Other unformatted String
+            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key].split("/")[1].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(); // Other unformatted String
           } else if (!modelData.textures[key].match("bamo:blocks/[a-z_]+")) {
-            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key].replace(/\s+/g, '').toLowerCase(); // Formatted String
+            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(); // Formatted String
           } else {
-            textureData[key] = modelData.textures[key].replace(/\s+/g, '').toLowerCase();
+            textureData[key] = modelData.textures[key].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();
           }
         });
         modelData.textures = textureData;
@@ -469,15 +474,15 @@ __webpack_require__.r(__webpack_exports__);
         if (tx.img.currentSrc.slice(0, 4) == "data") {
           image = nativeImage.createFromDataURL(tx.img.currentSrc).toPNG();
         } else if (tx.img.currentSrc.slice(0, 4) == "file") {
-          image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
+          image = nativeImage.createFromPath(tx.source.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase()).toPNG();
         }
 
-        fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/\s+/g, '').toLowerCase(), image, function (err) {
+        fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(), image, function (err) {
           if (err != null) {
             console.log("Error Found writing texture data:", err);
           }
         });
-        zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/\s+/g, '').toLowerCase(), image);
+        zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(), image);
       });
       blockList.forEach(function (block) {
         // Write state file
@@ -574,6 +579,7 @@ function genWallState(namespace, post, side, tall) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "customTypeOptions": () => (/* binding */ customTypeOptions),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   "materialOptions": () => (/* binding */ materialOptions),
 /* harmony export */   "rotationTypes": () => (/* binding */ rotationTypes),
@@ -590,12 +596,14 @@ var soundOptions = ["Grass", "Glass", "Gravel", "Honey", "Metal", "Sand", "Snow"
 var materialOptions = ["Dirt", "Air", "Bamboo", "Bamboo Sapling", "Barrier", "Bubble Column", "Buildable Glass", "Cactus", "Cake", "Clay", "Coral", "Cloth Decoration", "Decoration", "Egg", "Explosive", "Fire", "Glass", "Grass", "Heavy Metal", "Ice", "Ice Solid", "Lava", "Leaves", "Metal", "Nether Wood", "Piston", "Plant", "Portal", "Replaceable Plant", "Replaceable Fireproof Plant", "Replaceable Water Plant", "Sand", "Shulker Shell", "Snow", "Sponge", "Stone", "Structural Air", "Top Snow", "Vegetable", "Water", "Water Plant", "Web", "Wood", "Wool"];
 var transparencyOptions = ["Solid", "Translucent", "Cutout", "Cutout (Mipped)"];
 var tabOptions = ["Building Blocks", "Brewing", "Combat", "Food", "Decorations", "Misc", "Redstone", "Tools", "Transportation"];
+var customTypeOptions = ["Default", "Flower"];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   rotationTypes: rotationTypes,
   soundOptions: soundOptions,
   materialOptions: materialOptions,
   transparencyOptions: transparencyOptions,
-  tabOptions: tabOptions
+  tabOptions: tabOptions,
+  customTypeOptions: customTypeOptions
 });
 
 /***/ }),
@@ -615,8 +623,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.regexp.exec.js */ "./node_modules/core-js/modules/es.regexp.exec.js");
 /* harmony import */ var core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.string.split.js */ "./node_modules/core-js/modules/es.string.split.js");
-/* harmony import */ var core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.string.replace.js */ "./node_modules/core-js/modules/es.string.replace.js");
+/* harmony import */ var core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.string.split.js */ "./node_modules/core-js/modules/es.string.split.js");
+/* harmony import */ var core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_split_js__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -624,9 +635,9 @@ function imageNameToTexture(namespace, type, image) {
   var nm = "";
 
   if (image.name) {
-    nm = image.name.split(".")[0];
+    nm = image.name.split(".")[0].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();
   } else {
-    nm = image.split(".")[0];
+    nm = image.split(".")[0].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();
   }
 
   return namespace + ":" + type + "/" + nm;
@@ -19710,7 +19721,7 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("ul", { staticClass: "settingsList" }, [
-            _c("li", [
+            _c("li", { staticStyle: { "padding-bottom": "5px" } }, [
               _c("input", {
                 directives: [
                   {
@@ -19765,6 +19776,52 @@ var render = function () {
                 _vm._v("Block with a custom model and hitbox"),
               ]),
             ]),
+            _vm._v(" "),
+            _vm.types.custom
+              ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                  _c("div", { staticClass: "headerLabel" }, [
+                    _vm._v("Custom Block Type"),
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.types.customType,
+                          expression: "types.customType",
+                        },
+                      ],
+                      staticClass: "dark_bordered",
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.types,
+                            "customType",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                      },
+                    },
+                    _vm._l(_vm.customTypeOptions, function (op) {
+                      return _c("option", { key: op }, [_vm._v(_vm._s(op))])
+                    }),
+                    0
+                  ),
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _c("li", [
               _c("input", {
@@ -21382,7 +21439,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var core_js_modules_es_regexp_to_string_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.regexp.to-string.js */ "./node_modules/core-js/modules/es.regexp.to-string.js");
 /* harmony import */ var core_js_modules_es_regexp_to_string_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string_js__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _components_BamoComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/BamoComponent.vue */ "./src/components/BamoComponent.vue");
+/* harmony import */ var core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.function.name.js */ "./node_modules/core-js/modules/es.function.name.js");
+/* harmony import */ var core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_BamoComponent_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/BamoComponent.vue */ "./src/components/BamoComponent.vue");
+
 
 
 
@@ -21399,7 +21459,7 @@ Plugin.register('BAMO', {
   author: 'Ryytikki',
   description: 'Exports block metadata for use in the BAMO mod',
   icon: 'bar_chart',
-  version: '0.3.2',
+  version: '0.3.3',
   variant: 'both',
   onload: function onload() {
     // Setting that holds the resource pack folder location
@@ -21416,20 +21476,24 @@ Plugin.register('BAMO', {
       description: 'Exports block metadata for BAMO mod',
       icon: 'fa-cube',
       click: function click() {
-        exportWindow.show();
+        if (Project.name != undefined) {
+          if (Settings.get('minecraftFolder') != undefined && Settings.get('minecraftFolder') != '') {
+            exportWindow.show(); //exportWindow.content_vue.reset();
+          } else {
+            Blockbench.showMessageBox({
+              buttons: ["Ok"],
+              title: "Error",
+              message: "You must set your Minecraft folder location under Settings->Export"
+            });
+          }
+        } else {
+          Blockbench.showMessageBox({
+            buttons: ["Ok"],
+            title: "Error",
+            message: "Please ensure your file is saved before exporting. If you see this for a saved file, reload it and try again"
+          });
+        }
       }
-      /*	if (Project.name != undefined){
-      		if ((Settings.get('minecraftFolder') != undefined) && (Settings.get('minecraftFolder') != '')){
-      			exportWindow.show();
-      			//exportWindow.content_vue.reset();
-      		}else{
-      			Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "You must set your Minecraft folder location under Settings->Export"});
-      		}
-      	}else{
-      		Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "Please ensure your file is saved before exporting. If you see this for a saved file, reload it and try again"});
-      	}
-      }*/
-
     });
     MenuBar.addAction(btn, 'file'); // Dialog that opens when you click the button1
     // See the BamoComponent object for details
@@ -21437,7 +21501,7 @@ Plugin.register('BAMO', {
     exportWindow = new Dialog('BAMOExportWindow', {
       id: "BAMO",
       title: 'BAMO Exporter',
-      component: _components_BamoComponent_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+      component: _components_BamoComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
       buttons: [],
       padding: !1,
       width: 720,

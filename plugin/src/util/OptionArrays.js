@@ -122,4 +122,6 @@ export const tabOptions = [
     "Transportation"
 ];
 
-export default {rotationTypes, soundOptions, materialOptions, transparencyOptions, tabOptions };
+export const customTypeOptions = ["Default", "Flower"];
+
+export default {rotationTypes, soundOptions, materialOptions, transparencyOptions, tabOptions, customTypeOptions};

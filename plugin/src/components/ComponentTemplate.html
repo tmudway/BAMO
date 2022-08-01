@@ -53,6 +53,12 @@
                 <div class = "headerLabel">Custom Block</div>
                 <p class="headerDescription">Block with a custom model and hitbox</p>
             </li>
+            <li style="padding-left: 20px" v-if="types.custom">
+                <div class = "headerLabel">Custom Block Type</div>
+                <select class="dark_bordered" v-model = "types.customType">
+                    <option v-for="op in customTypeOptions" v-bind:key="op">{{op}}</option>
+                </select>
+            </li>
             <li>
                 <input type="checkbox" v-model="types.block" v-on:change="toggleType($event, 'block')">
                 <div class = "headerLabel">Standard Block</div>
@@ -156,7 +162,7 @@
             <li>
                 <input type="checkbox" v-model="properties.gravity">
                 <div class = "headerLabel">Gravity</div>
-                <p class="headerDescription">Determines if the block falls due to gravity</p>
+                <p class="headerDescription">Determines if the block falls due to gravity (No effect for non-default custom blocks)</p>
             </li>
         </ul>
         <button @click.prevent="changePage($event, 'types')">Previous</button>

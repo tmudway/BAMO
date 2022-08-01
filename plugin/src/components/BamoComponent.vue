@@ -1,5 +1,5 @@
 <script>
-import { rotationTypes, soundOptions, materialOptions, transparencyOptions, tabOptions } from '../util/OptionArrays.js';
+import { rotationTypes, soundOptions, materialOptions, transparencyOptions, tabOptions, customTypeOptions } from '../util/OptionArrays.js';
 import {genWallState, genStairState} from '../util/GenStates.js'
 import {imageNameToTexture} from '../util/Utils.js'
 
@@ -14,6 +14,7 @@ export default {
             materialOptions: materialOptions,
             transparencyOptions: transparencyOptions,
             tabOptions: tabOptions,
+            customTypeOptions:customTypeOptions,
 
             // Data to be exported
             properties: {
@@ -44,24 +45,26 @@ export default {
                     particle: Texture.all[0].name
                 },
                 slab: {
-                    top: Texture.all[0],
-                    bottom: Texture.all[0],
-                    side: Texture.all[0],
-                    particle: Texture.all[0]
+                    top: Texture.all[0].name,
+                    bottom: Texture.all[0].name,
+                    side: Texture.all[0].name,
+                    particle: Texture.all[0].name
                 },
                 wall: {
-                    wall:Texture.all[0],
-                    particle: Texture.all[0]
+                    wall:Texture.all[0].name,
+                    particle: Texture.all[0].name
                 }
             },
 
             types: {
                 custom: true,
+                customType: "Default",
                 block: false,
                 stair: false,
                 slab: false,
                 wall: false,
             }
+
         }
     },
     computed:{
@@ -91,6 +94,9 @@ export default {
             
             if (this.types.custom && type=="custom"){
                 this.types.block = false
+                this.types.stair = false
+                this.types.slab = false
+                this.types.wall = false
                 return
             }
 
@@ -115,7 +121,7 @@ export default {
             var JSZip = require("jszip");
             var zip = new JSZip();
 
-            var packName = this.properties.displayName.replace(/\s+/g, '').toLowerCase();//"bamo";
+            var packName = this.properties.displayName.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();//"bamo";
 
             // Define folder locations
             var objFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\objects\\";
@@ -141,7 +147,7 @@ export default {
             zip.file("pack.mcmeta", JSON.stringify(mcmetaData))
 
             // Generate block name from the displayname
-            var blockName = this.properties.displayName.replace(/\s+/g, '').toLowerCase();
+            var blockName = this.properties.displayName.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();
 
             //generate the list of blocks to be exported
             var blockList = [];
@@ -177,19 +183,19 @@ export default {
                     console.log(modelData.textures[key])
                     // Object
                     if (modelData.textures[key].constructor == Object){
-                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key]["name"].split(".")[0].replace(/\s+/g, '').toLowerCase()
+                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key]["name"].split(".")[0].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase()
                     
                     // String, but with multiple /
                     }else if (modelData.textures[key].match("[a-z_]+/[a-z_]+")){
-                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key].split("/")[1].replace(/\s+/g, '').toLowerCase();
+                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key].split("/")[1].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();
 
                     // Other unformatted String
                     }else if (!modelData.textures[key].match("bamo:blocks/[a-z_]+")){
-                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key].replace(/\s+/g, '').toLowerCase();
+                        textureData[key] = this.properties.namespace + ":blocks/" + modelData.textures[key].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();
 
                     // Formatted String
                     }else{
-                        textureData[key] = modelData.textures[key].replace(/\s+/g, '').toLowerCase()
+                        textureData[key] = modelData.textures[key].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase()
                     }
                 })
 
@@ -347,11 +353,11 @@ export default {
                 if (tx.img.currentSrc.slice(0, 4) == "data"){
                     image = nativeImage.createFromDataURL(tx.img.currentSrc).toPNG();
                 }else if(tx.img.currentSrc.slice(0, 4) == "file"){
-                    image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
+                    image = nativeImage.createFromPath(tx.source.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase()).toPNG();
                 }
     
-                fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/\s+/g, '').toLowerCase(), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
-                zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/\s+/g, '').toLowerCase(), image)
+                fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
+                zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(), image)
             })
 
             blockList.forEach(block => {
