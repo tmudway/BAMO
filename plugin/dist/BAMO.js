@@ -154,7 +154,7 @@ __webpack_require__.r(__webpack_exports__);
       var JSZip = __webpack_require__(/*! jszip */ "./node_modules/jszip/lib/index.js");
 
       var zip = new JSZip();
-      var packName = this.properties.displayName.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(); //"bamo";
+      var packName = this.properties.displayName.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(); //"bamo";
       // Define folder locations
 
       var objFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\objects\\";
@@ -189,7 +189,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       zip.file("pack.mcmeta", JSON.stringify(mcmetaData)); // Generate block name from the displayname
 
-      var blockName = this.properties.displayName.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(); //generate the list of blocks to be exported
+      var blockName = this.properties.displayName.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(); //generate the list of blocks to be exported
 
       var blockList = [];
       var codecData = Format.codec.compile(); // Custom Block
@@ -237,13 +237,13 @@ __webpack_require__.r(__webpack_exports__);
           console.log(modelData.textures[key]); // Object
 
           if (modelData.textures[key].constructor == Object) {
-            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key]["name"].split(".")[0].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(); // String, but with multiple /
+            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key]["name"].split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(); // String, but with multiple /
           } else if (modelData.textures[key].match("[a-z_]+/[a-z_]+")) {
-            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key].split("/")[1].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(); // Other unformatted String
+            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key].split("/")[1].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(); // Other unformatted String
           } else if (!modelData.textures[key].match("bamo:blocks/[a-z_]+")) {
-            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(); // Formatted String
+            textureData[key] = _this.properties.namespace + ":blocks/" + modelData.textures[key].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(); // Formatted String
           } else {
-            textureData[key] = modelData.textures[key].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();
+            textureData[key] = modelData.textures[key].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
           }
         });
         modelData.textures = textureData;
@@ -474,15 +474,15 @@ __webpack_require__.r(__webpack_exports__);
         if (tx.img.currentSrc.slice(0, 4) == "data") {
           image = nativeImage.createFromDataURL(tx.img.currentSrc).toPNG();
         } else if (tx.img.currentSrc.slice(0, 4) == "file") {
-          image = nativeImage.createFromPath(tx.source.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase()).toPNG();
+          image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
         }
 
-        fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(), image, function (err) {
+        fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image, function (err) {
           if (err != null) {
             console.log("Error Found writing texture data:", err);
           }
         });
-        zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase(), image);
+        zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image);
       });
       blockList.forEach(function (block) {
         // Write state file
@@ -521,7 +521,8 @@ __webpack_require__.r(__webpack_exports__);
           "fireproof": _this.properties.fireproof,
           "creativeTab": _this.properties.creativeTab,
           "transparency": _this.properties.transparency,
-          "hitbox": block["hitbox"]
+          "hitbox": block["hitbox"],
+          "blockType": _this.types.customType
         };
         fs.writeFile(objFolder + "\\" + block["name"] + ".json", JSON.stringify(data), "utf8", function (err) {
           if (err != null) {
@@ -534,10 +535,8 @@ __webpack_require__.r(__webpack_exports__);
         type: "nodebuffer"
       }).then(function (content) {
         fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + ".zip", content, function (err) {});
-      });
-      fs.rm(settings.minecraftFolder.value + "\\bamopacks\\" + packName, {
-        recursive: true
-      }, function (err) {});
+      }); //fs.rm(settings.minecraftFolder.value + "\\bamopacks\\" + packName, {recursive: true}, err => {});
+
       var e = open_interface;
       e.hide();
     }
@@ -635,9 +634,9 @@ function imageNameToTexture(namespace, type, image) {
   var nm = "";
 
   if (image.name) {
-    nm = image.name.split(".")[0].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();
+    nm = image.name.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
   } else {
-    nm = image.split(".")[0].replace(/[^a-zA-Z\d\s]/g, '').replace(/\s+/g, "_").toLowerCase();
+    nm = image.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
   }
 
   return namespace + ":" + type + "/" + nm;
@@ -19721,7 +19720,7 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("ul", { staticClass: "settingsList" }, [
-            _c("li", { staticStyle: { "padding-bottom": "5px" } }, [
+            _c("li", [
               _c("input", {
                 directives: [
                   {
@@ -20649,7 +20648,9 @@ var render = function () {
               _c("div", { staticClass: "headerLabel" }, [_vm._v("Gravity")]),
               _vm._v(" "),
               _c("p", { staticClass: "headerDescription" }, [
-                _vm._v("Determines if the block falls due to gravity"),
+                _vm._v(
+                  "Determines if the block falls due to gravity (No effect for non-default custom blocks)"
+                ),
               ]),
             ]),
           ]),

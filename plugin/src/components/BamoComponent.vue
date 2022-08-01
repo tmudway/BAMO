@@ -353,7 +353,7 @@ export default {
                 if (tx.img.currentSrc.slice(0, 4) == "data"){
                     image = nativeImage.createFromDataURL(tx.img.currentSrc).toPNG();
                 }else if(tx.img.currentSrc.slice(0, 4) == "file"){
-                    image = nativeImage.createFromPath(tx.source.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()).toPNG();
+                    image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
                 }
     
                 fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
