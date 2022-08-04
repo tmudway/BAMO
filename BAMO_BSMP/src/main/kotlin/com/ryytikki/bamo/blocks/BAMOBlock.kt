@@ -4,29 +4,28 @@ import com.ryytikki.bamo.tools.BamoFunctionProvider
 import com.ryytikki.bamo.tools.BlockData
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.ShapeContext
+import net.minecraft.text.MutableText
 import net.minecraft.util.math.BlockPos
-/*import net.minecraft.util.math.shapes.ISelectionContext
-import net.minecraft.util.math.shapes.VoxelShape
-import net.minecraft.util.text.IFormattableTextComponent
-import net.minecraft.world.IBlockReader*/
+import net.minecraft.util.shape.VoxelShape
+import net.minecraft.world.BlockView
 
-class BAMOBlock(prop:Settings, data: BlockData) : Block(prop){
-
-    private val bamoFunc:BamoFunctionProvider
+class BAMOBlock(prop: Settings, data: BlockData) : Block(prop){
+    private val bamoFunc: BamoFunctionProvider
 
     init {
         bamoFunc = BamoFunctionProvider(this, data)
     }
 
-    /*override fun getShape(state:BlockState, worldIn:IBlockReader, pos:BlockPos, context: ISelectionContext): VoxelShape{
+    override fun getOutlineShape(state: BlockState, worldIn: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
         return bamoFunc.getBoundingBox()
     }
 
-    override fun getName(): IFormattableTextComponent {
+    override fun getName(): MutableText {
         return bamoFunc.getName()
     }
 
-    override fun getDescriptionId(): String {
+    override fun getTranslationKey(): String {
         return bamoFunc.getDescID()
-    }*/
+    }
 }

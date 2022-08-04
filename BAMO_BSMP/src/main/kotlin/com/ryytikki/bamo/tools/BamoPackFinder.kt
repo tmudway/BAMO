@@ -3,13 +3,14 @@ package com.ryytikki.bamo.tools
 import com.mojang.bridge.game.PackType
 import com.ryytikki.bamo.ID
 import com.ryytikki.bamo.LOGGER
+import net.fabricmc.api.EnvType
+import net.fabricmc.fabric.mixin.resource.loader.ResourcePackManagerAccessor
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.SharedConstants
 import net.minecraft.client.MinecraftClient
 import net.minecraft.resource.ZipResourcePack
 import net.minecraft.resource.DirectoryResourcePack
 import net.minecraft.resource.ResourcePackProvider
-import net.minecraft.resource.ResourcePackSource
 import net.minecraft.resource.ResourcePackSource.PACK_SOURCE_NONE
 import net.minecraft.resource.ResourcePackProfile
 import net.minecraft.resource.ResourcePackProfile.Factory
@@ -17,8 +18,6 @@ import net.minecraft.resource.ResourcePackProfile.InsertionPosition.TOP
 import net.minecraft.resource.metadata.PackResourceMetadata
 import net.minecraft.server.MinecraftServer
 import net.minecraft.text.TranslatableText
-import net.minecraftforge.fml.loading.FMLEnvironment
-import net.minecraftforge.fml.packs.DelegatingResourcePack
 import java.io.File
 import java.io.FileFilter
 import java.util.function.Consumer
@@ -47,28 +46,26 @@ object BamoPackFinder : ResourcePackProvider {
             ResourcePackProfile.of(name, true, packSupplier, infoFactory, TOP, PACK_SOURCE_NONE)
         }
         // Skip merging on the server since it doesn't matter there
-        if (FMLEnvironment.dist.isDedicatedServer) return compiledInfo.forEach(infoConsumer::accept)
+        if (FabricLoader.getInstance().environmentType == EnvType.SERVER) return compiledInfo.forEach(infoConsumer::accept)
         // open just calls the supplier so... this is probably fine, right?
-        val packs = compiledInfo.map { it.open() }
+        val packs = compiledInfo.map { it.createResourcePack() }
         // Since the merged pack is programmatic, we can always assume current version
         val version = SharedConstants.getGameVersion().getPackVersion(PackType.RESOURCE)
         val metadata = PackResourceMetadata(TranslatableText("$ID.resources.$DIR_NAME", packs.size), version)
-        val packSupplier = { DelegatingResourcePack(DIR_NAME, "BAMO Pack Resources", metadata, packs) }
+        val packSupplier = { MergedResourcePack(DIR_NAME, "BAMO Pack Resources", metadata, packs) }
         val packInfo = ResourcePackProfile.of(DIR_NAME, true, packSupplier, infoFactory, TOP, PACK_SOURCE_NONE)
         // Should never be null, but still
         if (packInfo != null) infoConsumer.accept(packInfo) else LOGGER.error("Failed to load merged BAMO pack")
     }
 
-    // TODO: Forge added a better way to do this in 1.17+ via AddPackFindersEvent
     /** Adds this pack finder to the server pack repo */
     fun addToDataPacks(server: MinecraftServer) {
-        val packRepo = server.packRepository
-        packRepo.addPackFinder(BamoPackFinder)
-        packRepo.reload()
-        server.reloadResources(packRepo.selectedIds).get()
+        val packRepo = server.dataPackManager
+        (packRepo as ResourcePackManagerAccessor).providers.add(BamoPackFinder)
+        packRepo.scanPacks()
+        server.reloadResources(packRepo.enabledNames).get()
     }
 
-    // TODO: Forge added a better way to do this in 1.17+ via AddPackFindersEvent
     /** Adds this pack finder to the client pack repo */
-    fun addToResourcePacks() = MinecraftClient.getInstance().addPackFinder(BamoPackFinder)
+    fun addToResourcePacks() = (MinecraftClient.getInstance().resourcePackManager as ResourcePackManagerAccessor).providers.add(BamoPackFinder)
 }

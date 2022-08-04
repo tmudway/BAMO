@@ -1,30 +1,34 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "bamo",
   "version": "${version}",
-
-  "name": "Example Mod",
+  "name": "BAMO",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
-    "Me!"
+    "Ryytikki"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
-
   "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
-
+  "icon": "assets/bamo/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleModKt::init"
+      {
+        "adapter": "kotlin",
+        "value": "com.ryytikki.bamo.BamoKt::init"
+      }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "com.ryytikki.bamo.BamoKt::initClient"
+      }
     ]
   },
-  "mixins": [
-    "modid.mixins.json"
-  ],
+  "mixins": [],
   "depends": {
     "fabricloader": ">=0.8.7",
     "fabric": "*",
