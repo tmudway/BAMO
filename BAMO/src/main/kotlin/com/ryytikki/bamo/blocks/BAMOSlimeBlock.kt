@@ -56,12 +56,10 @@ class BAMOSlimeBlock(prop: Properties, data: BlockData) : SlimeBlock(prop){
     }
 
     override fun getName(): IFormattableTextComponent {
-        println("Test getName")
         return bamoFunc.getName()
     }
 
     override fun getDescriptionId(): String {
-        println("Test getDescID")
         return bamoFunc.getDescID()
     }
 }

@@ -47,6 +47,26 @@ I would **HIGHLY** recommend you backup up any model files before attempting to 
 * Textures and models can be reloaded without rebooting with the shortcut F3+T
 * If no BAMO resource pack is shown, make sure you've set the folder setting correctly in Blockbench
 ## Changelog
+### 0.3.4
+* Added option to create plants
+* Added texture selection option for standard blocks
+* Added support for minecraft default textures
+* Added support for using textures from other mods
+* Fixed slabs/walls not auto-loading first texture
+* Fixed issue with stairs/slabs/walls being created if you dont unselect before swapping to custom block
+* Added Auto-cleaning all non-alphanumeric chars from texture/file names
+* Changed cleaning code to replace spaces in the model name with underscores, rather than just removing them (e.g. "Test Block" used to be cleaned to "testblock", now "test_block")
+### 0.3.3
+* Fixed issue with block collision not working from some directions
+* Added temporary fix for plane collisions
+* Fixed block variant names not showing
+* Added initial step for plant blocks
+### 0.3.2
+* Fixed issues with walls and slabs not generating
+* Set plugin to export .zip files
+### 0.3.1
+* Fixed issue with block rotation
+* Split plugin file into multiple smaller files
 ### 0.3.0
 * Added collision support
 * Added rotateable blocks (currently y-axis only)

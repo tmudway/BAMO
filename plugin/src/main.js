@@ -12,7 +12,7 @@ Plugin.register('BAMO', {
 	author: 'Ryytikki',
 	description: 'Exports block metadata for use in the BAMO mod',
 	icon: 'bar_chart',
-	version: '0.0.1',
+	version: '0.3.4',
 	variant: 'both',
 	
 	onload() {
@@ -32,9 +32,7 @@ Plugin.register('BAMO', {
 			description: 'Exports block metadata for BAMO mod',
 			icon: 'fa-cube',
 			click: function () {
-				exportWindow.show();
-			}
-			/*	if (Project.name != undefined){
+				if (Project.name != undefined){
 					if ((Settings.get('minecraftFolder') != undefined) && (Settings.get('minecraftFolder') != '')){
 						exportWindow.show();
 						//exportWindow.content_vue.reset();
@@ -44,7 +42,7 @@ Plugin.register('BAMO', {
 				}else{
 					Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "Please ensure your file is saved before exporting. If you see this for a saved file, reload it and try again"});
 				}
-			}*/
+			}
 		});
 
 		MenuBar.addAction(btn, 'file');

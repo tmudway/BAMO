@@ -2,19 +2,22 @@ package com.ryytikki.bamo.blocks
 
 import com.ryytikki.bamo.tools.BamoFunctionProvider
 import com.ryytikki.bamo.tools.BlockData
-
-import net.minecraft.block.BlockState
-import net.minecraft.block.StairsBlock
+import com.ryytikki.bamo.tools.initFlowerBlockProperties
+import net.minecraft.block.FlowerBlock
+import net.minecraft.potion.Effects
 import net.minecraft.util.text.IFormattableTextComponent
-import java.util.function.Supplier
 
-class BAMOStairsBlock(state: Supplier<BlockState>, prop:Properties, data: BlockData) : StairsBlock(state, prop){
+class BAMOFlowerBlock(prop:Properties, data: BlockData) : FlowerBlock(Effects.SLOW_FALLING, 1, initFlowerBlockProperties(data)){
 
     private val bamoFunc:BamoFunctionProvider
 
     init {
         bamoFunc = BamoFunctionProvider(this, data)
     }
+
+    /*override fun getShape(state:BlockState, worldIn:IBlockReader, pos:BlockPos, context: ISelectionContext): VoxelShape{
+        return bamoFunc.getBoundingBox()
+    }*/
 
     override fun getName(): IFormattableTextComponent {
         return bamoFunc.getName()

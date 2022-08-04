@@ -53,10 +53,22 @@
                 <div class = "headerLabel">Custom Block</div>
                 <p class="headerDescription">Block with a custom model and hitbox</p>
             </li>
+            <li style="padding-left: 20px" v-if="types.custom">
+                <div class = "headerLabel">Custom Block Type</div>
+                <select class="dark_bordered" v-model = "types.customType">
+                    <option v-for="op in customTypeOptions" v-bind:key="op">{{op}}</option>
+                </select>
+            </li>
             <li>
                 <input type="checkbox" v-model="types.block" v-on:change="toggleType($event, 'block')">
                 <div class = "headerLabel">Standard Block</div>
                 <p class="headerDescription">Standard minecraft block with identical textures on all faces</p>
+            </li>
+            <li style="padding-left: 20px" v-if="types.block">
+                <div class = "headerLabel">Texture</div>
+                <select class="dark_bordered" v-model="variant.default.all" >
+                    <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
+                </select>
             </li>
         </ul><br>
 
@@ -99,19 +111,19 @@
             <li style="padding-left: 20px" v-if="types.slab">
                 <div class = "headerLabel">Top Texture</div>
                 <select class="dark_bordered" v-model="variant.slab.top" >
-                    <option v-for="op in Textures" v-bind:key="op">{{op.name}}</option>
+                    <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
             <li style="padding-left: 20px" v-if="types.slab"> 
                 <div class = "headerLabel">Bottom Texture</div>
                 <select class="dark_bordered" v-model="variant.slab.bottom">
-                    <option v-for="op in Textures" v-bind:key="op">{{op.name}}</option>
+                    <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
             <li style="padding-left: 20px" v-if="types.slab"> 
                 <div class = "headerLabel">Side Texture</div>
                 <select class="dark_bordered" v-model="variant.slab.side">
-                    <option v-for="op in Textures" v-bind:key="op">{{op.name}}</option>
+                    <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
 
@@ -122,7 +134,7 @@
             <li style="padding-left: 20px" v-if="types.wall">
                 <div class = "headerLabel">Wall Texture</div>
                 <select class="dark_bordered" v-model="variant.wall.wall" >
-                    <option v-for="op in Textures" v-bind:key="op">{{op.name}}</option>
+                    <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
         </ul><br>
@@ -156,7 +168,7 @@
             <li>
                 <input type="checkbox" v-model="properties.gravity">
                 <div class = "headerLabel">Gravity</div>
-                <p class="headerDescription">Determines if the block falls due to gravity</p>
+                <p class="headerDescription">Determines if the block falls due to gravity (No effect for non-default custom blocks)</p>
             </li>
         </ul>
         <button @click.prevent="changePage($event, 'types')">Previous</button>

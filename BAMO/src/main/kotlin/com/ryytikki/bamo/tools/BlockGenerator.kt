@@ -22,15 +22,17 @@ import thedarkcolour.kotlinforforge.forge.KDeferredRegister
 import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
 import java.io.File
 import java.nio.file.Files
+import java.util.*
 import java.util.function.Supplier
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
+import kotlin.collections.ArrayList
 import kotlin.io.path.readText
 
 @Serializable
 data class JSONData(
     val displayName : String,             // Done
-    val typeList: List<String>,           // WIP
+    val typeList: List<String>,           // Done
     val material : String,                // Done
     val blastRes : Float,                 // Done
     val slip : Float,                     // Done
@@ -43,7 +45,9 @@ data class JSONData(
     val creativeTab : String,             // DONE
     val transparency: String = "Solid",   // DONE
     val hitbox: List<Array<DoubleArray>>, // DONE
+    val blockType: String = "",           // WIP
 //    val lang: String,                     // WIP
+    val nameGenType: String = "old",
 )
 
 data class BlockData(
@@ -231,19 +235,32 @@ object BlockGenerator {
         val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName, data.blastRes, data.slip,
             (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof, data.hitbox)
 
-        val blockName = data.displayName.replace(" ", "").lowercase()
+        var blockName = ""
+
+        if (data.nameGenType == "old"){
+            blockName = data.displayName.replace(" ", "").lowercase()
+        }else{
+            blockName = data.displayName.replace(" ", "_").lowercase()
+        }
+
 
         val block = BLOCK_REGISTRY.registerObject(blockName) {
-            if (data.gravity) {
-                BAMOFallingBlock(bData)
-            } else {
-                if (data.rotType == "y_axis") {
-                    println("Generating Y_Axis block")
-                    BAMOHorizontalBlock(initBlockProperties(bData), bData)
-                //}else if (data.rotType == "y_axis_player"){
-                    //BAMOHorizontalFaceBlock(initBlockProperties(bData), bData)
-                }else{
-                    BAMOBlock(initBlockProperties(bData), bData)
+
+            when (data.blockType) {
+                "Flower" -> BAMOFlowerBlock(initBlockProperties(bData), bData)
+                else -> {
+                    if (data.gravity) {
+                        BAMOFallingBlock(bData)
+                    } else {
+                        if (data.rotType == "y_axis") {
+                            println("Generating Y_Axis block")
+                            BAMOHorizontalBlock(initBlockProperties(bData), bData)
+                            //}else if (data.rotType == "y_axis_player"){
+                            //BAMOHorizontalFaceBlock(initBlockProperties(bData), bData)
+                        } else {
+                            BAMOBlock(initBlockProperties(bData), bData)
+                        }
+                    }
                 }
             }
         }
@@ -256,21 +273,26 @@ object BlockGenerator {
     }
 
     private fun registerDependantBlockFromJson(data: JSONData, pBlock: ObjectHolderDelegate<Block>, type:String): ObjectHolderDelegate<Block>{
-        val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName, data.blastRes, data.slip,
+        val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName + " " + type.replaceFirstChar {if (it.isLowerCase()) it.titlecase(Locale.getDefault())else it.toString()}, data.blastRes, data.slip,
             (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof, data.hitbox)
 
-        val blockName = data.displayName.replace(" ", "").lowercase()
+        var blockName = ""
+
+        if (data.nameGenType == "old"){
+            blockName = data.displayName.replace(" ", "").lowercase()
+        }else{
+            blockName = data.displayName.replace(" ", "_").lowercase()
+        }
 
         val block = BLOCK_REGISTRY.registerObject(blockName + "_" + type) {
-            if(type == "stairs"){
-                val state: Supplier<BlockState> = Supplier {pBlock.get().defaultBlockState()}
-                BAMOStairsBlock(state, initBlockProperties(bData), bData)
-            }else if(type == "slab") {
-                BAMOSlabBlock(initBlockProperties(bData), bData)
-            }else if(type == "wall"){
-                BAMOWallBlock(initBlockProperties(bData), bData)
-            }else{
-                BAMOBlock(initBlockProperties(bData), bData)
+            when(type){
+                "stairs" -> {
+                    val state: Supplier<BlockState> = Supplier {pBlock.get().defaultBlockState()}
+                    BAMOStairsBlock(state, initBlockProperties(bData), bData)
+                }
+                "slab" -> BAMOSlabBlock(initBlockProperties(bData), bData)
+                "wall" -> BAMOWallBlock(initBlockProperties(bData), bData)
+                else -> BAMOBlock(initBlockProperties(bData), bData)
             }
         }
 
