@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
 
-class BAMOBlock(prop: Settings, data: BlockData) : Block(prop){
+class BAMOFallingBlock(prop: Settings, data: BlockData) : Block(prop){
     private val bamoFunc: BamoFunctionProvider
 
     init {

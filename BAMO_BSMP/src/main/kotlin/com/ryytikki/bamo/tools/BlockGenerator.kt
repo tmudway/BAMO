@@ -39,7 +39,9 @@ data class JSONData(
     val creativeTab : String,                           // DONE
     val transparency: String = "Solid",                 // DONE
     val hitbox: List<Array<DoubleArray>> = emptyList(), // DONE
+    val blockType: String = "",
 //    val lang: String,                                   // WIP
+    val nameGenType: String = "old",
 )
 
 data class BlockData(
@@ -211,12 +213,12 @@ object BlockGenerator {
             val block = registerBlockFromJson(data)
             blockData[block] = data
 
-            /*if (data.typeList.isNotEmpty()){
+            if (data.typeList.isNotEmpty()){
                 data.typeList.forEach{ type ->
                     val chBlock = registerDependantBlockFromJson(data, block, type)
                     blockData[chBlock] = data
                 }
-            }*/
+            }
         }
     }
 
@@ -225,33 +227,53 @@ object BlockGenerator {
         val bData = BlockData((matMap[data.material]?:Material.SOIL), data.displayName, data.blastRes, data.slip,
             (soundsMap[data.sounds] ?: BlockSoundGroup.GRASS), data.lum, data.fireproof, data.hitbox)
 
-        val blockName = ID + ":" + data.displayName.replace(" ", "").lowercase()
-        val block:Block
-        block = Registry.register(Registry.BLOCK, blockName, BAMOBlock(initBlockProperties(bData), bData))
+        var blockName = ""
 
-        /*if (data.gravity) {
-            block = Registry.register(Registry.BLOCK, blockName, BAMOFallingBlock(bData))
-        } else {
-            if (data.rotType == "y_axis") {
-                println("Generating Y_Axis block")
-                block = Registry.register(Registry.BLOCK, blockName, BAMOHorizontalBlock(initBlockProperties(bData), bData))
-            //}else if (data.rotType == "y_axis_player"){
-                //block = BAMOHorizontalFaceBlock(initBlockProperties(bData), bData)
+        if (data.nameGenType == "old"){
+            blockName = data.displayName.replace(" ", "").lowercase()
+        }else{
+            blockName = data.displayName.replace(" ", "_").lowercase()
+        }
+
+        blockName = "$ID:$blockName"
+
+        val block:Block
+
+            if (data.blockType == "Flower") {
+                block = Registry.register(Registry.BLOCK, blockName, BAMOFlowerBlock(initFlowerBlockProperties(bData), bData))
             }else{
-                block = Registry.register(Registry.BLOCK, blockName, BAMOBlock(initBlockProperties(bData), bData))
+                if (data.gravity) {
+                    block = Registry.register(Registry.BLOCK, blockName, BAMOFallingBlock(initBlockProperties(bData), bData))
+                } else {
+                    if (data.rotType == "y_axis") {
+                        block = Registry.register(Registry.BLOCK, blockName, BAMOHorizontalBlock(initBlockProperties(bData), bData))
+                    } else {
+                        block = Registry.register(Registry.BLOCK, blockName, BAMOBlock(initBlockProperties(bData), bData))
+                    }
+                }
             }
-        }*/
+
+
         // Register the item version of the block
         Registry.register(Registry.ITEM, blockName, BlockItem(block, Item.Settings().group((tabsMap[data.creativeTab]?: ItemGroup.BUILDING_BLOCKS)).maxCount(data.maxStack)))
 
         return block
     }
 
-    /*private fun registerDependantBlockFromJson(data: JSONData, pBlock: Block, type:String): Block{
+    private fun registerDependantBlockFromJson(data: JSONData, pBlock: Block, type:String): Block{
         val bData = BlockData((matMap[data.material]?:Material.SOIL), data.displayName, data.blastRes, data.slip,
             (soundsMap[data.sounds] ?: BlockSoundGroup.GRASS), data.lum, data.fireproof, data.hitbox)
 
-        val blockName = Bamo.ID + ":" + data.displayName.replace(" ", "").lowercase() + "_" + type
+        var blockName = ""
+
+        if (data.nameGenType == "old"){
+            blockName = data.displayName.replace(" ", "").lowercase()
+        }else{
+            blockName = data.displayName.replace(" ", "_").lowercase()
+        }
+
+        blockName = "$ID:$blockName" + "_$type"
+
         val block:Block
         if(type == "stairs"){
             val state: Supplier<BlockState> = Supplier {pBlock.defaultState}
@@ -268,7 +290,7 @@ object BlockGenerator {
         Registry.register(Registry.ITEM, blockName, BlockItem(block, Item.Settings().group((tabsMap[data.creativeTab]?: ItemGroup.BUILDING_BLOCKS)).maxCount(data.maxStack)))
 
         return block
-    }*/
+    }
 
     fun setRenderLayers(){
 

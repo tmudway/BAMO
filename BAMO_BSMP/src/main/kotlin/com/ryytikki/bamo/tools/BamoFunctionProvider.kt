@@ -1,6 +1,8 @@
 package com.ryytikki.bamo.tools
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
+import net.minecraft.block.Blocks
+import net.minecraft.block.Material
 import net.minecraft.text.LiteralText
 import net.minecraft.text.MutableText
 import net.minecraft.util.math.Direction
@@ -9,6 +11,15 @@ import net.minecraft.util.shape.VoxelShapes
 
 fun initBlockProperties(data: BlockData) : AbstractBlock.Settings{
     return AbstractBlock.Settings.of(data.material)
+        .strength(3.0f, data.blastRes)
+        .slipperiness(data.slip)
+        .sounds(data.sounds)
+        .luminance(){data.lum}
+        .nonOpaque()
+}
+
+fun initFlowerBlockProperties(data:BlockData) : AbstractBlock.Settings{
+    return AbstractBlock.Settings.copy(Blocks.DANDELION)
         .strength(3.0f, data.blastRes)
         .slipperiness(data.slip)
         .sounds(data.sounds)
@@ -35,6 +46,19 @@ class BamoFunctionProvider(parent: Block, data: BlockData){
             baseNorth = Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 16.0)
         }else{
             data.hitbox.forEach{box->
+                for (i in 0..2) {
+
+                    if (box[0][i] > box[1][i]) {
+                        val temp = box[0][i]
+                        box[0][i] = box[1][i]
+                        box[1][i] = temp
+                    }
+
+                    if (box[0][i] == box[1][i]) {
+                        box[0][i] = box[0][i] - 1;
+                        box[1][i] = box[1][i] + 1;
+                    }
+                }
                 val hbNorth = Block.createCuboidShape(box[0][0], box[0][1], box[0][2], box[1][0], box[1][1], box[1][2])
                 val hbEast = Block.createCuboidShape(16.0 - box[1][2], box[0][1], box[0][0], 16.0 - box[0][2], box[1][1], box[1][0])
                 val hbSouth = Block.createCuboidShape(16.0 - box[1][0], box[0][1], 16.0 - box[1][2], 16.0 - box[0][0], box[1][1], 16.0 - box[0][2])

@@ -2,24 +2,20 @@ package com.ryytikki.bamo.blocks
 
 import com.ryytikki.bamo.tools.BamoFunctionProvider
 import com.ryytikki.bamo.tools.BlockData
-import net.minecraft.block.Block
+import net.minecraft.block.StairsBlock
 import net.minecraft.block.BlockState
 import net.minecraft.block.ShapeContext
 import net.minecraft.text.MutableText
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
+import java.util.function.Supplier
 
-class BAMOBlock(prop: Settings, data: BlockData) : Block(prop){
+class BAMOStairsBlock(state: Supplier<BlockState>, prop: Settings, data: BlockData) : StairsBlock(state.get(), prop){
     private val bamoFunc: BamoFunctionProvider
 
     init {
         bamoFunc = BamoFunctionProvider(this, data)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun getOutlineShape(state: BlockState, worldIn: BlockView, pos: BlockPos, context: ShapeContext): VoxelShape {
-        return bamoFunc.getBoundingBox()
     }
 
     override fun getName(): MutableText {
