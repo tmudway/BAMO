@@ -42,7 +42,7 @@ dependencies{
     shade registrate
 }
 */
-version = '0.3.3'
+version = '0.3.4'
 group = 'com.ryytikki.bamo' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'bamo'
 
@@ -185,7 +185,7 @@ jar {
             "Specification-Vendor": "Ryytikki",
             "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
+            "Implementation-Version": getArchiveVersion(),
             "Implementation-Vendor" :"Ryytikki",
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
