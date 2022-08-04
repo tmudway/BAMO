@@ -1,7 +1,7 @@
 <script>
 import { rotationTypes, soundOptions, materialOptions, transparencyOptions, tabOptions, customTypeOptions } from '../util/OptionArrays.js';
 import {genWallState, genStairState} from '../util/GenStates.js'
-import {dictFromTexture} from '../util/Utils.js'
+import {dictFromTexture, cleanFileName} from '../util/Utils.js'
 
 export default {
     data() {
@@ -124,7 +124,7 @@ export default {
             var JSZip = require("jszip");
             var zip = new JSZip();
 
-            var packName = this.properties.displayName.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();//"bamo";
+            var packName = cleanFileName(this.properties.displayName);
 
             // Define folder locations
             var objFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\objects\\";
@@ -150,7 +150,7 @@ export default {
             zip.file("pack.mcmeta", JSON.stringify(mcmetaData))
 
             // Generate block name from the displayname
-            var blockName = this.properties.displayName.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase();
+            var blockName = cleanFileName(this.properties.displayName);
 
             //generate the list of blocks to be exported
             var blockList = [];
@@ -183,9 +183,9 @@ export default {
                     Texture.all.forEach(function(tx){
                         if ((tx.id == key) || (key == "particle" && tx.particle == true)){
                             if (tx.namespace == ""){
-                                textureData[key] = ns + ":blocks/" + tx.name.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()
+                                textureData[key] = ns + ":blocks/" + cleanFileName(tx.name.split(".")[0]);
                             }else{
-                                textureData[key] = tx.namespace + ":" + tx.folder + "/" + tx.name.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()
+                                textureData[key] = tx.namespace + ":" + tx.folder + "/" + cleanFileName(tx.name.split(".")[0])
                             } 
                         }
                     })
@@ -207,7 +207,7 @@ export default {
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "block/cube_all";
                 modelData["textures"] = {
-                    "all": dictFromTexture(this.variant.default.all, this.properties.namespace),//imageNameToTexture(this.properties.namespace, "blocks", Texture.all[0]),
+                    "all": dictFromTexture(this.variant.default.all, this.properties.namespace),
                     "particle": dictFromTexture("particle", this.properties.namespace)
                 };
 
@@ -349,8 +349,8 @@ export default {
                         image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
                     }
         
-                    fs.writeFile(blockTexturesFolder + "\\" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
-                    zip.file("assets/" + ns + "/textures/blocks/" + tx.name.replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase(), image)
+                    fs.writeFile(blockTexturesFolder + "\\" + cleanFileName(tx.name), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
+                    zip.file("assets/" + ns + "/textures/blocks/" + cleanFileName(tx.name), image)
                 }
             })
 
@@ -364,6 +364,7 @@ export default {
                 zip.file("assets/" + this.properties.namespace + "/models/block/" + block["name"] + ".json", JSON.stringify(block["model"]))
                 fs.writeFile(itemModelsFolder + "\\" + block["name"] + ".json", JSON.stringify(block["model"]), "utf8", err => {if (err != null) {console.log("Error Found writing item model data:", err);}});
                 zip.file("assets/" + this.properties.namespace + "/models/item/" + block["name"] + ".json", JSON.stringify(block["model"]))
+                
                 // Write block properties file
                 var data = {
                     "displayName" : this.properties.displayName, 
@@ -381,6 +382,7 @@ export default {
                     "transparency": this.properties.transparency,
                     "hitbox": block["hitbox"],
                     "blockType" : this.types.customType,
+                    "nameGenType" : "3.3" // Allows for names where " " is replaced with "_" to coexist with the older "" system
                 };
 
                 fs.writeFile(objFolder + "\\" + block["name"] + ".json", JSON.stringify(data), "utf8", err => {if (err != null) {console.log("Error writing block properties:", err);}});
@@ -389,10 +391,10 @@ export default {
 
             zip.generateAsync({type:"nodebuffer"})
             .then(function (content) {
-                //fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + ".zip", content, err => {});
+                fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + ".zip", content, err => {});
             });
 
-            //fs.rm(settings.minecraftFolder.value + "\\bamopacks\\" + packName, {recursive: true}, err => {});
+            fs.rm(settings.minecraftFolder.value + "\\bamopacks\\" + packName, {recursive: true}, err => {});
 
             let e = open_interface;
             e.hide();

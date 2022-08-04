@@ -1,9 +1,9 @@
 export function imageNameToTexture(namespace, type, image){
     var nm = ""
     if (image.name){
-        nm = image.name.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()
+        nm = cleanFileName(image.name.split(".")[0])
     }else{
-        nm = image.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()
+        nm = cleanFileName(image.split(".")[0])
     }
     return namespace + ":" + type + "/" + nm
 }
@@ -13,12 +13,16 @@ export function dictFromTexture(image, ns){
     Texture.all.forEach(function(tx){
         if ((tx.name == image) || (image == "particle" && tx.particle == true)){
             if (tx.namespace == ""){
-                ret = ns + ":blocks/" + tx.name.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()
+                ret = ns + ":blocks/" + cleanFileName(tx.name.split(".")[0])
             }else{
-                ret = tx.namespace + ":" + tx.folder + "/" + tx.name.split(".")[0].replace(/[^a-zA-Z\d\s.]/g, '').replace(/\s+/g, "_").toLowerCase()
+                ret = tx.namespace + ":" + tx.folder + "/" + cleanFileName(tx.name.split(".")[0])
             }
         }
     })
 
     return ret
+}
+
+export function cleanFileName(name){
+    return name.replace(/[^a-zA-Z\d\s._]/g, '').replace(/\s+/g, "_").toLowerCase()
 }

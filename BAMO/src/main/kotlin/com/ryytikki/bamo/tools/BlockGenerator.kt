@@ -47,6 +47,7 @@ data class JSONData(
     val hitbox: List<Array<DoubleArray>>, // DONE
     val blockType: String = "",           // WIP
 //    val lang: String,                     // WIP
+    val nameGenType: String = "old",
 )
 
 data class BlockData(
@@ -234,7 +235,14 @@ object BlockGenerator {
         val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName, data.blastRes, data.slip,
             (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof, data.hitbox)
 
-        val blockName = data.displayName.replace(" ", "").lowercase()
+        var blockName = ""
+
+        if (data.nameGenType == "old"){
+            blockName = data.displayName.replace(" ", "").lowercase()
+        }else{
+            blockName = data.displayName.replace(" ", "_").lowercase()
+        }
+
 
         val block = BLOCK_REGISTRY.registerObject(blockName) {
 
@@ -268,7 +276,13 @@ object BlockGenerator {
         val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName + " " + type.replaceFirstChar {if (it.isLowerCase()) it.titlecase(Locale.getDefault())else it.toString()}, data.blastRes, data.slip,
             (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof, data.hitbox)
 
-        val blockName = data.displayName.replace(" ", "").lowercase()
+        var blockName = ""
+
+        if (data.nameGenType == "old"){
+            blockName = data.displayName.replace(" ", "").lowercase()
+        }else{
+            blockName = data.displayName.replace(" ", "_").lowercase()
+        }
 
         val block = BLOCK_REGISTRY.registerObject(blockName + "_" + type) {
             when(type){

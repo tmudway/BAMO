@@ -12,7 +12,7 @@ Plugin.register('BAMO', {
 	author: 'Ryytikki',
 	description: 'Exports block metadata for use in the BAMO mod',
 	icon: 'bar_chart',
-	version: '0.3.3',
+	version: '0.3.4',
 	variant: 'both',
 	
 	onload() {
