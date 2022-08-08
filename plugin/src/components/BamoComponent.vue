@@ -207,8 +207,8 @@ export default {
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "block/cube_all";
                 modelData["textures"] = {
-                    "all": dictFromTexture(this.variant.default.all, this.properties.namespace),
-                    "particle": dictFromTexture("particle", this.properties.namespace)
+                    "all": dictFromTexture(this.variant.default.all, this.properties.namespace, blockName),
+                    "particle": dictFromTexture("particle", this.properties.namespace, blockName)
                 };
 
                 var state = JSON.stringify({"variants": {"": {"model": this.properties.namespace + ":block/" + blockName}}});
@@ -230,10 +230,10 @@ export default {
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "minecraft:block/stairs";
                 modelData["textures"] = {
-                    "top": dictFromTexture(this.variant.stair.top, this.properties.namespace),
-                    "bottom": dictFromTexture(this.variant.stair.bottom, this.properties.namespace), 
-                    "side": dictFromTexture(this.variant.stair.side, this.properties.namespace),
-                    "particle": dictFromTexture("particle", this.properties.namespace)
+                    "top": dictFromTexture(this.variant.stair.top, this.properties.namespace, blockName),
+                    "bottom": dictFromTexture(this.variant.stair.bottom, this.properties.namespace, blockName), 
+                    "side": dictFromTexture(this.variant.stair.side, this.properties.namespace, blockName),
+                    "particle": dictFromTexture("particle", this.properties.namespace, blockName)
                 };
                 
                 // Write state
@@ -265,10 +265,10 @@ export default {
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "minecraft:block/slab"
                 modelData["textures"] = {
-                    "top": dictFromTexture(this.variant.slab.top, this.properties.namespace),
-                    "bottom": dictFromTexture(this.variant.slab.bottom, this.properties.namespace), 
-                    "side": dictFromTexture(this.variant.slab.side, this.properties.namespace),
-                    "particle": dictFromTexture("particle", this.properties.namespace)
+                    "top": dictFromTexture(this.variant.slab.top, this.properties.namespace, blockName),
+                    "bottom": dictFromTexture(this.variant.slab.bottom, this.properties.namespace, blockName), 
+                    "side": dictFromTexture(this.variant.slab.side, this.properties.namespace, blockName),
+                    "particle": dictFromTexture("particle", this.properties.namespace, blockName)
                 }
 
                 // Write State
@@ -300,8 +300,8 @@ export default {
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "minecraft:block/template_wall_post";
                 modelData["textures"] = {
-                    "wall": dictFromTexture(this.variant.wall.wall, this.properties.namespace),
-                    "particle": dictFromTexture("particle", this.properties.namespace)
+                    "wall": dictFromTexture(this.variant.wall.wall, this.properties.namespace, blockName),
+                    "particle": dictFromTexture("particle", this.properties.namespace, blockName)
                 }
 
                 // Write State
@@ -349,8 +349,8 @@ export default {
                         image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
                     }
         
-                    fs.writeFile(blockTexturesFolder + "\\" + cleanFileName(tx.name), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
-                    zip.file("assets/" + ns + "/textures/blocks/" + cleanFileName(tx.name), image)
+                    fs.writeFile(blockTexturesFolder + "\\" + cleanFileName(tx.name.split(".")[0] + ".png"), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
+                    zip.file("assets/" + ns + "/textures/blocks/" + blockName + "_" + cleanFileName(tx.name.split(".")[0] + ".png"), image)
                 }
             })
 
@@ -382,7 +382,7 @@ export default {
                     "transparency": this.properties.transparency,
                     "hitbox": block["hitbox"],
                     "blockType" : this.types.customType,
-                    "nameGenType" : "3.3" // Allows for names where " " is replaced with "_" to coexist with the older "" system
+                    "nameGenType" : "0.3.5" // Allows for names where " " is replaced with "_" to coexist with the older "" system
                 };
 
                 fs.writeFile(objFolder + "\\" + block["name"] + ".json", JSON.stringify(data), "utf8", err => {if (err != null) {console.log("Error writing block properties:", err);}});
