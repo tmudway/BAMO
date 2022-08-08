@@ -261,7 +261,7 @@ object BlockGenerator {
     }
 
     private fun registerDependantBlockFromJson(data: JSONData, pBlock: Block, type:String): Block{
-        val bData = BlockData((matMap[data.material]?:Material.SOIL), data.displayName, data.blastRes, data.slip,
+        val bData = BlockData((matMap[data.material]?:Material.SOIL), data.displayName + " $type", data.blastRes, data.slip,
             (soundsMap[data.sounds] ?: BlockSoundGroup.GRASS), data.lum, data.fireproof, data.hitbox)
 
         var blockName = ""
