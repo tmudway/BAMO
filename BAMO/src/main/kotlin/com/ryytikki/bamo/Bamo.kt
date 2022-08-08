@@ -1,5 +1,6 @@
 package com.ryytikki.bamo
 
+import com.ryytikki.bamo.tools.BamoDataPackFinder
 import com.ryytikki.bamo.tools.BamoPackFinder
 import com.ryytikki.bamo.tools.BlockGenerator
 import net.minecraftforge.api.distmarker.Dist
@@ -59,6 +60,6 @@ object Bamo {
      * Fired on the global Forge bus.
      */
     private fun onServerStarting(event: FMLServerStartingEvent) {
-        BamoPackFinder.addToDataPacks(event.server)
+        BamoDataPackFinder.addToDataPacks(event.server)
     }
 }
