@@ -1,6 +1,7 @@
 package com.ryytikki.bamo
 
 import com.ryytikki.bamo.tools.BamoPackFinder
+import com.ryytikki.bamo.tools.BamoDataPackFinder
 import com.ryytikki.bamo.tools.BlockGenerator
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper
@@ -14,7 +15,7 @@ val LOGGER: Logger = LogManager.getLogger()
 fun init() {
     BlockGenerator.generateBlocks()
     // TODO: Probably better to use a mixin instead, which is what Fabric does for the mod pack finder
-    ServerLifecycleEvents.SERVER_STARTED.register(BamoPackFinder::addToDataPacks)
+    ServerLifecycleEvents.SERVER_STARTED.register(BamoDataPackFinder::addToDataPacks)
 }
 
 @Suppress("unused")

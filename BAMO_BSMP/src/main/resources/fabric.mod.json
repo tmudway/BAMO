@@ -3,15 +3,16 @@
   "id": "bamo",
   "version": "${version}",
   "name": "BAMO",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "Block And Move On, a mod for simplifying the import process of custom blocks using BlockBench. Currently tailored towards the C&C mod project but can be used by anyone looking to bring custom blocks into the game without coding",
   "authors": [
-    "Ryytikki"
+    "Ryytikki",
+    "DenimRed"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/bamo-block-and-move-on",
+    "sources": "https://github.com/tmudway/BAMO"
   },
-  "license": "CC0-1.0",
+  "license": "ARR",
   "icon": "assets/bamo/icon.png",
   "environment": "*",
   "entrypoints": {
