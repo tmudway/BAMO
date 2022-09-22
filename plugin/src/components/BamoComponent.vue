@@ -1,6 +1,7 @@
 <script>
 import { rotationTypes, soundOptions, materialOptions, transparencyOptions, tabOptions, customTypeOptions } from '../util/OptionArrays.js';
 import {genWallState, genStairState} from '../util/GenStates.js'
+import {genLootTable, genMineableTag} from '../util/GenDataFiles.js'
 import {dictFromTexture, cleanFileName} from '../util/Utils.js'
 
 export default {
@@ -355,6 +356,25 @@ export default {
             })
 
             blockList.forEach(block => {
+
+                // Generate data files
+
+                // Looting file
+                var lootData = genLootTable(this.properties.namespace, block["name"], block["types"])
+                var lootTags = dataFolder + block["name"] + "\\loot_tables\\blocks\\" + block["name"] + ".json"
+
+                fs.mkdirSync(dataFolder + block["name"] + "\\loot_tables\\blocks\\", {recursive: true});
+                fs.writeFile(lootTags, lootData, "utf8", err => {if (err != null) {console.log("Error found when writing wall tags:", err)}});
+                zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/"+ block["name"] + ".json", lootData)
+
+                // Mining file
+                var mineableData = genMineableTag(this.properties.namespace, block["name"], block["types"])
+                var mineableTags = dataFolder + "minecraft\\tags\\blocks\\mineable\\pickaxe.json"
+
+                fs.mkdirSync(dataFolder + "minecraft\\tags\\blocks\\mineable", {recursive: true});
+                fs.writeFile(mineableTags, mineableData, "utf8", err => {if (err != null) {console.log("Error found when writing wall tags:", err)}});
+                zip.file("data/minecraft/tags/blocks/mineable/pickaxe.json", mineableData)
+
                 // Write state file
                 fs.writeFile(blockstatesFolder + "\\" + block["name"] + ".json", block["state"], "utf8", (err) => {if (err != null) {console.log("Error generating blockstate:", err);}});
                 zip.file("assets/" + this.properties.namespace + "/blockstates/" + block["name"] + ".json", block["state"])
