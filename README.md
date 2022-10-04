@@ -47,6 +47,14 @@ I would **HIGHLY** recommend you backup up any model files before attempting to 
 * Textures and models can be reloaded without rebooting with the shortcut F3+T
 * If no BAMO resource pack is shown, make sure you've set the folder setting correctly in Blockbench
 ## Changelog
+### 0.3.6
+* Fixed non-custom blocks not generating loot tables/mining files
+* Forced users to set texture for particles to avoid bug with texture generation
+* Tweaked error flagging code to now use a string instead of a bool
+### 0.3.5
+* Fixed issues with only 1 custom wall working
+* Added Fabric support (1.18.5 only for BSMP)
+* Added block drops when mined (ONLY APPLIES TO NEWLY CREATED BLOCKS)
 ### 0.3.4
 * Added option to create plants
 * Added texture selection option for standard blocks
