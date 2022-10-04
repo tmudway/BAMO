@@ -8,7 +8,7 @@ export default {
     data() {
         return {
             step: "start",
-            error: false,
+            error: "",
 
             rotationTypes: rotationTypes,
             soundOptions: soundOptions,
@@ -77,20 +77,20 @@ export default {
     methods:{
 
         Textures(){
-            return Texture.all;
+            return Texture.all
         },
 
         changePage(event, page){
             if (this.properties.displayName == ""){
-                this.error = true;
+                this.error = "name"
             }else{
 
                 if ((this.step == "types" && page == "physical") || (this.step == "physical" && page == "types")){
                     if (this.types.block) {page = "variant"}
                 }
 
-                this.error = false;
-                this.step = page;
+                this.error = ""
+                this.step = page
             }
         },
 
@@ -111,20 +111,35 @@ export default {
         },
 
         reset(event){
-            this.error = false;
-            this.step = "start";
+            this.error = ""
+            this.step = "start"
         },
 
         createJSON(event){
 
+            // Ensure a name is set
             if (this.properties.displayName == ""){
-                this.error = true;
+                this.error = "name";
+                return;
+            }
+
+            // Ensure a particle texture is set
+            var part = false
+            Texture.all.forEach(function(tx){
+                if (tx.particle == true){
+                    part = true
+                }
+            })
+
+            if (part == false){
+                Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "Please ensure you have set a particle texture"});
                 return;
             }
 
             var JSZip = require("jszip");
             var zip = new JSZip();
 
+            // Trim invalid chars from the name
             var packName = cleanFileName(this.properties.displayName);
 
             // Define folder locations
@@ -192,6 +207,14 @@ export default {
                     })
                 })
 
+                // Looting file
+                var lootData = genLootTable(this.properties.namespace, blockName)
+                var lootTags = dataFolder + blockName + "\\loot_tables\\blocks\\" + blockName + ".json"
+
+                fs.mkdirSync(dataFolder + blockName + "\\loot_tables\\blocks\\", {recursive: true});
+                fs.writeFile(lootTags, lootData, "utf8", err => {if (err != null) {console.log("Error found when writing wall tags:", err)}});
+                zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/"+ blockName + ".json", lootData)
+
                 modelData.textures = textureData
 
                 var boxList = [];
@@ -211,6 +234,14 @@ export default {
                     "all": dictFromTexture(this.variant.default.all, this.properties.namespace),
                     "particle": dictFromTexture("particle", this.properties.namespace)
                 };
+
+                // Looting file
+                var lootData = genLootTable(this.properties.namespace, blockName)
+                var lootTags = dataFolder + blockName + "\\loot_tables\\blocks\\" + blockName + ".json"
+
+                fs.mkdirSync(dataFolder + blockName + "\\loot_tables\\blocks\\", {recursive: true});
+                fs.writeFile(lootTags, lootData, "utf8", err => {if (err != null) {console.log("Error found when writing wall tags:", err)}});
+                zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/" + blockName + ".json", lootData)
 
                 var state = JSON.stringify({"variants": {"": {"model": this.properties.namespace + ":block/" + blockName}}});
 
@@ -236,6 +267,15 @@ export default {
                     "side": dictFromTexture(this.variant.stair.side, this.properties.namespace),
                     "particle": dictFromTexture("particle", this.properties.namespace)
                 };
+
+
+                // Looting file
+                var lootData = genLootTable(this.properties.namespace, name)
+                var lootTags = dataFolder + name + "\\loot_tables\\blocks\\" + name + ".json"
+
+                fs.mkdirSync(dataFolder + name + "\\loot_tables\\blocks\\", {recursive: true});
+                fs.writeFile(lootTags, lootData, "utf8", err => {if (err != null) {console.log("Error found when writing wall tags:", err)}});
+                zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/"+ name + ".json", lootData)
                 
                 // Write state
                 var state = genStairState(this.properties.namespace, "block/" + name, "block/" + name + "_outer", "block/" + name + "_inner")
@@ -272,6 +312,14 @@ export default {
                     "particle": dictFromTexture("particle", this.properties.namespace)
                 }
 
+                // Looting file
+                var lootData = genLootTable(this.properties.namespace, name)
+                var lootTags = dataFolder + name + "\\loot_tables\\blocks\\" + name + ".json"
+
+                fs.mkdirSync(dataFolder + name + "\\loot_tables\\blocks\\", {recursive: true});
+                fs.writeFile(lootTags, lootData, "utf8", err => {if (err != null) {console.log("Error found when writing wall tags:", err)}});
+                zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/"+ name + ".json", lootData)
+
                 // Write State
                 var state = {"variants" : {
                     "type=bottom" : {"model": this.properties.namespace + ":block/" + name}, 
@@ -304,6 +352,14 @@ export default {
                     "wall": dictFromTexture(this.variant.wall.wall, this.properties.namespace),
                     "particle": dictFromTexture("particle", this.properties.namespace)
                 }
+
+                // Looting file
+                var lootData = genLootTable(this.properties.namespace, name)
+                var lootTags = dataFolder + name + "\\loot_tables\\blocks\\" + name + ".json"
+
+                fs.mkdirSync(dataFolder + name + "\\loot_tables\\blocks\\", {recursive: true});
+                fs.writeFile(lootTags, lootData, "utf8", err => {if (err != null) {console.log("Error found when writing wall tags:", err)}});
+                zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/"+ name + ".json", lootData)
 
                 // Write State
                 var state = genWallState(this.properties.namespace, "block/" + name + "_post", "block/" + name + "_side", "block/" + name + "_side_tall")
@@ -357,17 +413,7 @@ export default {
 
             blockList.forEach(block => {
 
-                // Generate data files
-
-                // Looting file
-                var lootData = genLootTable(this.properties.namespace, block["name"], block["types"])
-                var lootTags = dataFolder + block["name"] + "\\loot_tables\\blocks\\" + block["name"] + ".json"
-
-                fs.mkdirSync(dataFolder + block["name"] + "\\loot_tables\\blocks\\", {recursive: true});
-                fs.writeFile(lootTags, lootData, "utf8", err => {if (err != null) {console.log("Error found when writing wall tags:", err)}});
-                zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/"+ block["name"] + ".json", lootData)
-
-                // Mining file
+                // Generate Mining file
                 var mineableData = genMineableTag(this.properties.namespace, block["name"], block["types"])
                 var mineableTags = dataFolder + "minecraft\\tags\\blocks\\mineable\\pickaxe.json"
 

@@ -32,7 +32,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_8__);
 /* harmony import */ var _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../util/OptionArrays.js */ "./src/util/OptionArrays.js");
 /* harmony import */ var _util_GenStates_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../util/GenStates.js */ "./src/util/GenStates.js");
-/* harmony import */ var _util_Utils_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../util/Utils.js */ "./src/util/Utils.js");
+/* harmony import */ var _util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../util/GenDataFiles.js */ "./src/util/GenDataFiles.js");
+/* harmony import */ var _util_Utils_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../util/Utils.js */ "./src/util/Utils.js");
+
 
 
 
@@ -49,7 +51,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       step: "start",
-      error: false,
+      error: "",
       rotationTypes: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.rotationTypes,
       soundOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.soundOptions,
       materialOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.materialOptions,
@@ -113,7 +115,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     changePage: function changePage(event, page) {
       if (this.properties.displayName == "") {
-        this.error = true;
+        this.error = "name";
       } else {
         if (this.step == "types" && page == "physical" || this.step == "physical" && page == "types") {
           if (this.types.block) {
@@ -121,7 +123,7 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
 
-        this.error = false;
+        this.error = "";
         this.step = page;
       }
     },
@@ -140,21 +142,40 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     reset: function reset(event) {
-      this.error = false;
+      this.error = "";
       this.step = "start";
     },
     createJSON: function createJSON(event) {
       var _this = this;
 
+      // Ensure a name is set
       if (this.properties.displayName == "") {
-        this.error = true;
+        this.error = "name";
+        return;
+      } // Ensure a particle texture is set
+
+
+      var part = false;
+      Texture.all.forEach(function (tx) {
+        if (tx.particle == true) {
+          part = true;
+        }
+      });
+
+      if (part == false) {
+        Blockbench.showMessageBox({
+          buttons: ["Ok"],
+          title: "Error",
+          message: "Please ensure you have set a particle texture"
+        });
         return;
       }
 
       var JSZip = __webpack_require__(/*! jszip */ "./node_modules/jszip/lib/index.js");
 
-      var zip = new JSZip();
-      var packName = (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.cleanFileName)(this.properties.displayName); // Define folder locations
+      var zip = new JSZip(); // Trim invalid chars from the name
+
+      var packName = (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.cleanFileName)(this.properties.displayName); // Define folder locations
 
       var objFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\objects\\";
       var blockstatesFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\blockstates\\";
@@ -188,7 +209,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       zip.file("pack.mcmeta", JSON.stringify(mcmetaData)); // Generate block name from the displayname
 
-      var blockName = (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.cleanFileName)(this.properties.displayName); //generate the list of blocks to be exported
+      var blockName = (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.cleanFileName)(this.properties.displayName); //generate the list of blocks to be exported
 
       var blockList = [];
       var codecData = Format.codec.compile(); // Custom Block
@@ -236,13 +257,25 @@ __webpack_require__.r(__webpack_exports__);
           Texture.all.forEach(function (tx) {
             if (tx.id == key || key == "particle" && tx.particle == true) {
               if (tx.namespace == "") {
-                textureData[key] = ns + ":blocks/" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.cleanFileName)(tx.name.split(".")[0]);
+                textureData[key] = ns + ":blocks/" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.cleanFileName)(tx.name.split(".")[0]);
               } else {
-                textureData[key] = tx.namespace + ":" + tx.folder + "/" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.cleanFileName)(tx.name.split(".")[0]);
+                textureData[key] = tx.namespace + ":" + tx.folder + "/" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.cleanFileName)(tx.name.split(".")[0]);
               }
             }
           });
+        }); // Looting file
+
+        var lootData = (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_11__.genLootTable)(this.properties.namespace, blockName);
+        var lootTags = dataFolder + blockName + "\\loot_tables\\blocks\\" + blockName + ".json";
+        fs.mkdirSync(dataFolder + blockName + "\\loot_tables\\blocks\\", {
+          recursive: true
         });
+        fs.writeFile(lootTags, lootData, "utf8", function (err) {
+          if (err != null) {
+            console.log("Error found when writing wall tags:", err);
+          }
+        });
+        zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/" + blockName + ".json", lootData);
         modelData.textures = textureData;
         var boxList = [];
         modelData.elements.forEach(function (model) {
@@ -263,9 +296,21 @@ __webpack_require__.r(__webpack_exports__);
         modelData["credit"] = codecData["credit"];
         modelData["parent"] = "block/cube_all";
         modelData["textures"] = {
-          "all": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant["default"].all, this.properties.namespace),
-          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)("particle", this.properties.namespace)
-        };
+          "all": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.dictFromTexture)(this.variant["default"].all, this.properties.namespace),
+          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.dictFromTexture)("particle", this.properties.namespace)
+        }; // Looting file
+
+        var lootData = (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_11__.genLootTable)(this.properties.namespace, blockName);
+        var lootTags = dataFolder + blockName + "\\loot_tables\\blocks\\" + blockName + ".json";
+        fs.mkdirSync(dataFolder + blockName + "\\loot_tables\\blocks\\", {
+          recursive: true
+        });
+        fs.writeFile(lootTags, lootData, "utf8", function (err) {
+          if (err != null) {
+            console.log("Error found when writing wall tags:", err);
+          }
+        });
+        zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/" + blockName + ".json", lootData);
         var state = JSON.stringify({
           "variants": {
             "": {
@@ -293,11 +338,23 @@ __webpack_require__.r(__webpack_exports__);
         modelData["credit"] = codecData["credit"];
         modelData["parent"] = "minecraft:block/stairs";
         modelData["textures"] = {
-          "top": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.stair.top, this.properties.namespace),
-          "bottom": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.stair.bottom, this.properties.namespace),
-          "side": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.stair.side, this.properties.namespace),
-          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)("particle", this.properties.namespace)
-        }; // Write state
+          "top": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.dictFromTexture)(this.variant.stair.top, this.properties.namespace),
+          "bottom": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.dictFromTexture)(this.variant.stair.bottom, this.properties.namespace),
+          "side": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.dictFromTexture)(this.variant.stair.side, this.properties.namespace),
+          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.dictFromTexture)("particle", this.properties.namespace)
+        }; // Looting file
+
+        var lootData = (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_11__.genLootTable)(this.properties.namespace, name);
+        var lootTags = dataFolder + name + "\\loot_tables\\blocks\\" + name + ".json";
+        fs.mkdirSync(dataFolder + name + "\\loot_tables\\blocks\\", {
+          recursive: true
+        });
+        fs.writeFile(lootTags, lootData, "utf8", function (err) {
+          if (err != null) {
+            console.log("Error found when writing wall tags:", err);
+          }
+        });
+        zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/" + name + ".json", lootData); // Write state
 
         var state = (0,_util_GenStates_js__WEBPACK_IMPORTED_MODULE_10__.genStairState)(this.properties.namespace, "block/" + name, "block/" + name + "_outer", "block/" + name + "_inner");
         fs.writeFile(blockstatesFolder + "\\" + name + ".json", state, "utf8", function (err) {
@@ -345,11 +402,23 @@ __webpack_require__.r(__webpack_exports__);
         modelData["credit"] = codecData["credit"];
         modelData["parent"] = "minecraft:block/slab";
         modelData["textures"] = {
-          "top": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.slab.top, this.properties.namespace),
-          "bottom": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.slab.bottom, this.properties.namespace),
-          "side": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.slab.side, this.properties.namespace),
-          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)("particle", this.properties.namespace)
-        }; // Write State
+          "top": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.dictFromTexture)(this.variant.slab.top, this.properties.namespace),
+          "bottom": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.dictFromTexture)(this.variant.slab.bottom, this.properties.namespace),
+          "side": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.dictFromTexture)(this.variant.slab.side, this.properties.namespace),
+          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.dictFromTexture)("particle", this.properties.namespace)
+        }; // Looting file
+
+        var lootData = (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_11__.genLootTable)(this.properties.namespace, name);
+        var lootTags = dataFolder + name + "\\loot_tables\\blocks\\" + name + ".json";
+        fs.mkdirSync(dataFolder + name + "\\loot_tables\\blocks\\", {
+          recursive: true
+        });
+        fs.writeFile(lootTags, lootData, "utf8", function (err) {
+          if (err != null) {
+            console.log("Error found when writing wall tags:", err);
+          }
+        });
+        zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/" + name + ".json", lootData); // Write State
 
         var state = {
           "variants": {
@@ -401,9 +470,21 @@ __webpack_require__.r(__webpack_exports__);
         modelData["credit"] = codecData["credit"];
         modelData["parent"] = "minecraft:block/template_wall_post";
         modelData["textures"] = {
-          "wall": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.wall.wall, this.properties.namespace),
-          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)("particle", this.properties.namespace)
-        }; // Write State
+          "wall": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.dictFromTexture)(this.variant.wall.wall, this.properties.namespace),
+          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.dictFromTexture)("particle", this.properties.namespace)
+        }; // Looting file
+
+        var lootData = (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_11__.genLootTable)(this.properties.namespace, name);
+        var lootTags = dataFolder + name + "\\loot_tables\\blocks\\" + name + ".json";
+        fs.mkdirSync(dataFolder + name + "\\loot_tables\\blocks\\", {
+          recursive: true
+        });
+        fs.writeFile(lootTags, lootData, "utf8", function (err) {
+          if (err != null) {
+            console.log("Error found when writing wall tags:", err);
+          }
+        });
+        zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/" + name + ".json", lootData); // Write State
 
         var state = (0,_util_GenStates_js__WEBPACK_IMPORTED_MODULE_10__.genWallState)(this.properties.namespace, "block/" + name + "_post", "block/" + name + "_side", "block/" + name + "_side_tall");
         fs.writeFile(blockstatesFolder + "\\" + name + ".json", state, "utf8", function (err) {
@@ -475,16 +556,28 @@ __webpack_require__.r(__webpack_exports__);
             image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
           }
 
-          fs.writeFile(blockTexturesFolder + "\\" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.cleanFileName)(tx.name), image, function (err) {
+          fs.writeFile(blockTexturesFolder + "\\" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.cleanFileName)(tx.name), image, function (err) {
             if (err != null) {
               console.log("Error Found writing texture data:", err);
             }
           });
-          zip.file("assets/" + ns + "/textures/blocks/" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.cleanFileName)(tx.name), image);
+          zip.file("assets/" + ns + "/textures/blocks/" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_12__.cleanFileName)(tx.name), image);
         }
       });
       blockList.forEach(function (block) {
-        // Write state file
+        // Generate Mining file
+        var mineableData = (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_11__.genMineableTag)(_this.properties.namespace, block["name"], block["types"]);
+        var mineableTags = dataFolder + "minecraft\\tags\\blocks\\mineable\\pickaxe.json";
+        fs.mkdirSync(dataFolder + "minecraft\\tags\\blocks\\mineable", {
+          recursive: true
+        });
+        fs.writeFile(mineableTags, mineableData, "utf8", function (err) {
+          if (err != null) {
+            console.log("Error found when writing wall tags:", err);
+          }
+        });
+        zip.file("data/minecraft/tags/blocks/mineable/pickaxe.json", mineableData); // Write state file
+
         fs.writeFile(blockstatesFolder + "\\" + block["name"] + ".json", block["state"], "utf8", function (err) {
           if (err != null) {
             console.log("Error generating blockstate:", err);
@@ -544,6 +637,51 @@ __webpack_require__.r(__webpack_exports__);
     }
   }
 });
+
+/***/ }),
+
+/***/ "./src/util/GenDataFiles.js":
+/*!**********************************!*\
+  !*** ./src/util/GenDataFiles.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "genLootTable": () => (/* binding */ genLootTable),
+/* harmony export */   "genMineableTag": () => (/* binding */ genMineableTag)
+/* harmony export */ });
+/* harmony import */ var core_js_modules_es_array_concat_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat.js */ "./node_modules/core-js/modules/es.array.concat.js");
+/* harmony import */ var core_js_modules_es_array_concat_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_for_each_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.array.for-each.js */ "./node_modules/core-js/modules/es.array.for-each.js");
+/* harmony import */ var core_js_modules_es_array_for_each_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.object.to-string.js */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each.js */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each_js__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+function genLootTable(namespace, block) {
+  return "{\n    \"type\": \"minecraft:block\",\n    \"pools\": [\n        {\n            \"rolls\": 1,\n            \"entries\": [\n                {\n                    \"type\": \"minecraft:item\",\n                    \"name\": \"".concat(namespace, ":").concat(block, "\"\n                }\n            ],\n            \"conditions\": []\n        }\n    ]\n}");
+}
+function genMineableTag(namespace, block, variants) {
+  if (variants.length == 0) {
+    return "{\n    \"replace\": false,\n    \"values\": [\n        \"".concat(namespace, ":").concat(block, "\"\n    ]\n}");
+  } else {
+    var tagValues = ["".concat(namespace, ":").concat(block)];
+    variants.forEach(function (v) {
+      tagValues.push("".concat(namespace, ":").concat(block, "_").concat(v));
+    });
+    var data = {
+      "replace": false,
+      "values": tagValues
+    };
+    return JSON.stringify(data);
+  }
+}
 
 /***/ }),
 
@@ -657,6 +795,8 @@ function imageNameToTexture(namespace, type, image) {
 function dictFromTexture(image, ns) {
   var ret = "";
   Texture.all.forEach(function (tx) {
+    console.log(tx.name);
+
     if (tx.name == image || image == "particle" && tx.particle == true) {
       if (tx.namespace == "") {
         ret = ns + ":blocks/" + cleanFileName(tx.name.split(".")[0]);
@@ -19624,7 +19764,7 @@ var render = function () {
                 _vm._v("The unique name of the block to be exported"),
               ]),
               _vm._v(" "),
-              _vm.error == true
+              _vm.error == "name"
                 ? _c("p", { staticStyle: { color: "red" } }, [
                     _vm._v("Block display name cannot be blank"),
                   ])
@@ -21479,7 +21619,7 @@ Plugin.register('BAMO', {
   author: 'Ryytikki',
   description: 'Exports block metadata for use in the BAMO mod',
   icon: 'bar_chart',
-  version: '0.3.3',
+  version: '0.3.4',
   variant: 'both',
   onload: function onload() {
     // Setting that holds the resource pack folder location

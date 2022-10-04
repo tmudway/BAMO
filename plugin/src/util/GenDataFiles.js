@@ -1,5 +1,5 @@
-export function genLootTable(namespace, block, variants){
-    if (variants.length == 0){
+export function genLootTable(namespace, block){
+
         return  `{
     "type": "minecraft:block",
     "pools": [
@@ -15,9 +15,7 @@ export function genLootTable(namespace, block, variants){
         }
     ]
 }`
-    }else{
 
-    }
 }
 
 export function genMineableTag(namespace, block, variants){
@@ -30,6 +28,18 @@ export function genMineableTag(namespace, block, variants){
 }`
 
     }else{
+
+        var tagValues = [`${namespace}:${block}`]
+        variants.forEach(function(v){
+            tagValues.push(`${namespace}:${block}_${v}`)
+        })
+
+        var data = {
+            "replace": false,
+            "values": tagValues
+        }
+
+        return JSON.stringify(data)
     }
     
 }

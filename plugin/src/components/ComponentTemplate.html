@@ -35,7 +35,7 @@
             <li>
                 <div class="headerLabel">Display Name</div>
                 <p class="headerDescription">The unique name of the block to be exported</p>
-                <p v-if="error==true" style="color:red">Block display name cannot be blank</p>
+                <p v-if="error=='name'" style="color:red">Block display name cannot be blank</p>
                 <input type="text" class="dark_bordered" v-model="properties.displayName" placeholder="blockname">
             </li>
         </ul><br>
