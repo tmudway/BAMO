@@ -7,7 +7,7 @@
         <li v-bind:class="{selected: step =='types'}" @click.prevent="changePage($event, 'types')">
             Block Types
         </li>
-        <li v-bind:class="{selected: step =='variant'}" v-if="types.block" @click.prevent="changePage($event, 'variant')">
+        <li v-bind:class="{selected: step =='variant'}" v-if="properties.types.block" @click.prevent="changePage($event, 'variant')">
             Variants
         </li>
         <li class="sideBarHeader">Properties</li>
@@ -20,8 +20,8 @@
         <li v-bind:class="{selected: step == 'other'}" @click.prevent="changePage($event, 'other')">
             Other
         </li>
-        <li class="sideBarHeader">Adv. Options</li>
-        <li v-bind:class="{selected: step == 'settings'}" @click.prevent="changePage($event, 'settings')">
+        <li class="sideBarHeader" v-if="false">Adv. Options</li>
+        <li v-bind:class="{selected: step == 'settings'}" v-if="false" @click.prevent="changePage($event, 'settings')">
             BAMO settings
         </li>
     </ul>
@@ -36,7 +36,7 @@
                 <div class="headerLabel">Display Name</div>
                 <p class="headerDescription">The unique name of the block to be exported</p>
                 <p v-if="error=='name'" style="color:red">Block display name cannot be blank</p>
-                <input type="text" class="dark_bordered" v-model="properties.displayName" placeholder="blockname">
+                <input type="text" class="dark_bordered" v-model="properties.displayName" placeholder="Name of the Block">
             </li>
         </ul><br>
         
@@ -49,24 +49,24 @@
         <h1 style="padding:0; text-align: center;">Block Types</h1>
         <ul class="settingsList">
             <li>
-                <input type="checkbox" v-model="types.custom" v-on:change="toggleType($event, 'custom')">
+                <input type="checkbox" v-model="properties.types.custom" v-on:change="toggleType($event, 'custom')">
                 <div class = "headerLabel">Custom Block</div>
                 <p class="headerDescription">Block with a custom model and hitbox</p>
             </li>
-            <li style="padding-left: 20px" v-if="types.custom">
+            <li style="padding-left: 20px" v-if="properties.types.custom">
                 <div class = "headerLabel">Custom Block Type</div>
-                <select class="dark_bordered" v-model = "types.customType">
+                <select class="dark_bordered" v-model = "properties.types.customType">
                     <option v-for="op in customTypeOptions" v-bind:key="op">{{op}}</option>
                 </select>
             </li>
             <li>
-                <input type="checkbox" v-model="types.block" v-on:change="toggleType($event, 'block')">
+                <input type="checkbox" v-model="properties.types.block" v-on:change="toggleType($event, 'block')">
                 <div class = "headerLabel">Standard Block</div>
                 <p class="headerDescription">Standard minecraft block with identical textures on all faces</p>
             </li>
-            <li style="padding-left: 20px" v-if="types.block">
+            <li style="padding-left: 20px" v-if="properties.types.block">
                 <div class = "headerLabel">Texture</div>
-                <select class="dark_bordered" v-model="variant.default.all" >
+                <select class="dark_bordered" v-model="properties.variant.default.all" >
                     <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
@@ -82,58 +82,58 @@
         <h1 style="padding:0; text-align: center;">Variant Blocks</h1>
         <ul class="settingsList">
             <li>
-                <input type="checkbox" v-model="types.stair">
+                <input type="checkbox" v-model="properties.types.stair">
                 <div class = "headerLabel">Create Stair Block</div>
             </li>
-            <li style="padding-left: 20px" v-if="types.stair">
+            <li style="padding-left: 20px" v-if="properties.types.stair">
                 <div class = "headerLabel">Top Texture</div>
-                <select class="dark_bordered" v-model="variant.stair.top" >
+                <select class="dark_bordered" v-model="properties.variant.stair.top" >
                     <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
-            <li style="padding-left: 20px" v-if="types.stair"> 
+            <li style="padding-left: 20px" v-if="properties.types.stair"> 
                 <div class = "headerLabel">Bottom Texture</div>
-                <select class="dark_bordered" v-model="variant.stair.bottom">
+                <select class="dark_bordered" v-model="properties.variant.stair.bottom">
                     <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
-            <li style="padding-left: 20px" v-if="types.stair"> 
+            <li style="padding-left: 20px" v-if="properties.types.stair"> 
                 <div class = "headerLabel">Side Texture</div>
-                <select class="dark_bordered" v-model="variant.stair.side">
+                <select class="dark_bordered" v-model="properties.variant.stair.side">
                     <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
             
             <li>
-                <input type="checkbox" v-model="types.slab">
+                <input type="checkbox" v-model="properties.types.slab">
                 <div class = "headerLabel">Create Slab Block</div>
             </li>
-            <li style="padding-left: 20px" v-if="types.slab">
+            <li style="padding-left: 20px" v-if="properties.types.slab">
                 <div class = "headerLabel">Top Texture</div>
-                <select class="dark_bordered" v-model="variant.slab.top" >
+                <select class="dark_bordered" v-model="properties.variant.slab.top" >
                     <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
-            <li style="padding-left: 20px" v-if="types.slab"> 
+            <li style="padding-left: 20px" v-if="properties.types.slab"> 
                 <div class = "headerLabel">Bottom Texture</div>
-                <select class="dark_bordered" v-model="variant.slab.bottom">
+                <select class="dark_bordered" v-model="properties.variant.slab.bottom">
                     <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
-            <li style="padding-left: 20px" v-if="types.slab"> 
+            <li style="padding-left: 20px" v-if="properties.types.slab"> 
                 <div class = "headerLabel">Side Texture</div>
-                <select class="dark_bordered" v-model="variant.slab.side">
+                <select class="dark_bordered" v-model="properties.variant.slab.side">
                     <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
 
             <li>
-                <input type="checkbox" v-model="types.wall">
+                <input type="checkbox" v-model="properties.types.wall">
                 <div class = "headerLabel">Create Wall Block</div>
             </li>
-            <li style="padding-left: 20px" v-if="types.wall">
+            <li style="padding-left: 20px" v-if="properties.types.wall">
                 <div class = "headerLabel">Wall Texture</div>
-                <select class="dark_bordered" v-model="variant.wall.wall" >
+                <select class="dark_bordered" v-model="properties.variant.wall.wall" >
                     <option v-for="op in Textures()" v-bind:key="op">{{op.name}}</option>
                 </select>
             </li>
@@ -230,11 +230,6 @@
                 <div class = "headerLabel">Rotation Type</div>
                 <p class="headerDescription">WIP: Only default and y-axis added so far</p>
                 <select class="dark_bordered" v-model="properties.rotType"><option v-for="op in rotationTypes" v-bind:key="op">{{ op }}</option></select>
-            </li>
-
-            <li>
-                <div class = "headerLabel">Block Type</div>
-                <p class="headerDescription">What type of block (regular/stair/slab/etc) the model is (WIP)</p>
             </li>
         </ul>
         <br>

@@ -3,6 +3,7 @@ import { rotationTypes, soundOptions, materialOptions, transparencyOptions, tabO
 import {genWallState, genStairState} from '../util/GenStates.js'
 import {genLootTable, genMineableTag} from '../util/GenDataFiles.js'
 import {dictFromTexture, cleanFileName} from '../util/Utils.js'
+import bamoSettings, { BAMO_SETTINGS_DEFAULT } from "../util/Settings.js";
 
 export default {
     data() {
@@ -15,66 +16,35 @@ export default {
             materialOptions: materialOptions,
             transparencyOptions: transparencyOptions,
             tabOptions: tabOptions,
-            customTypeOptions:customTypeOptions,
-
-            // Data to be exported
-            properties: {
-                namespace: "bamo",
-                displayName: "test",
-                material: materialOptions[0],
-                blastRes: 6,
-                slip: 0.6,
-                gravity: false,
-                rotType: rotationTypes[0],
-                sounds: soundOptions[0],
-                lum: 0,
-                maxStack: 64,
-                fireproof: true,
-                transparency: transparencyOptions[0],
-                creativeTab: tabOptions[0],
-            },
-
-            custom: {
-                bounds: [],
-            },
-
-            variant: {
-                default:{
-                    all: Texture.all[0].name,
-                },
-                stair: {
-                    top: Texture.all[0].name,
-                    bottom: Texture.all[0].name,
-                    side: Texture.all[0].name,
-                    particle: Texture.all[0].name
-                },
-                slab: {
-                    top: Texture.all[0].name,
-                    bottom: Texture.all[0].name,
-                    side: Texture.all[0].name,
-                    particle: Texture.all[0].name
-                },
-                wall: {
-                    wall:Texture.all[0].name,
-                    particle: Texture.all[0].name
-                }
-            },
-
-            types: {
-                custom: true,
-                customType: "Default",
-                block: false,
-                stair: false,
-                slab: false,
-                wall: false,
-            }
-
+            customTypeOptions: customTypeOptions,
+            
+            properties: BAMO_SETTINGS_DEFAULT,
+            lastID: "",
+            swap: false
         }
     },
-    computed:{
-        
-    },
-    methods:{
+    methods: {
+
+        updateValues(){
+            
+            if (Project.uuid != this.lastID){
+                this.properties = bamoSettings[Project.uuid];
+                this.lastID = Project.uuid;
+                this.swap = true;
+            }
+
+            // Initialize the textures if not done so yet
+            if (this.properties.variant.default.all == "") {
+                this.properties.variant.default.all = Texture.all[0].name;
+                this.properties.variant.stair.top = Texture.all[0].name;
+                this.properties.variant.stair.bottom = Texture.all[0].name;
+                this.properties.variant.stair.side = Texture.all[0].name;
+                this.properties.variant.slab.top = Texture.all[0].name;
+                this.properties.variant.slab.bottom = Texture.all[0].name;
+                this.properties.variant.slab.side = Texture.all[0].name;
+                this.properties.variant.wall.wall = Texture.all[0].name;
+            }
+        },
 
         Textures(){
             return Texture.all
@@ -86,7 +56,7 @@ export default {
             }else{
 
                 if ((this.step == "types" && page == "physical") || (this.step == "physical" && page == "types")){
-                    if (this.types.block) {page = "variant"}
+                    if (this.properties.types.block) {page = "variant"}
                 }
 
                 this.error = ""
@@ -96,16 +66,16 @@ export default {
 
         toggleType(event, type){
             
-            if (this.types.custom && type=="custom"){
-                this.types.block = false
-                this.types.stair = false
-                this.types.slab = false
-                this.types.wall = false
+            if (this.properties.types.custom && type=="custom"){
+                this.properties.types.block = false
+                this.properties.types.stair = false
+                this.properties.types.slab = false
+                this.properties.types.wall = false
                 return
             }
 
-            if (this.types.block && type=="block"){
-                this.types.custom = false
+            if (this.properties.types.block && type=="block"){
+                this.properties.types.custom = false
                 return
             }
         },
@@ -174,7 +144,7 @@ export default {
             var codecData = Format.codec.compile();
 
             // Custom Block
-            if (this.types.custom){
+            if (this.properties.types.custom){
                 // Pull the model data from the codec
                 var modelData = JSON.parse(codecData);
                 modelData["parent"] = "block/block";
@@ -195,6 +165,8 @@ export default {
 
                 // Setup texture dict
                 ns = this.properties.namespace
+                console.log(Texture.all)
+                console.log(modelData.textures)
                 Object.keys(modelData.textures).forEach((key) => {
                     Texture.all.forEach(function(tx){
                         if ((tx.id == key) || (key == "particle" && tx.particle == true)){
@@ -226,12 +198,12 @@ export default {
             }
 
             // Regular Block
-            if (this.types.block){
+            if (this.properties.types.block){
                 var modelData = {};
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "block/cube_all";
                 modelData["textures"] = {
-                    "all": dictFromTexture(this.variant.default.all, this.properties.namespace),
+                    "all": dictFromTexture(this.properties.variant.default.all, this.properties.namespace),
                     "particle": dictFromTexture("particle", this.properties.namespace)
                 };
 
@@ -246,15 +218,15 @@ export default {
                 var state = JSON.stringify({"variants": {"": {"model": this.properties.namespace + ":block/" + blockName}}});
 
                 var typeList = [];
-                if (this.types.stair) typeList.push("stairs");
-                if (this.types.slab) typeList.push("slab");
-                if (this.types.wall) typeList.push("wall");
+                if (this.properties.types.stair) typeList.push("stairs");
+                if (this.properties.types.slab) typeList.push("slab");
+                if (this.properties.types.wall) typeList.push("wall");
 
                 blockList.push({"name": blockName, "types": typeList, "state": state, "model": modelData, "hitbox": []});
             }
 
             // Stair Block
-            if (this.types.stair){
+            if (this.properties.types.stair){
 
                 var name = blockName + "_stairs";
 
@@ -262,9 +234,9 @@ export default {
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "minecraft:block/stairs";
                 modelData["textures"] = {
-                    "top": dictFromTexture(this.variant.stair.top, this.properties.namespace),
-                    "bottom": dictFromTexture(this.variant.stair.bottom, this.properties.namespace), 
-                    "side": dictFromTexture(this.variant.stair.side, this.properties.namespace),
+                    "top": dictFromTexture(this.properties.variant.stair.top, this.properties.namespace),
+                    "bottom": dictFromTexture(this.properties.variant.stair.bottom, this.properties.namespace), 
+                    "side": dictFromTexture(this.properties.variant.stair.side, this.properties.namespace),
                     "particle": dictFromTexture("particle", this.properties.namespace)
                 };
 
@@ -298,7 +270,7 @@ export default {
                 zip.file("assets/" + this.properties.namespace + "/models/block/" + name + "_outer.json", JSON.stringify(modelData))
             }
 
-            if (this.types.slab){
+            if (this.properties.types.slab){
 
                 var name = blockName + "_slab";
 
@@ -306,9 +278,9 @@ export default {
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "minecraft:block/slab"
                 modelData["textures"] = {
-                    "top": dictFromTexture(this.variant.slab.top, this.properties.namespace),
-                    "bottom": dictFromTexture(this.variant.slab.bottom, this.properties.namespace), 
-                    "side": dictFromTexture(this.variant.slab.side, this.properties.namespace),
+                    "top": dictFromTexture(this.properties.variant.slab.top, this.properties.namespace),
+                    "bottom": dictFromTexture(this.properties.variant.slab.bottom, this.properties.namespace), 
+                    "side": dictFromTexture(this.properties.variant.slab.side, this.properties.namespace),
                     "particle": dictFromTexture("particle", this.properties.namespace)
                 }
 
@@ -342,14 +314,14 @@ export default {
                 zip.file("assets/" + this.properties.namespace + "/models/block/" + name + "_top.json", JSON.stringify(modelData))
             }
 
-            if (this.types.wall){
+            if (this.properties.types.wall){
                 var name = blockName + "_wall";
 
                 var modelData = {};
                 modelData["credit"] = codecData["credit"];
                 modelData["parent"] = "minecraft:block/template_wall_post";
                 modelData["textures"] = {
-                    "wall": dictFromTexture(this.variant.wall.wall, this.properties.namespace),
+                    "wall": dictFromTexture(this.properties.variant.wall.wall, this.properties.namespace),
                     "particle": dictFromTexture("particle", this.properties.namespace)
                 }
 
@@ -433,7 +405,7 @@ export default {
                 
                 // Write block properties file
                 var data = {
-                    "displayName" : this.properties.displayName, 
+                    "displayName" : this.properties.displayName.replace(/[^a-zA-Z\d\s._]/g, ''), 
                     "typeList" : block["types"],
                     "material" : this.properties.material,
                     "blastRes" : this.properties.blastRes,
@@ -447,7 +419,7 @@ export default {
                     "creativeTab" : this.properties.creativeTab,
                     "transparency": this.properties.transparency,
                     "hitbox": block["hitbox"],
-                    "blockType" : this.types.customType,
+                    "blockType" : this.properties.types.customType,
                     "nameGenType" : "3.3" // Allows for names where " " is replaced with "_" to coexist with the older "" system
                 };
 
@@ -465,6 +437,20 @@ export default {
             let e = open_interface;
             e.hide();
         },
+    },
+    watch: {
+        properties: {
+            handler: function(val){
+                console.log("props")
+                if (this.swap == false){
+                    Project.saved = false;
+                }else{
+                    this.swap = false
+                }
+                
+            },
+            deep: true
+        }
     }
 }
 </script>
