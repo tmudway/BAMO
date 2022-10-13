@@ -1,11 +1,12 @@
 import BamoComponent from './components/BamoComponent.vue';
-
+import codec, { loadCodec, unloadCodec } from './util/Codec';
+import bamoSettings, {BAMO_SETTINGS_DEFAULT} from './util/Settings';
 const css = require('./components/bamo.css').toString();
 
 let btn;
 let exportWindow;
 let cssData;
-let minecraftFolder
+let minecraftFolder;
 
 Plugin.register('BAMO', {
 	title: 'BAMO Exporter',
@@ -16,6 +17,8 @@ Plugin.register('BAMO', {
 	variant: 'both',
 	
 	onload() {
+
+		loadCodec();
 
 		// Setting that holds the resource pack folder location
 		minecraftFolder = new Setting('minecraftFolder', {
@@ -28,14 +31,26 @@ Plugin.register('BAMO', {
 
 		// Export button in menu
 		btn = new Action('bamo', {
-			name: 'BAMO Export',
-			description: 'Exports block metadata for BAMO mod',
+			name: 'BAMO Properties & Export',
+			description: 'Sets block properties for BAMO mod',
 			icon: 'fa-cube',
 			click: function () {
 				if (Project.name != undefined){
+					if (Texture.all.length == 0){
+						Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "Please create a texture"});
+						return;
+					}
+					
+					// If the bamoSettings for the file havent been generated, generate
+					if (typeof bamoSettings[Project.uuid] !== 'object'){
+						bamoSettings[Project.uuid] = Object.assign({}, BAMO_SETTINGS_DEFAULT);
+        				bamoSettings[Project.uuid].displayName = Project.name
+					}
+					
+
 					if ((Settings.get('minecraftFolder') != undefined) && (Settings.get('minecraftFolder') != '')){
 						exportWindow.show();
-						//exportWindow.content_vue.reset();
+						exportWindow.content_vue.updateValues()
 					}else{
 						Blockbench.showMessageBox({buttons: ["Ok"], title: "Error", message: "You must set your Minecraft folder location under Settings->Export"});
 					}
@@ -66,5 +81,6 @@ Plugin.register('BAMO', {
 		btn.delete();
 		minecraftFolder.delete();
 		cssData.delete();
+		unloadCodec();
 	}
 });
