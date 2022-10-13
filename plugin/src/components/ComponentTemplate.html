@@ -34,7 +34,7 @@
         <ul class="settingsList">
             <li>
                 <div class="headerLabel">Display Name</div>
-                <p class="headerDescription">The unique name of the block to be exported</p>
+                <p class="headerDescription">The (unique) name of the block as will be seen in Minecraft</p>
                 <p v-if="error=='name'" style="color:red">Block display name cannot be blank</p>
                 <input type="text" class="dark_bordered" v-model="properties.displayName" placeholder="Name of the Block">
             </li>
@@ -62,7 +62,7 @@
             <li>
                 <input type="checkbox" v-model="properties.types.block" v-on:change="toggleType($event, 'block')">
                 <div class = "headerLabel">Standard Block</div>
-                <p class="headerDescription">Standard minecraft block with identical textures on all faces</p>
+                <p class="headerDescription">1x1 block with identical textures on all faces</p>
             </li>
             <li style="padding-left: 20px" v-if="properties.types.block">
                 <div class = "headerLabel">Texture</div>
@@ -228,7 +228,7 @@
 
             <li>
                 <div class = "headerLabel">Rotation Type</div>
-                <p class="headerDescription">WIP: Only default and y-axis added so far</p>
+                <p class="headerDescription">if y_axis, faces the player when placed</p>
                 <select class="dark_bordered" v-model="properties.rotType"><option v-for="op in rotationTypes" v-bind:key="op">{{ op }}</option></select>
             </li>
         </ul>

@@ -41,6 +41,15 @@ var format = new ModelFormat({
     description: "A format for storing models to be exported for the BAMO mod",
     icon: "view_in_ar",
     select_texture_for_particles: true,
+    rotate_cubes: true,
+    box_uv: true,
+    optional_box_uv: true,
+    bone_rig: true,
+    centered_grid: true,
+    animated_textures: true,
+    animation_mode: true,
+    animation_files: true,
+    locators: true,
     codec: Codecs.project
 });
 

@@ -31,6 +31,7 @@ export default {
                 this.properties = bamoSettings[Project.uuid];
                 this.lastID = Project.uuid;
                 this.swap = true;
+                this.reset(null);
             }
 
             // Initialize the textures if not done so yet

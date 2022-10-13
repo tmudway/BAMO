@@ -31,8 +31,8 @@ Plugin.register('BAMO', {
 
 		// Export button in menu
 		btn = new Action('bamo', {
-			name: 'BAMO Export',
-			description: 'Exports block metadata for BAMO mod',
+			name: 'BAMO Properties & Export',
+			description: 'Sets block properties for BAMO mod',
 			icon: 'fa-cube',
 			click: function () {
 				if (Project.name != undefined){
