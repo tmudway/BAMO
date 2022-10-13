@@ -230,9 +230,9 @@ object BlockGenerator {
         var blockName = ""
 
         if (data.nameGenType == "old"){
-            blockName = data.displayName.replace(" ", "").lowercase()
+            blockName = data.displayName.replace("\\s+".toRegex(), "").lowercase()
         }else{
-            blockName = data.displayName.replace(" ", "_").lowercase()
+            blockName = data.displayName.replace("\\s+".toRegex(), "_").lowercase()
         }
 
         blockName = "$ID:$blockName"
@@ -267,9 +267,9 @@ object BlockGenerator {
         var blockName = ""
 
         if (data.nameGenType == "old"){
-            blockName = data.displayName.replace(" ", "").lowercase()
+            blockName = data.displayName.replace("\\s+".toRegex(), "").lowercase()
         }else{
-            blockName = data.displayName.replace(" ", "_").lowercase()
+            blockName = data.displayName.replace("\\s+".toRegex(), "_").lowercase()
         }
 
         blockName = "$ID:$blockName" + "_$type"

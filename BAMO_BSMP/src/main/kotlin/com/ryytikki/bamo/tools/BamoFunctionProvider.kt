@@ -27,6 +27,14 @@ fun initFlowerBlockProperties(data:BlockData) : AbstractBlock.Settings{
         .nonOpaque()
 }
 
+fun initCakeBlockProperties(data:BlockData) : AbstractBlock.Settings{
+    return AbstractBlock.Settings.copy(Blocks.CAKE)
+        .slipperiness(data.slip)
+        .sounds(data.sounds)
+        .luminance(){data.lum}
+        .nonOpaque()
+}
+
 class BamoFunctionProvider(parent: Block, data: BlockData){
 
     private var baseNorth = Block.createCuboidShape(0.0,0.0,0.0,0.0,0.0,0.0)
