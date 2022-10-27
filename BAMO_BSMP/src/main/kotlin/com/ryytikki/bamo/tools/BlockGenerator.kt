@@ -1,5 +1,6 @@
 package com.ryytikki.bamo.tools
 
+import com.ibm.icu.text.MessagePattern
 import com.ryytikki.bamo.ID
 import com.ryytikki.bamo.blocks.*
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -12,10 +13,14 @@ import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.block.Material
+import net.minecraft.client.particle.Particle
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
+import net.minecraft.particle.DefaultParticleType
+import net.minecraft.particle.ParticleType
+import net.minecraft.particle.ParticleTypes
 import net.minecraft.util.registry.Registry
 import java.nio.file.Files
 import java.util.function.Supplier
@@ -39,9 +44,22 @@ data class JSONData(
     val creativeTab : String,                           // DONE
     val transparency: String = "Solid",                 // DONE
     val hitbox: List<Array<DoubleArray>> = emptyList(), // DONE
+    val hitboxBuffer: String = "",
     val blockType: String = "",
+    val particleType: String = "",
+    val particlePos: DoubleArray = doubleArrayOf(0.0, 0.0, 0.0),
+    val particleSpread: DoubleArray = doubleArrayOf(0.0, 0.0, 0.0),
+    val particleVel: DoubleArray = doubleArrayOf(0.0, 0.0, 0.0),
 //    val lang: String,                                   // WIP
     val nameGenType: String = "old",
+)
+
+data class ParticleData(
+    val enabled: Boolean,
+    val type: DefaultParticleType,
+    val pos: DoubleArray,
+    val spread: DoubleArray,
+    val vel: DoubleArray
 )
 
 data class BlockData(
@@ -53,6 +71,77 @@ data class BlockData(
     var lum: Int,
     var fireproof: Boolean,
     var hitbox: List<Array<DoubleArray>>,
+    var hitboxBuffer: String,
+    var particles: ParticleData,
+)
+
+val particleMap = mapOf<String, DefaultParticleType>(
+    "Ambient Entity Effect" to ParticleTypes.AMBIENT_ENTITY_EFFECT,
+    "Angry Villager" to ParticleTypes.ANGRY_VILLAGER,
+    "Ash" to ParticleTypes.ASH,
+    "Bubble" to ParticleTypes.BUBBLE,
+    "Bubble Pop" to ParticleTypes.BUBBLE_POP,
+    "Campfire Smoke" to ParticleTypes.CAMPFIRE_COSY_SMOKE,
+    "Cloud" to ParticleTypes.CLOUD,
+    "Composter" to ParticleTypes.COMPOSTER,
+    "Crimson Spore" to ParticleTypes.CRIMSON_SPORE,
+    "Crit" to ParticleTypes.CRIT,
+    "Damage Indicator" to ParticleTypes.DAMAGE_INDICATOR,
+    "Dolphin" to ParticleTypes.DOLPHIN,
+    "Dripping Dripstone Lava" to ParticleTypes.DRIPPING_DRIPSTONE_LAVA,
+    "Dripping Dripstone Water" to ParticleTypes.DRIPPING_DRIPSTONE_WATER,
+    "Dripping Honey" to ParticleTypes.DRIPPING_HONEY,
+    "Dripping Lava" to ParticleTypes.DRIPPING_LAVA,
+    "Dripping Obsidian Tear" to ParticleTypes.DRIPPING_OBSIDIAN_TEAR,
+    "Dripping Water" to ParticleTypes.DRIPPING_WATER,
+    "Elder Guardian" to ParticleTypes.ELDER_GUARDIAN,
+    "Electric Spark" to ParticleTypes.ELECTRIC_SPARK,
+    "Enchant" to ParticleTypes.ENCHANT,
+    "Enchanted Hit" to ParticleTypes.ENCHANTED_HIT,
+    "End Rod" to ParticleTypes.END_ROD,
+    "Entity Effect" to ParticleTypes.ENTITY_EFFECT,
+    "Explosion" to ParticleTypes.EXPLOSION,
+    "Falling Dripstone Lava" to ParticleTypes.FALLING_DRIPSTONE_LAVA,
+    "Falling Dripstone Water" to ParticleTypes.FALLING_DRIPSTONE_WATER,
+    "Falling Honey" to ParticleTypes.FALLING_HONEY,
+    "Falling Lava" to ParticleTypes.FALLING_LAVA,
+    "Falling Nectar" to ParticleTypes.FALLING_NECTAR,
+    "Falling Obsidian Tear" to ParticleTypes.FALLING_OBSIDIAN_TEAR,
+    "Falling Spore Blossom" to ParticleTypes.FALLING_SPORE_BLOSSOM,
+    "Falling Water" to ParticleTypes.FALLING_WATER,
+    "Firework" to ParticleTypes.FIREWORK,
+    "Fishing" to ParticleTypes.FISHING,
+    "Flame" to ParticleTypes.FLAME,
+    "Flash" to ParticleTypes.FLASH,
+    "Glow" to ParticleTypes.GLOW,
+    "Glow Squid Ink" to ParticleTypes.GLOW_SQUID_INK,
+    "Happy Villager" to ParticleTypes.HAPPY_VILLAGER,
+    "Heart" to ParticleTypes.HEART,
+    "Slime Item" to ParticleTypes.ITEM_SLIME,
+    "Snowball item" to ParticleTypes.ITEM_SNOWBALL,
+    "Landing Honey" to ParticleTypes.LANDING_HONEY,
+    "Landing Lava" to ParticleTypes.LANDING_LAVA,
+    "Landing Obsidian Tear" to ParticleTypes.LANDING_OBSIDIAN_TEAR,
+    "Lava" to ParticleTypes.LAVA,
+    "Mycelium" to ParticleTypes.MYCELIUM,
+    "Nautilus" to ParticleTypes.NAUTILUS,
+    "Note" to ParticleTypes.NOTE,
+    "Rain" to ParticleTypes.RAIN,
+    "Reverse Portal" to ParticleTypes.REVERSE_PORTAL,
+    "Scrape" to ParticleTypes.SCRAPE,
+    "Small Flame" to ParticleTypes.SMALL_FLAME,
+    "Snowflake" to ParticleTypes.SNOWFLAKE,
+    "Soul" to ParticleTypes.SOUL,
+    "Soulfire Flame" to ParticleTypes.SOUL_FIRE_FLAME,
+    "Spore Blossom Air" to ParticleTypes.SPORE_BLOSSOM_AIR,
+    "Sweep Attack" to ParticleTypes.SWEEP_ATTACK,
+    "Totem of Undying" to ParticleTypes.TOTEM_OF_UNDYING,
+    "Undewater" to ParticleTypes.UNDERWATER,
+    "Warped Spore" to ParticleTypes.WARPED_SPORE,
+    "Wax off" to ParticleTypes.WAX_OFF,
+    "Wax On" to ParticleTypes.WAX_ON,
+    "White Ash" to ParticleTypes.WHITE_ASH,
+    "Witch" to ParticleTypes.WITCH
 )
 
 val matMap = mapOf<String, Material>(
@@ -224,8 +313,11 @@ object BlockGenerator {
 
     private fun registerBlockFromJson(data: JSONData): Block{
 
+
+        var pData = ParticleData((data.particleType != ""), particleMap[data.particleType]?: ParticleTypes.SMOKE, data.particlePos, data.particleSpread, data.particleVel)
+
         val bData = BlockData((matMap[data.material]?:Material.SOIL), data.displayName, data.blastRes, data.slip,
-            (soundsMap[data.sounds] ?: BlockSoundGroup.GRASS), data.lum, data.fireproof, data.hitbox)
+            (soundsMap[data.sounds] ?: BlockSoundGroup.GRASS), data.lum, data.fireproof, data.hitbox, data.hitboxBuffer, pData)
 
         var blockName = ""
 
@@ -261,8 +353,11 @@ object BlockGenerator {
     }
 
     private fun registerDependantBlockFromJson(data: JSONData, pBlock: Block, type:String): Block{
+
+        var pData = ParticleData((data.particleType == ""), particleMap[data.particleType]?: ParticleTypes.AMBIENT_ENTITY_EFFECT, data.particlePos, data.particleSpread, data.particleVel)
+
         val bData = BlockData((matMap[data.material]?:Material.SOIL), data.displayName + " $type", data.blastRes, data.slip,
-            (soundsMap[data.sounds] ?: BlockSoundGroup.GRASS), data.lum, data.fireproof, data.hitbox)
+            (soundsMap[data.sounds] ?: BlockSoundGroup.GRASS), data.lum, data.fireproof, data.hitbox, data.hitboxBuffer, pData)
 
         var blockName = ""
 

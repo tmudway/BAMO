@@ -10,6 +10,8 @@ import net.minecraft.text.MutableText
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
+import net.minecraft.world.World
+import java.util.*
 
 class BAMOSlabBlock(prop: Settings, data: BlockData) : SlabBlock(prop){
     private val bamoFunc: BamoFunctionProvider
@@ -24,5 +26,9 @@ class BAMOSlabBlock(prop: Settings, data: BlockData) : SlabBlock(prop){
 
     override fun getTranslationKey(): String {
         return bamoFunc.getDescID()
+    }
+
+    override fun randomDisplayTick(state: BlockState?, world: World?, pos: BlockPos?, random: Random?) {
+        return bamoFunc.randomDisplayTick(world, pos, random)
     }
 }

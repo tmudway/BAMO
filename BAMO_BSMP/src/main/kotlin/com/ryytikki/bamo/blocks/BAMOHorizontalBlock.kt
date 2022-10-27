@@ -14,6 +14,8 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
+import net.minecraft.world.World
+import java.util.*
 
 val HORIZONTAL_FACING:DirectionProperty = Properties.HORIZONTAL_FACING
 
@@ -44,5 +46,9 @@ class BAMOHorizontalBlock(prop: Settings, data: BlockData) : Block(prop){
 
     override fun getTranslationKey(): String {
         return bamoFunc.getDescID()
+    }
+
+    override fun randomDisplayTick(state: BlockState?, world: World?, pos: BlockPos?, random: Random?) {
+        return bamoFunc.randomDisplayTick(world, pos, random)
     }
 }

@@ -9,6 +9,8 @@ import net.minecraft.text.MutableText
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
+import net.minecraft.world.World
+import java.util.*
 import java.util.function.Supplier
 
 class BAMOStairsBlock(state: Supplier<BlockState>, prop: Settings, data: BlockData) : StairsBlock(state.get(), prop){
@@ -24,5 +26,9 @@ class BAMOStairsBlock(state: Supplier<BlockState>, prop: Settings, data: BlockDa
 
     override fun getTranslationKey(): String {
         return bamoFunc.getDescID()
+    }
+
+    override fun randomDisplayTick(state: BlockState?, world: World?, pos: BlockPos?, random: Random?) {
+        return bamoFunc.randomDisplayTick(world, pos, random)
     }
 }
