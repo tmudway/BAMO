@@ -1,4 +1,4 @@
-import BamoComponent from './components/BamoComponent.vue';
+import BamoBaseComponent from './components/BamoBaseComponent.vue';
 import codec, { loadCodec, unloadCodec } from './util/Codec';
 import bamoSettings, {BAMO_SETTINGS_DEFAULT} from './util/Settings';
 const css = require('./components/bamo.css').toString();
@@ -67,7 +67,7 @@ Plugin.register('BAMO', {
 		exportWindow = new Dialog('BAMOExportWindow', {
 			id: "BAMO",
 			title: 'BAMO Exporter',
-			component: BamoComponent,
+			component: BamoBaseComponent,
 			buttons: [],
 			padding: !1,
 			width: 720,

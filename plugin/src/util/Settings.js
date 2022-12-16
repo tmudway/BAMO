@@ -43,6 +43,13 @@ export const BAMO_SETTINGS_DEFAULT = {
             particle: ""
         }
     },
+    particles: false,
+    particleType: "Smoke",
+    particlePos: {
+        x: 8,
+        y: 8,
+        z: 8
+    }
 };
 
 Object.freeze(BAMO_SETTINGS_DEFAULT);

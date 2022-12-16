@@ -4,8 +4,10 @@ import {genWallState, genStairState} from '../util/GenStates.js'
 import {genLootTable, genMineableTag} from '../util/GenDataFiles.js'
 import {dictFromTexture, cleanFileName} from '../util/Utils.js'
 import bamoSettings, { BAMO_SETTINGS_DEFAULT } from "../util/Settings.js";
+import BamoAdvancedProperties from './BamoAdvancedProperties.vue';
 
 export default {
+    components: {BamoAdvancedProperties},
     data() {
         return {
             step: "start",
@@ -19,6 +21,7 @@ export default {
             customTypeOptions: customTypeOptions,
             
             properties: BAMO_SETTINGS_DEFAULT,
+
             lastID: "",
             swap: false
         }
@@ -166,11 +169,20 @@ export default {
 
                 // Setup texture dict
                 ns = this.properties.namespace
-                console.log(Texture.all)
-                console.log(modelData.textures)
                 Object.keys(modelData.textures).forEach((key) => {
+                    console.log(typeof modelData.textures[key])
+                    var comp
+                    var partCheck
+                    if (typeof modelData.textures[key] === 'object'){
+                        comp = modelData.textures[key]["id"]
+                        partCheck = modelData.textures[key].particle
+                    }else if (typeof modelData.textures[key] === 'string'){
+                        comp = key
+                        partCheck = (key == "particle")
+                    }
+                    console.log(typeof modelData.textures[key])
                     Texture.all.forEach(function(tx){
-                        if ((tx.id == key) || (key == "particle" && tx.particle == true)){
+                        if ((tx.id == comp) || (partCheck && tx.particle == true)){
                             if (tx.namespace == ""){
                                 textureData[key] = ns + ":blocks/" + cleanFileName(tx.name.split(".")[0]);
                             }else{
@@ -384,6 +396,9 @@ export default {
                 }
             })
 
+            console.log("Block List:")
+            console.log(blockList)
+
             blockList.forEach(block => {
 
                 // Generate Mining file
@@ -420,12 +435,16 @@ export default {
                     "creativeTab" : this.properties.creativeTab,
                     "transparency": this.properties.transparency,
                     "hitbox": block["hitbox"],
+                    "hitboxBuffer": "0.5",
                     "blockType" : this.properties.types.customType,
                     "nameGenType" : "3.3" // Allows for names where " " is replaced with "_" to coexist with the older "" system
                 };
 
                 fs.writeFile(objFolder + "\\" + block["name"] + ".json", JSON.stringify(data), "utf8", err => {if (err != null) {console.log("Error writing block properties:", err);}});
                 zip.file("objects/" + block["name"] + ".json", JSON.stringify(data))
+
+                console.log("Object File Contents:")
+                console.log(data)
             })
 
             zip.generateAsync({type:"nodebuffer"})
@@ -433,7 +452,10 @@ export default {
                 fs.writeFile(settings.minecraftFolder.value + "\\bamopacks\\" + packName + ".zip", content, err => {});
             });
 
-            fs.rm(settings.minecraftFolder.value + "\\bamopacks\\" + packName, {recursive: true}, err => {});
+            //fs.rm(settings.minecraftFolder.value + "\\bamopacks\\" + packName, {recursive: true}, err => {});
+
+            console.log("Data saved in folder at location " + settings.minecraftFolder.value + "\\bamopacks\\" + packName)
+            
 
             let e = open_interface;
             e.hide();
@@ -456,4 +478,8 @@ export default {
 }
 </script>
 
-<template src="./ComponentTemplate.html"></template>
+<template>
+    <div>
+        <BamoAdvancedProperties></BamoAdvancedProperties>
+    </div>
+</template>
