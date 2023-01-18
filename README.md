@@ -47,6 +47,14 @@ I would **HIGHLY** recommend you backup up any model files before attempting to 
 * Textures and models can be reloaded without rebooting with the shortcut F3+T
 * If no BAMO resource pack is shown, make sure you've set the folder setting correctly in Blockbench
 ## Changelog
+### 0.4.2
+* Added option for custom hitboxes with buffer (Have to be manually added to JSON)
+* Started work on splitting wizard into multiple individual components
+### 0.4.1
+* Added particles to mod (have to be manually added to JSON)
+* Fixed issue with BAMO codec failing to export properly
+### 0.4.0
+* Added custom BAMO codec
 ### 0.3.6
 * Fixed non-custom blocks not generating loot tables/mining files
 * Forced users to set texture for particles to avoid bug with texture generation
