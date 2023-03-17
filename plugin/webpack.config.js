@@ -8,7 +8,7 @@ module.exports = {
 	target: 'node',
 	entry: './src/main.js',
 	output: {
-		filename: 'BAMO.js',
+		filename: 'bamo.js',
 	},
 	module: {
 		rules: [

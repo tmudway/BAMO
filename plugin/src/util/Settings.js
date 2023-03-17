@@ -44,12 +44,26 @@ export const BAMO_SETTINGS_DEFAULT = {
         }
     },
     particles: false,
-    particleType: "Smoke",
+    particleType: "Rain",
     particlePos: {
         x: 8,
         y: 8,
         z: 8
-    }
+    },
+    particleSpread:{
+        x: 1,
+        y: 1,
+        z: 1
+    },
+    particleVel: {
+        x: 0.1,
+        y: 0.1,
+        z: 0.1
+    },
+    bufferedHitbox: true,
+    hitboxBuffer: 0.5,
+    genScRecipe: true,
+    genReversableScRecipe: true
 };
 
 Object.freeze(BAMO_SETTINGS_DEFAULT);

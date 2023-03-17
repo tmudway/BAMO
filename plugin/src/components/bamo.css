@@ -52,18 +52,18 @@
     border: 1px solid black; 
 } 
 
-#sideBar {
+#BAMOsideBar {
     border-right: 2px solid black;
     width: 175px;
 } 
 
-#sideBar li {
+#BAMOsideBar li {
     width: 100%; 
     padding: 8px 20px; 
     cursor: pointer;
 } 
 
-#sideBar li.selected {
+#BAMOsideBar li.selected {
     width: 100%; 
     padding: 8px 20px; 
     border-right: 4px solid green; 
@@ -71,7 +71,7 @@
     background-color: gray;
 } 
 
-#sideBar li.sideBarHeader {
+#BAMOsideBar li.sideBarHeader {
     width: 100%;
     padding: 2px 10px;
     font-size: 12px;

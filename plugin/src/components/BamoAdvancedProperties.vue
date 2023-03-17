@@ -32,7 +32,7 @@ export default {
             }else{
 
                 if ((this.step == "types" && page == "physical") || (this.step == "physical" && page == "types")){
-                    if (this.parentData.properties.types.block) {page = "variant"}
+                    if (this.parentData.properties.types.block) {page = "variant"} else {page = "custom"}
                 }
 
                 this.parentData.error = ""
@@ -66,3 +66,4 @@ export default {
 </script>
 
 <template src="./BamoAdvancedTemplate.html"></template>
+<style scoped> @import './bamo.css'; </style>

@@ -18,6 +18,8 @@ function onProjectCompile(e){
 }
 
 function onProjectParse(e){
+	if (format.id !== "bamo_model") return;
+
     if (e.model && typeof e.model.bamoSettings === 'object'){
         let placeholder = Object.assign({}, BAMO_SETTINGS_DEFAULT);
         bamoSettings[Project.uuid] = Object.assign(placeholder, e.model.bamoSettings);
@@ -29,6 +31,7 @@ function onProjectParse(e){
 }
 
 function onCloseProject(){
+	if (format.id !== "bamo_model") return;
     delete bamoSettings[Project.uuid]
 }
 
