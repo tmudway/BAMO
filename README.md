@@ -16,7 +16,7 @@ I would **HIGHLY** recommend you backup up any model files before attempting to 
  7. Click File -> Preferences -> Settings -> Export and add the location of the minecraft directory to the text box under "Minecraft Folder Location"
 ## How to use
 ### Blockbench Plugin
- 1. Make sure the file you're working on is saved and click File -> BAMO Export
+ 1. Make sure the file you're working on is saved and click Tools -> BAMO Export
  2. Input the name you want to give your block". **PLEASE NOTE THIS NAME MUST BE UNIQUE AND WILL OVERRIDE ANY EXISTING EXPORTED FILES OF THE SAME NAME IN YOUR TEST PACK**
 
 ** This is the only required step to export a block. Clicking the export button at any point from this step onwards will export a block with the previously input settings (their default values if not set). This means that once you've set the export properties once for a file, you can simply press the export button without having to set them again for that file. This works until you load another file, move to another file's tab or close Blockbench **
@@ -47,6 +47,11 @@ I would **HIGHLY** recommend you backup up any model files before attempting to 
 * Textures and models can be reloaded without rebooting with the shortcut F3+T
 * If no BAMO resource pack is shown, make sure you've set the folder setting correctly in Blockbench
 ## Changelog
+### 0.4.3
+* Added wizard menus for particles and simplified hitbox
+* Fixed issue with exporter not loading CSS
+* Added BAMO Crate, a block that can be converted to BAMO blocks using the stonecutter
+* Added the option to create a BAMO Crate recipe to wizard
 ### 0.4.2
 * Added option for custom hitboxes with buffer (Have to be manually added to JSON)
 * Started work on splitting wizard into multiple individual components
