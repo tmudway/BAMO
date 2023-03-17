@@ -8,9 +8,12 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
+import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.Blocks
 import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.block.Material
 import net.minecraft.client.particle.Particle
@@ -292,8 +295,15 @@ object BlockGenerator {
     // use of the new KDeferredRegister
 
     private val blockData = mutableMapOf<Block, JSONData>()
+    private val bamoCrateBlock:Block = Block(FabricBlockSettings.of(Material.METAL))
 
     fun generateBlocks() {
+
+        // Generate the BAMO Crate
+
+        Registry.register(Registry.BLOCK, "bamo:bamo_crate", bamoCrateBlock)
+        Registry.register(Registry.ITEM, "bamo:bamo_crate", BlockItem(bamoCrateBlock, FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(64)))
+
         // Loop through all the objects
         collectJsonObjects().forEach { data ->
             // Turn JSON object into block
@@ -354,7 +364,7 @@ object BlockGenerator {
 
     private fun registerDependantBlockFromJson(data: JSONData, pBlock: Block, type:String): Block{
 
-        var pData = ParticleData((data.particleType == ""), particleMap[data.particleType]?: ParticleTypes.AMBIENT_ENTITY_EFFECT, data.particlePos, data.particleSpread, data.particleVel)
+        var pData = ParticleData((data.particleType != ""), particleMap[data.particleType]?: ParticleTypes.SMOKE, data.particlePos, data.particleSpread, data.particleVel)
 
         val bData = BlockData((matMap[data.material]?:Material.SOIL), data.displayName + " $type", data.blastRes, data.slip,
             (soundsMap[data.sounds] ?: BlockSoundGroup.GRASS), data.lum, data.fireproof, data.hitbox, data.hitboxBuffer, pData)
@@ -399,5 +409,8 @@ object BlockGenerator {
         for ((block, data) in blockData){
             BlockRenderLayerMap.INSTANCE.putBlock(block, (transparencies[data.transparency]?:RenderLayer.getSolid()))
         }
+
+        BlockRenderLayerMap.INSTANCE.putBlock(bamoCrateBlock, RenderLayer.getCutout())
+
     }
 }
