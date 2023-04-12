@@ -16,7 +16,7 @@ I would **HIGHLY** recommend you backup up any model files before attempting to 
  7. Click File -> Preferences -> Settings -> Export and add the location of the minecraft directory to the text box under "Minecraft Folder Location"
 ## How to use
 ### Blockbench Plugin
- 1. Make sure the file you're working on is saved and click Tools -> BAMO Export
+ 1. Make sure the file you're working on is the BAMO format and saved and click Tools -> BAMO Export
  2. Input the name you want to give your block". **PLEASE NOTE THIS NAME MUST BE UNIQUE AND WILL OVERRIDE ANY EXISTING EXPORTED FILES OF THE SAME NAME IN YOUR TEST PACK**
 
 ** This is the only required step to export a block. Clicking the export button at any point from this step onwards will export a block with the previously input settings (their default values if not set). This means that once you've set the export properties once for a file, you can simply press the export button without having to set them again for that file. This works until you load another file, move to another file's tab or close Blockbench **
