@@ -1,10 +1,83 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoComponent.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoComponent.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoAdvancedProperties.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoAdvancedProperties.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/OptionArrays.js */ "./src/util/OptionArrays.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      step: "start",
+      rotationTypes: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_0__.rotationTypes,
+      soundOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_0__.soundOptions,
+      materialOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_0__.materialOptions,
+      transparencyOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_0__.transparencyOptions,
+      tabOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_0__.tabOptions,
+      particleOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_0__.particleOptions,
+      customTypeOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_0__.customTypeOptions,
+      parentData: this.$parent.$data
+    };
+  },
+  methods: {
+    Textures: function Textures() {
+      return Texture.all;
+    },
+    createJSON: function createJSON() {
+      this.$parent.createJSON();
+    },
+    changePage: function changePage(event, page) {
+      if (this.parentData.properties.displayName == "") {
+        this.parentData.error = "name";
+      } else {
+        if (this.step == "types" && page == "physical" || this.step == "physical" && page == "types") {
+          if (this.parentData.properties.types.block) {
+            page = "variant";
+          } else {
+            page = "custom";
+          }
+        }
+
+        this.parentData.error = "";
+        this.step = page;
+      }
+    },
+    toggleType: function toggleType(event, type) {
+      if (this.parentData.properties.types.custom && type == "custom") {
+        this.parentData.properties.types.block = false;
+        this.parentData.properties.types.stair = false;
+        this.parentData.properties.types.slab = false;
+        this.parentData.properties.types.wall = false;
+        return;
+      }
+
+      if (this.parentData.properties.types.block && type == "block") {
+        this.parentData.properties.types.custom = false;
+        return;
+      }
+    },
+    reset: function reset(event) {
+      this.parentData.error = "";
+      this.step = "start";
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoBaseComponent.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoBaseComponent.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -30,9 +103,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_slice_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_slice_js__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! core-js/modules/es.string.replace.js */ "./node_modules/core-js/modules/es.string.replace.js");
 /* harmony import */ var core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../util/OptionArrays.js */ "./src/util/OptionArrays.js");
-/* harmony import */ var _util_GenStates_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../util/GenStates.js */ "./src/util/GenStates.js");
-/* harmony import */ var _util_Utils_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../util/Utils.js */ "./src/util/Utils.js");
+/* harmony import */ var core_js_modules_es_date_to_string_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! core-js/modules/es.date.to-string.js */ "./node_modules/core-js/modules/es.date.to-string.js");
+/* harmony import */ var core_js_modules_es_date_to_string_js__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_date_to_string_js__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var core_js_modules_es_regexp_to_string_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! core-js/modules/es.regexp.to-string.js */ "./node_modules/core-js/modules/es.regexp.to-string.js");
+/* harmony import */ var core_js_modules_es_regexp_to_string_js__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string_js__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var core_js_modules_es_symbol_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! core-js/modules/es.symbol.js */ "./node_modules/core-js/modules/es.symbol.js");
+/* harmony import */ var core_js_modules_es_symbol_js__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_js__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var core_js_modules_es_symbol_description_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! core-js/modules/es.symbol.description.js */ "./node_modules/core-js/modules/es.symbol.description.js");
+/* harmony import */ var core_js_modules_es_symbol_description_js__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_description_js__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var core_js_modules_es_symbol_iterator_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! core-js/modules/es.symbol.iterator.js */ "./node_modules/core-js/modules/es.symbol.iterator.js");
+/* harmony import */ var core_js_modules_es_symbol_iterator_js__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_iterator_js__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var core_js_modules_es_array_iterator_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! core-js/modules/es.array.iterator.js */ "./node_modules/core-js/modules/es.array.iterator.js");
+/* harmony import */ var core_js_modules_es_array_iterator_js__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_iterator_js__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var core_js_modules_es_string_iterator_js__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! core-js/modules/es.string.iterator.js */ "./node_modules/core-js/modules/es.string.iterator.js");
+/* harmony import */ var core_js_modules_es_string_iterator_js__WEBPACK_IMPORTED_MODULE_15___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator_js__WEBPACK_IMPORTED_MODULE_15__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator_js__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator.js */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
+/* harmony import */ var core_js_modules_web_dom_collections_iterator_js__WEBPACK_IMPORTED_MODULE_16___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator_js__WEBPACK_IMPORTED_MODULE_16__);
+/* harmony import */ var _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../util/OptionArrays.js */ "./src/util/OptionArrays.js");
+/* harmony import */ var _util_GenStates_js__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../util/GenStates.js */ "./src/util/GenStates.js");
+/* harmony import */ var _util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../util/GenDataFiles.js */ "./src/util/GenDataFiles.js");
+/* harmony import */ var _util_Utils_js__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../util/Utils.js */ "./src/util/Utils.js");
+/* harmony import */ var _util_Settings_js__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../util/Settings.js */ "./src/util/Settings.js");
+/* harmony import */ var _BamoAdvancedProperties_vue__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./BamoAdvancedProperties.vue */ "./src/components/BamoAdvancedProperties.vue");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -46,115 +151,112 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    BamoAdvancedProperties: _BamoAdvancedProperties_vue__WEBPACK_IMPORTED_MODULE_22__["default"]
+  },
   data: function data() {
     return {
       step: "start",
-      error: false,
-      rotationTypes: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.rotationTypes,
-      soundOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.soundOptions,
-      materialOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.materialOptions,
-      transparencyOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.transparencyOptions,
-      tabOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.tabOptions,
-      customTypeOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.customTypeOptions,
-      // Data to be exported
-      properties: {
-        namespace: "bamo",
-        displayName: "test",
-        material: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.materialOptions[0],
-        blastRes: 6,
-        slip: 0.6,
-        gravity: false,
-        rotType: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.rotationTypes[0],
-        sounds: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.soundOptions[0],
-        lum: 0,
-        maxStack: 64,
-        fireproof: true,
-        transparency: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.transparencyOptions[0],
-        creativeTab: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_9__.tabOptions[0]
-      },
-      custom: {
-        bounds: []
-      },
-      variant: {
-        "default": {
-          all: Texture.all[0].name
-        },
-        stair: {
-          top: Texture.all[0].name,
-          bottom: Texture.all[0].name,
-          side: Texture.all[0].name,
-          particle: Texture.all[0].name
-        },
-        slab: {
-          top: Texture.all[0].name,
-          bottom: Texture.all[0].name,
-          side: Texture.all[0].name,
-          particle: Texture.all[0].name
-        },
-        wall: {
-          wall: Texture.all[0].name,
-          particle: Texture.all[0].name
-        }
-      },
-      types: {
-        custom: true,
-        customType: "Default",
-        block: false,
-        stair: false,
-        slab: false,
-        wall: false
-      }
+      error: "",
+      rotationTypes: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_17__.rotationTypes,
+      soundOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_17__.soundOptions,
+      materialOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_17__.materialOptions,
+      transparencyOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_17__.transparencyOptions,
+      tabOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_17__.tabOptions,
+      particleOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_17__.particleOptions,
+      customTypeOptions: _util_OptionArrays_js__WEBPACK_IMPORTED_MODULE_17__.customTypeOptions,
+      properties: _util_Settings_js__WEBPACK_IMPORTED_MODULE_21__.BAMO_SETTINGS_DEFAULT,
+      lastID: "",
+      swap: false
     };
   },
-  computed: {},
   methods: {
+    updateValues: function updateValues() {
+      if (Project.uuid != this.lastID) {
+        this.properties = _util_Settings_js__WEBPACK_IMPORTED_MODULE_21__["default"][Project.uuid];
+        this.lastID = Project.uuid;
+        this.swap = true;
+        this.reset(null);
+      } // Initialize the textures if not done so yet
+
+
+      if (this.properties.variant["default"].all == "") {
+        this.properties.variant["default"].all = Texture.all[0].name;
+        this.properties.variant.stair.top = Texture.all[0].name;
+        this.properties.variant.stair.bottom = Texture.all[0].name;
+        this.properties.variant.stair.side = Texture.all[0].name;
+        this.properties.variant.slab.top = Texture.all[0].name;
+        this.properties.variant.slab.bottom = Texture.all[0].name;
+        this.properties.variant.slab.side = Texture.all[0].name;
+        this.properties.variant.wall.wall = Texture.all[0].name;
+      }
+    },
     Textures: function Textures() {
       return Texture.all;
     },
     changePage: function changePage(event, page) {
       if (this.properties.displayName == "") {
-        this.error = true;
+        this.error = "name";
       } else {
         if (this.step == "types" && page == "physical" || this.step == "physical" && page == "types") {
-          if (this.types.block) {
+          if (this.properties.types.block) {
             page = "variant";
           }
         }
 
-        this.error = false;
+        this.error = "";
         this.step = page;
       }
     },
     toggleType: function toggleType(event, type) {
-      if (this.types.custom && type == "custom") {
-        this.types.block = false;
-        this.types.stair = false;
-        this.types.slab = false;
-        this.types.wall = false;
+      if (this.properties.types.custom && type == "custom") {
+        this.properties.types.block = false;
+        this.properties.types.stair = false;
+        this.properties.types.slab = false;
+        this.properties.types.wall = false;
         return;
       }
 
-      if (this.types.block && type == "block") {
-        this.types.custom = false;
+      if (this.properties.types.block && type == "block") {
+        this.properties.types.custom = false;
         return;
       }
     },
     reset: function reset(event) {
-      this.error = false;
+      this.error = "";
       this.step = "start";
     },
     createJSON: function createJSON(event) {
       var _this = this;
 
+      // Ensure a name is set
       if (this.properties.displayName == "") {
-        this.error = true;
+        this.error = "name";
+        return;
+      } // Ensure a particle texture is set
+
+
+      var part = false;
+      Texture.all.forEach(function (tx) {
+        if (tx.particle == true) {
+          part = true;
+        }
+      });
+
+      if (part == false) {
+        Blockbench.showMessageBox({
+          buttons: ["Ok"],
+          title: "Error",
+          message: "Please ensure you have set a particle texture"
+        });
         return;
       }
 
       var JSZip = __webpack_require__(/*! jszip */ "./node_modules/jszip/lib/index.js");
 
-      var zip = new JSZip();
-      var packName = (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.cleanFileName)(this.properties.displayName); // Define folder locations
+      var zip = new JSZip(); // Trim invalid chars from the name
+
+      var packName = (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.cleanFileName)(this.properties.displayName); // Define folder locations
 
       var objFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\objects\\";
       var blockstatesFolder = settings.minecraftFolder.value + "\\bamopacks\\" + packName + "\\assets\\" + this.properties.namespace + "\\blockstates\\";
@@ -188,12 +290,12 @@ __webpack_require__.r(__webpack_exports__);
       });
       zip.file("pack.mcmeta", JSON.stringify(mcmetaData)); // Generate block name from the displayname
 
-      var blockName = (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.cleanFileName)(this.properties.displayName); //generate the list of blocks to be exported
+      var blockName = (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.cleanFileName)(this.properties.displayName); //generate the list of blocks to be exported
 
       var blockList = [];
       var codecData = Format.codec.compile(); // Custom Block
 
-      if (this.types.custom) {
+      if (this.properties.types.custom) {
         // Pull the model data from the codec
         var modelData = JSON.parse(codecData);
         modelData["parent"] = "block/block";
@@ -233,16 +335,41 @@ __webpack_require__.r(__webpack_exports__);
 
         ns = this.properties.namespace;
         Object.keys(modelData.textures).forEach(function (key) {
+          var comp;
+          var partCheck;
+
+          if (_typeof(modelData.textures[key]) === 'object') {
+            comp = modelData.textures[key]["id"];
+            partCheck = modelData.textures[key].particle;
+          } else if (typeof modelData.textures[key] === 'string') {
+            comp = key;
+            partCheck = key == "particle";
+          }
+
           Texture.all.forEach(function (tx) {
-            if (tx.id == key || key == "particle" && tx.particle == true) {
+            if (tx.id == comp || partCheck && tx.particle == true) {
               if (tx.namespace == "") {
-                textureData[key] = ns + ":blocks/" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.cleanFileName)(tx.name.split(".")[0]);
+                textureData[key] = ns + ":blocks/" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.cleanFileName)(tx.name.split(".")[0]);
               } else {
-                textureData[key] = tx.namespace + ":" + tx.folder + "/" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.cleanFileName)(tx.name.split(".")[0]);
+                textureData[key] = tx.namespace + ":" + tx.folder + "/" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.cleanFileName)(tx.name.split(".")[0]);
               }
             }
           });
+        }); // Looting file
+
+        var lootData = (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_19__.genLootTable)(this.properties.namespace, blockName);
+        var lootTags = dataFolder + this.properties.namespace + "\\loot_tables\\blocks\\" + blockName + ".json";
+        fs.mkdirSync(dataFolder + this.properties.namespace + "\\loot_tables\\blocks\\", {
+          recursive: true
         });
+        fs.writeFile(lootTags, lootData, "utf8", function (err) {
+          if (err != null) {
+            console.log("Error found when writing custom block looting file:", err);
+          }
+        });
+        zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/" + blockName + ".json", lootData); // Stonecutting Table Recipes
+
+        (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_19__.genStonecuttingRecipes)(this.properties, blockName, dataFolder, zip);
         modelData.textures = textureData;
         var boxList = [];
         modelData.elements.forEach(function (model) {
@@ -258,14 +385,28 @@ __webpack_require__.r(__webpack_exports__);
       } // Regular Block
 
 
-      if (this.types.block) {
+      if (this.properties.types.block) {
         var modelData = {};
         modelData["credit"] = codecData["credit"];
         modelData["parent"] = "block/cube_all";
         modelData["textures"] = {
-          "all": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant["default"].all, this.properties.namespace),
-          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)("particle", this.properties.namespace)
-        };
+          "all": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.dictFromTexture)(this.properties.variant["default"].all, this.properties.namespace),
+          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.dictFromTexture)("particle", this.properties.namespace)
+        }; // Looting file
+
+        var lootData = (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_19__.genLootTable)(this.properties.namespace, blockName);
+        var lootTags = dataFolder + this.properties.namespace + "\\loot_tables\\blocks\\" + blockName + ".json";
+        fs.mkdirSync(dataFolder + this.properties.namespace + "\\loot_tables\\blocks\\", {
+          recursive: true
+        });
+        fs.writeFile(lootTags, lootData, "utf8", function (err) {
+          if (err != null) {
+            console.log("Error found when writing wall tags:", err);
+          }
+        });
+        zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/" + blockName + ".json", lootData); // Stonecutting Table Recipes
+
+        (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_19__.genStonecuttingRecipes)(this.properties, blockName, dataFolder, zip);
         var state = JSON.stringify({
           "variants": {
             "": {
@@ -274,9 +415,9 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
         var typeList = [];
-        if (this.types.stair) typeList.push("stairs");
-        if (this.types.slab) typeList.push("slab");
-        if (this.types.wall) typeList.push("wall");
+        if (this.properties.types.stair) typeList.push("stairs");
+        if (this.properties.types.slab) typeList.push("slab");
+        if (this.properties.types.wall) typeList.push("wall");
         blockList.push({
           "name": blockName,
           "types": typeList,
@@ -287,19 +428,33 @@ __webpack_require__.r(__webpack_exports__);
       } // Stair Block
 
 
-      if (this.types.stair) {
+      if (this.properties.types.stair) {
         var name = blockName + "_stairs";
         var modelData = {};
         modelData["credit"] = codecData["credit"];
         modelData["parent"] = "minecraft:block/stairs";
         modelData["textures"] = {
-          "top": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.stair.top, this.properties.namespace),
-          "bottom": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.stair.bottom, this.properties.namespace),
-          "side": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.stair.side, this.properties.namespace),
-          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)("particle", this.properties.namespace)
-        }; // Write state
+          "top": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.dictFromTexture)(this.properties.variant.stair.top, this.properties.namespace),
+          "bottom": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.dictFromTexture)(this.properties.variant.stair.bottom, this.properties.namespace),
+          "side": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.dictFromTexture)(this.properties.variant.stair.side, this.properties.namespace),
+          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.dictFromTexture)("particle", this.properties.namespace)
+        }; // Looting file
 
-        var state = (0,_util_GenStates_js__WEBPACK_IMPORTED_MODULE_10__.genStairState)(this.properties.namespace, "block/" + name, "block/" + name + "_outer", "block/" + name + "_inner");
+        var lootData = (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_19__.genLootTable)(this.properties.namespace, name);
+        var lootTags = dataFolder + this.properties.namespace + "\\loot_tables\\blocks\\" + name + ".json";
+        fs.mkdirSync(dataFolder + this.properties.namespace + "\\loot_tables\\blocks\\", {
+          recursive: true
+        });
+        fs.writeFile(lootTags, lootData, "utf8", function (err) {
+          if (err != null) {
+            console.log("Error found when writing wall tags:", err);
+          }
+        });
+        zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/" + name + ".json", lootData); // Stonecutting Table Recipes
+
+        (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_19__.genStonecuttingRecipes)(this.properties, name, dataFolder, zip); // Write state
+
+        var state = (0,_util_GenStates_js__WEBPACK_IMPORTED_MODULE_18__.genStairState)(this.properties.namespace, "block/" + name, "block/" + name + "_outer", "block/" + name + "_inner");
         fs.writeFile(blockstatesFolder + "\\" + name + ".json", state, "utf8", function (err) {
           if (err != null) {
             console.log("Error generating blockstate:", err);
@@ -339,17 +494,31 @@ __webpack_require__.r(__webpack_exports__);
         zip.file("assets/" + this.properties.namespace + "/models/block/" + name + "_outer.json", JSON.stringify(modelData));
       }
 
-      if (this.types.slab) {
+      if (this.properties.types.slab) {
         var name = blockName + "_slab";
         var modelData = {};
         modelData["credit"] = codecData["credit"];
         modelData["parent"] = "minecraft:block/slab";
         modelData["textures"] = {
-          "top": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.slab.top, this.properties.namespace),
-          "bottom": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.slab.bottom, this.properties.namespace),
-          "side": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.slab.side, this.properties.namespace),
-          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)("particle", this.properties.namespace)
-        }; // Write State
+          "top": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.dictFromTexture)(this.properties.variant.slab.top, this.properties.namespace),
+          "bottom": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.dictFromTexture)(this.properties.variant.slab.bottom, this.properties.namespace),
+          "side": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.dictFromTexture)(this.properties.variant.slab.side, this.properties.namespace),
+          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.dictFromTexture)("particle", this.properties.namespace)
+        }; // Looting file
+
+        var lootData = (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_19__.genLootTable)(this.properties.namespace, name);
+        var lootTags = dataFolder + this.properties.namespace + "\\loot_tables\\blocks\\" + name + ".json";
+        fs.mkdirSync(dataFolder + this.properties.namespace + "\\loot_tables\\blocks\\", {
+          recursive: true
+        });
+        fs.writeFile(lootTags, lootData, "utf8", function (err) {
+          if (err != null) {
+            console.log("Error found when writing wall tags:", err);
+          }
+        });
+        zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/" + name + ".json", lootData); // Stonecutting Table Recipes
+
+        (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_19__.genStonecuttingRecipes)(this.properties, name, dataFolder, zip); // Write State
 
         var state = {
           "variants": {
@@ -395,17 +564,31 @@ __webpack_require__.r(__webpack_exports__);
         zip.file("assets/" + this.properties.namespace + "/models/block/" + name + "_top.json", JSON.stringify(modelData));
       }
 
-      if (this.types.wall) {
+      if (this.properties.types.wall) {
         var name = blockName + "_wall";
         var modelData = {};
         modelData["credit"] = codecData["credit"];
         modelData["parent"] = "minecraft:block/template_wall_post";
         modelData["textures"] = {
-          "wall": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)(this.variant.wall.wall, this.properties.namespace),
-          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.dictFromTexture)("particle", this.properties.namespace)
-        }; // Write State
+          "wall": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.dictFromTexture)(this.properties.variant.wall.wall, this.properties.namespace),
+          "particle": (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.dictFromTexture)("particle", this.properties.namespace)
+        }; // Looting file
 
-        var state = (0,_util_GenStates_js__WEBPACK_IMPORTED_MODULE_10__.genWallState)(this.properties.namespace, "block/" + name + "_post", "block/" + name + "_side", "block/" + name + "_side_tall");
+        var lootData = (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_19__.genLootTable)(this.properties.namespace, name);
+        var lootTags = dataFolder + this.properties.namespace + "\\loot_tables\\blocks\\" + name + ".json";
+        fs.mkdirSync(dataFolder + this.properties.namespace + "\\loot_tables\\blocks\\", {
+          recursive: true
+        });
+        fs.writeFile(lootTags, lootData, "utf8", function (err) {
+          if (err != null) {
+            console.log("Error found when writing wall tags:", err);
+          }
+        });
+        zip.file("data/" + this.properties.namespace + "/loot_tables/blocks/" + name + ".json", lootData); // Stonecutting Table Recipes
+
+        (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_19__.genStonecuttingRecipes)(this.properties, name, dataFolder, zip); // Write State
+
+        var state = (0,_util_GenStates_js__WEBPACK_IMPORTED_MODULE_18__.genWallState)(this.properties.namespace, "block/" + name + "_post", "block/" + name + "_side", "block/" + name + "_side_tall");
         fs.writeFile(blockstatesFolder + "\\" + name + ".json", state, "utf8", function (err) {
           if (err != null) {
             console.log("Error generating blockstate:", err);
@@ -475,16 +658,31 @@ __webpack_require__.r(__webpack_exports__);
             image = nativeImage.createFromPath(tx.source.replace(/\?\d+$/, '')).toPNG();
           }
 
-          fs.writeFile(blockTexturesFolder + "\\" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.cleanFileName)(tx.name), image, function (err) {
+          fs.writeFile(blockTexturesFolder + "\\" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.cleanFileName)(tx.name), image, function (err) {
             if (err != null) {
               console.log("Error Found writing texture data:", err);
             }
           });
-          zip.file("assets/" + ns + "/textures/blocks/" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_11__.cleanFileName)(tx.name), image);
+          zip.file("assets/" + ns + "/textures/blocks/" + (0,_util_Utils_js__WEBPACK_IMPORTED_MODULE_20__.cleanFileName)(tx.name), image);
         }
       });
+      /*console.log("Block List:")
+      console.log(blockList)*/
+
       blockList.forEach(function (block) {
-        // Write state file
+        // Generate Mining file
+        var mineableData = (0,_util_GenDataFiles_js__WEBPACK_IMPORTED_MODULE_19__.genMineableTag)(_this.properties.namespace, block["name"], block["types"]);
+        var mineableTags = dataFolder + "minecraft\\tags\\blocks\\mineable\\pickaxe.json";
+        fs.mkdirSync(dataFolder + "minecraft\\tags\\blocks\\mineable", {
+          recursive: true
+        });
+        fs.writeFile(mineableTags, mineableData, "utf8", function (err) {
+          if (err != null) {
+            console.log("Error found when writing wall tags:", err);
+          }
+        });
+        zip.file("data/minecraft/tags/blocks/mineable/pickaxe.json", mineableData); // Write state file
+
         fs.writeFile(blockstatesFolder + "\\" + block["name"] + ".json", block["state"], "utf8", function (err) {
           if (err != null) {
             console.log("Error generating blockstate:", err);
@@ -506,7 +704,7 @@ __webpack_require__.r(__webpack_exports__);
         zip.file("assets/" + _this.properties.namespace + "/models/item/" + block["name"] + ".json", JSON.stringify(block["model"])); // Write block properties file
 
         var data = {
-          "displayName": _this.properties.displayName,
+          "displayName": _this.properties.displayName.replace(/[^a-zA-Z\d\s._]/g, ''),
           "typeList": block["types"],
           "material": _this.properties.material,
           "blastRes": _this.properties.blastRes,
@@ -520,7 +718,12 @@ __webpack_require__.r(__webpack_exports__);
           "creativeTab": _this.properties.creativeTab,
           "transparency": _this.properties.transparency,
           "hitbox": block["hitbox"],
-          "blockType": _this.types.customType,
+          "hitboxBuffer": _this.properties.bufferedHitbox ? _this.properties.hitboxBuffer.toString() : "",
+          "blockType": _this.properties.types.customType,
+          "particleType": _this.properties.particles ? _this.properties.particleType : "",
+          "particlePos": [_this.properties.particlePos.x / 16.0, _this.properties.particlePos.y / 16.0, _this.properties.particlePos.z / 16.0],
+          "particleSpread": [_this.properties.particleSpread.x / 8.0, _this.properties.particleSpread.y / 8.0, _this.properties.particleSpread.z / 8.0],
+          "particleVel": [_this.properties.particleVel.x, _this.properties.particleVel.y, _this.properties.particleVel.z],
           "nameGenType": "3.3" // Allows for names where " " is replaced with "_" to coexist with the older "" system
 
         };
@@ -530,6 +733,8 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
         zip.file("objects/" + block["name"] + ".json", JSON.stringify(data));
+        /*console.log("Object File Contents:")
+        console.log(data)*/
       });
       zip.generateAsync({
         type: "nodebuffer"
@@ -539,11 +744,300 @@ __webpack_require__.r(__webpack_exports__);
       fs.rm(settings.minecraftFolder.value + "\\bamopacks\\" + packName, {
         recursive: true
       }, function (err) {});
+      console.log("BAMO data saved in folder at location " + settings.minecraftFolder.value + "\\bamopacks\\" + packName);
       var e = open_interface;
       e.hide();
     }
+  },
+  watch: {
+    properties: {
+      handler: function handler(val) {
+        if (this.swap == false) {
+          Project.saved = false;
+        } else {
+          this.swap = false;
+        }
+      },
+      deep: true
+    }
   }
 });
+
+/***/ }),
+
+/***/ "./src/util/Codec.js":
+/*!***************************!*\
+  !*** ./src/util/Codec.js ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "loadCodec": () => (/* binding */ loadCodec),
+/* harmony export */   "unloadCodec": () => (/* binding */ unloadCodec)
+/* harmony export */ });
+/* harmony import */ var core_js_modules_es_object_assign_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.object.assign.js */ "./node_modules/core-js/modules/es.object.assign.js");
+/* harmony import */ var core_js_modules_es_object_assign_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_assign_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.function.name.js */ "./node_modules/core-js/modules/es.function.name.js");
+/* harmony import */ var core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.regexp.exec.js */ "./node_modules/core-js/modules/es.regexp.exec.js");
+/* harmony import */ var core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_exec_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.string.replace.js */ "./node_modules/core-js/modules/es.string.replace.js");
+/* harmony import */ var core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_replace_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_array_concat_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.array.concat.js */ "./node_modules/core-js/modules/es.array.concat.js");
+/* harmony import */ var core_js_modules_es_array_concat_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_array_includes_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.array.includes.js */ "./node_modules/core-js/modules/es.array.includes.js");
+/* harmony import */ var core_js_modules_es_array_includes_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_includes_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_es_array_find_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.array.find.js */ "./node_modules/core-js/modules/es.array.find.js");
+/* harmony import */ var core_js_modules_es_array_find_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find_js__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/es.object.to-string.js */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var core_js_modules_es_array_for_each_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! core-js/modules/es.array.for-each.js */ "./node_modules/core-js/modules/es.array.for-each.js");
+/* harmony import */ var core_js_modules_es_array_for_each_js__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each_js__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var core_js_modules_es_symbol_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! core-js/modules/es.symbol.js */ "./node_modules/core-js/modules/es.symbol.js");
+/* harmony import */ var core_js_modules_es_symbol_js__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_js__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var core_js_modules_es_symbol_description_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! core-js/modules/es.symbol.description.js */ "./node_modules/core-js/modules/es.symbol.description.js");
+/* harmony import */ var core_js_modules_es_symbol_description_js__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_description_js__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var core_js_modules_es_symbol_iterator_js__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! core-js/modules/es.symbol.iterator.js */ "./node_modules/core-js/modules/es.symbol.iterator.js");
+/* harmony import */ var core_js_modules_es_symbol_iterator_js__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_iterator_js__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var core_js_modules_es_array_iterator_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! core-js/modules/es.array.iterator.js */ "./node_modules/core-js/modules/es.array.iterator.js");
+/* harmony import */ var core_js_modules_es_array_iterator_js__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_iterator_js__WEBPACK_IMPORTED_MODULE_12__);
+/* harmony import */ var core_js_modules_es_string_iterator_js__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! core-js/modules/es.string.iterator.js */ "./node_modules/core-js/modules/es.string.iterator.js");
+/* harmony import */ var core_js_modules_es_string_iterator_js__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator_js__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator_js__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator.js */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
+/* harmony import */ var core_js_modules_web_dom_collections_iterator_js__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator_js__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Settings */ "./src/util/Settings.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+
+function loadCodec() {
+  Codecs.project.on('compile', onProjectCompile);
+  Codecs.project.on('parse', onProjectParse);
+  Blockbench.on('close_project', onCloseProject);
+}
+function unloadCodec() {
+  Codecs.project.events.compile.remove(onProjectCompile);
+  Codecs.project.events.parse.remove(onProjectParse);
+  format["delete"]();
+}
+
+function onProjectCompile(e) {
+  if (format.id !== "bamo_model") return;
+  e.model.bamoSettings = _Settings__WEBPACK_IMPORTED_MODULE_15__["default"][Project.uuid];
+}
+
+function onProjectParse(e) {
+  if (format.id !== "bamo_model") return;
+
+  if (e.model && _typeof(e.model.bamoSettings) === 'object') {
+    var placeholder = Object.assign({}, _Settings__WEBPACK_IMPORTED_MODULE_15__.BAMO_SETTINGS_DEFAULT);
+    _Settings__WEBPACK_IMPORTED_MODULE_15__["default"][Project.uuid] = Object.assign(placeholder, e.model.bamoSettings);
+  } else {
+    _Settings__WEBPACK_IMPORTED_MODULE_15__["default"][Project.uuid] = Object.assign({}, _Settings__WEBPACK_IMPORTED_MODULE_15__.BAMO_SETTINGS_DEFAULT);
+    _Settings__WEBPACK_IMPORTED_MODULE_15__["default"][Project.uuid].displayName = Project.name;
+  }
+
+  console.log(_Settings__WEBPACK_IMPORTED_MODULE_15__["default"][Project.uuid]);
+}
+
+function onCloseProject() {
+  if (format.id !== "bamo_model") return;
+  delete _Settings__WEBPACK_IMPORTED_MODULE_15__["default"][Project.uuid];
+}
+
+var codec = Codecs.java_block;
+var format = new ModelFormat({
+  id: "bamo_model",
+  name: "BAMO model",
+  category: "minecraft",
+  description: "A format for storing models to be exported for the BAMO mod",
+  icon: "view_in_ar",
+  target: 'Minecraft: Java Edition',
+  format_page: {
+    content: [{
+      type: 'h3',
+      text: tl('mode.start.format.informations')
+    }, {
+      text: "* ".concat(tl('format.java_block.info.rotation'), "\n\t\t\t\t\t* ").concat(tl('format.java_block.info.size'), "\n\t\t\t\t\t* ").concat(tl('format.java_block.info.animation')).replace(/\t+/g, '')
+    }]
+  },
+  render_sides: function render_sides() {
+    if (Modes.display && ['thirdperson_righthand', 'thirdperson_lefthand', 'head'].includes(display_slot)) {
+      return 'double';
+    } else {
+      return 'front';
+    }
+  },
+  model_identifier: false,
+  parent_model_id: true,
+  vertex_color_ambient_occlusion: true,
+  rotate_cubes: true,
+  rotation_limit: true,
+  optional_box_uv: true,
+  uv_rotation: true,
+  java_face_properties: true,
+  animated_textures: true,
+  select_texture_for_particles: true,
+  display_mode: true,
+  texture_folder: true,
+  cube_size_limiter: {
+    coordinate_limits: [-16, 32],
+    test: function test(cube) {
+      var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var from = values.from || cube.from;
+      var to = values.to || cube.to;
+      var inflate = values.inflate == undefined ? cube.inflate : values.inflate;
+      return undefined !== from.find(function (v, i) {
+        return to[i] + inflate > 32 || to[i] + inflate < -16 || from[i] - inflate > 32 || from[i] - inflate < -16;
+      });
+    },
+    move: function move(cube) {
+      var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var from = values.from || cube.from;
+      var to = values.to || cube.to;
+      var inflate = values.inflate == undefined ? cube.inflate : values.inflate;
+      [0, 1, 2].forEach(function (ax) {
+        var overlap = to[ax] + inflate - 32;
+
+        if (overlap > 0) {
+          //If positive site overlaps
+          from[ax] -= overlap;
+          to[ax] -= overlap;
+
+          if (16 + from[ax] - inflate < 0) {
+            from[ax] = -16 + inflate;
+          }
+        } else {
+          overlap = from[ax] - inflate + 16;
+
+          if (overlap < 0) {
+            from[ax] -= overlap;
+            to[ax] -= overlap;
+
+            if (to[ax] + inflate > 32) {
+              to[ax] = 32 - inflate;
+            }
+          }
+        }
+      });
+    },
+    clamp: function clamp(cube) {
+      var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+      var from = values.from || cube.from;
+      var to = values.to || cube.to;
+      var inflate = values.inflate == undefined ? cube.inflate : values.inflate;
+      [0, 1, 2].forEach(function (ax) {
+        from[ax] = Math.clamp(from[ax] - inflate, -16, 32) + inflate;
+        to[ax] = Math.clamp(to[ax] + inflate, -16, 32) - inflate;
+      });
+    }
+  },
+  codec: codec
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (codec);
+
+/***/ }),
+
+/***/ "./src/util/GenDataFiles.js":
+/*!**********************************!*\
+  !*** ./src/util/GenDataFiles.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "genLootTable": () => (/* binding */ genLootTable),
+/* harmony export */   "genMineableTag": () => (/* binding */ genMineableTag),
+/* harmony export */   "genStonecuttingRecipe": () => (/* binding */ genStonecuttingRecipe),
+/* harmony export */   "genStonecuttingRecipes": () => (/* binding */ genStonecuttingRecipes),
+/* harmony export */   "genStonecuttingReverseRecipe": () => (/* binding */ genStonecuttingReverseRecipe)
+/* harmony export */ });
+/* harmony import */ var core_js_modules_es_array_concat_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.concat.js */ "./node_modules/core-js/modules/es.array.concat.js");
+/* harmony import */ var core_js_modules_es_array_concat_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_array_for_each_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.array.for-each.js */ "./node_modules/core-js/modules/es.array.for-each.js");
+/* harmony import */ var core_js_modules_es_array_for_each_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.object.to-string.js */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each.js */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each_js__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+function genLootTable(namespace, block) {
+  return "{\n    \"type\": \"minecraft:block\",\n    \"pools\": [\n        {\n            \"rolls\": 1,\n            \"entries\": [\n                {\n                    \"type\": \"minecraft:item\",\n                    \"name\": \"".concat(namespace, ":").concat(block, "\"\n                }\n            ],\n            \"conditions\": []\n        }\n    ]\n}");
+}
+function genMineableTag(namespace, block, variants) {
+  if (variants.length == 0) {
+    return "{\n    \"replace\": false,\n    \"values\": [\n        \"".concat(namespace, ":").concat(block, "\"\n    ]\n}");
+  } else {
+    var tagValues = ["".concat(namespace, ":").concat(block)];
+    variants.forEach(function (v) {
+      tagValues.push("".concat(namespace, ":").concat(block, "_").concat(v));
+    });
+    var data = {
+      "replace": false,
+      "values": tagValues
+    };
+    return JSON.stringify(data);
+  }
+}
+function genStonecuttingRecipes(properties, blockName, dataFolder, zip) {
+  console.log(properties);
+
+  if (properties.genScRecipe) {
+    var stData = genStonecuttingRecipe(properties.namespace, blockName);
+    var stDir = dataFolder + properties.namespace + "\\recipes\\";
+    fs.mkdirSync(stDir, {
+      recursive: true
+    });
+    fs.writeFile(stDir + blockName + ".json", stData, "utf8", function (err) {
+      if (err != null) {
+        console.log("Error found when writing custom block stonecutting recipe:", err);
+      }
+    });
+    zip.file("data/" + properties.namespace + "/recipes/" + blockName + ".json", stData);
+  }
+
+  if (properties.genReversableScRecipe) {
+    var stData = genStonecuttingReverseRecipe(properties.namespace, blockName);
+    var stDir = dataFolder + properties.namespace + "\\recipes\\";
+    fs.mkdirSync(stDir, {
+      recursive: true
+    });
+    fs.writeFile(stDir + blockName + "_rv.json", stData, "utf8", function (err) {
+      if (err != null) {
+        console.log("Error found when writing custom block stonecutting recipe:", err);
+      }
+    });
+    zip.file("data/" + properties.namespace + "/recipes/" + blockName + "_rv.json", stData);
+  }
+}
+function genStonecuttingRecipe(namespace, block) {
+  return "\n    {\n        \"type\": \"minecraft:stonecutting\",\n        \"ingredient\": {\n            \"item\": \"bamo:bamo_crate\"\n        },\n        \"result\": \"".concat(namespace, ":").concat(block, "\",\n        \"count\": 1\n    }");
+}
+function genStonecuttingReverseRecipe(namespace, block) {
+  return "\n    {\n        \"type\": \"minecraft:stonecutting\",\n        \"ingredient\": {\n            \"item\": \"".concat(namespace, ":").concat(block, "\"\n        },\n        \"result\": \"bamo:bamo_crate\",\n        \"count\": 1\n    }");
+}
 
 /***/ }),
 
@@ -583,6 +1077,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "customTypeOptions": () => (/* binding */ customTypeOptions),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   "materialOptions": () => (/* binding */ materialOptions),
+/* harmony export */   "particleOptions": () => (/* binding */ particleOptions),
 /* harmony export */   "rotationTypes": () => (/* binding */ rotationTypes),
 /* harmony export */   "soundOptions": () => (/* binding */ soundOptions),
 /* harmony export */   "tabOptions": () => (/* binding */ tabOptions),
@@ -597,6 +1092,7 @@ var soundOptions = ["Grass", "Glass", "Gravel", "Honey", "Metal", "Sand", "Snow"
 var materialOptions = ["Dirt", "Air", "Bamboo", "Bamboo Sapling", "Barrier", "Bubble Column", "Buildable Glass", "Cactus", "Cake", "Clay", "Coral", "Cloth Decoration", "Decoration", "Egg", "Explosive", "Fire", "Glass", "Grass", "Heavy Metal", "Ice", "Ice Solid", "Lava", "Leaves", "Metal", "Nether Wood", "Piston", "Plant", "Portal", "Replaceable Plant", "Replaceable Fireproof Plant", "Replaceable Water Plant", "Sand", "Shulker Shell", "Snow", "Sponge", "Stone", "Structural Air", "Top Snow", "Vegetable", "Water", "Water Plant", "Web", "Wood", "Wool"];
 var transparencyOptions = ["Solid", "Translucent", "Cutout", "Cutout (Mipped)"];
 var tabOptions = ["Building Blocks", "Brewing", "Combat", "Food", "Decorations", "Misc", "Redstone", "Tools", "Transportation"];
+var particleOptions = ["Ambient Entity Effect", "Angry Villager", "Ash", "Bubble", "Bubble Pop", "Campfire Smoke", "Cloud", "Composter", "Crimson Spore", "Crit", "Damage Indicator", "Dolphin", "Dripping Dripstone Lava", "Dripping Dripstone Water", "Dripping Honey", "Dripping Lava", "Dripping Obsidian Tear", "Dripping Water", "Elder Guardian", "Electric Spark", "Enchant", "Enchanted Hit", "End Rod", "Entity Effect", "Explosion", "Falling Dripstone Lava", "Falling Dripstone Water", "Falling Honey", "Falling Lava", "Falling Nectar", "Falling Obsidian Tear", "Falling Spore Blossom", "Falling Water", "Firework", "Fishing", "Flame", "Flash", "Glow", "Glow Squid Ink", "Happy Villager", "Heart", "Slime Item", "Snowball item", "Landing Honey", "Landing Lava", "Landing Obsidian Tear", "Lava", "Mycelium", "Nautilus", "Note", "Rain", "Reverse Portal", "Scrape", "Small Flame", "Snowflake", "Soul", "Soulfire Flame", "Spore Blossom Air", "Sweep Attack", "Totem of Undying", "Undewater", "Warped Spore", "Wax off", "Wax On", "White Ash", "Witch"];
 var customTypeOptions = ["Default", "Flower"];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   rotationTypes: rotationTypes,
@@ -606,6 +1102,98 @@ var customTypeOptions = ["Default", "Flower"];
   tabOptions: tabOptions,
   customTypeOptions: customTypeOptions
 });
+
+/***/ }),
+
+/***/ "./src/util/Settings.js":
+/*!******************************!*\
+  !*** ./src/util/Settings.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "BAMO_SETTINGS_DEFAULT": () => (/* binding */ BAMO_SETTINGS_DEFAULT),
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var core_js_modules_es_object_freeze_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.object.freeze.js */ "./node_modules/core-js/modules/es.object.freeze.js");
+/* harmony import */ var core_js_modules_es_object_freeze_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_freeze_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_object_assign_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.object.assign.js */ "./node_modules/core-js/modules/es.object.assign.js");
+/* harmony import */ var core_js_modules_es_object_assign_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_assign_js__WEBPACK_IMPORTED_MODULE_1__);
+
+
+var BAMO_SETTINGS_DEFAULT = {
+  displayName: "",
+  namespace: "bamo",
+  typeList: [],
+  material: "Dirt",
+  blastRes: 6,
+  slip: 0.6,
+  gravity: false,
+  rotType: "default",
+  sounds: "Grass",
+  lum: 0,
+  maxStack: 64,
+  fireproof: true,
+  creativeTab: "Building Blocks",
+  transparency: "Solid",
+  blockType: "Default",
+  types: {
+    custom: true,
+    customType: "Default",
+    block: false,
+    stair: false,
+    slab: false,
+    wall: false
+  },
+  variant: {
+    "default": {
+      all: ""
+    },
+    stair: {
+      top: "",
+      bottom: "",
+      side: "",
+      particle: ""
+    },
+    slab: {
+      top: "",
+      bottom: "",
+      side: "",
+      particle: ""
+    },
+    wall: {
+      wall: "",
+      particle: ""
+    }
+  },
+  particles: false,
+  particleType: "Rain",
+  particlePos: {
+    x: 8,
+    y: 8,
+    z: 8
+  },
+  particleSpread: {
+    x: 1,
+    y: 1,
+    z: 1
+  },
+  particleVel: {
+    x: 0.1,
+    y: 0.1,
+    z: 0.1
+  },
+  bufferedHitbox: true,
+  hitboxBuffer: 0.5,
+  genScRecipe: true,
+  genReversableScRecipe: true
+};
+Object.freeze(BAMO_SETTINGS_DEFAULT);
+var bamoSettings = {};
+bamoSettings[""] = Object.assign({}, BAMO_SETTINGS_DEFAULT);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (bamoSettings);
 
 /***/ }),
 
@@ -713,6 +1301,55 @@ module.exports = function (argument) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/a-possible-prototype.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/core-js/internals/a-possible-prototype.js ***!
+  \****************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var isCallable = __webpack_require__(/*! ../internals/is-callable */ "./node_modules/core-js/internals/is-callable.js");
+
+var $String = String;
+var $TypeError = TypeError;
+
+module.exports = function (argument) {
+  if (typeof argument == 'object' || isCallable(argument)) return argument;
+  throw $TypeError("Can't set " + $String(argument) + ' as a prototype');
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/add-to-unscopables.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/core-js/internals/add-to-unscopables.js ***!
+  \**************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ "./node_modules/core-js/internals/well-known-symbol.js");
+var create = __webpack_require__(/*! ../internals/object-create */ "./node_modules/core-js/internals/object-create.js");
+var defineProperty = (__webpack_require__(/*! ../internals/object-define-property */ "./node_modules/core-js/internals/object-define-property.js").f);
+
+var UNSCOPABLES = wellKnownSymbol('unscopables');
+var ArrayPrototype = Array.prototype;
+
+// Array.prototype[@@unscopables]
+// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+if (ArrayPrototype[UNSCOPABLES] == undefined) {
+  defineProperty(ArrayPrototype, UNSCOPABLES, {
+    configurable: true,
+    value: create(null)
+  });
+}
+
+// add a key to Array.prototype[@@unscopables]
+module.exports = function (key) {
+  ArrayPrototype[UNSCOPABLES][key] = true;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/advance-string-index.js":
 /*!****************************************************************!*\
   !*** ./node_modules/core-js/internals/advance-string-index.js ***!
@@ -748,6 +1385,26 @@ module.exports = function (argument) {
   if (isObject(argument)) return argument;
   throw $TypeError($String(argument) + ' is not an object');
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/array-buffer-non-extensible.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/core-js/internals/array-buffer-non-extensible.js ***!
+  \***********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// FF26- bug: ArrayBuffers are non-extensible, but Object.isExtensible does not report it
+var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
+
+module.exports = fails(function () {
+  if (typeof ArrayBuffer == 'function') {
+    var buffer = new ArrayBuffer(8);
+    // eslint-disable-next-line es-x/no-object-isextensible, es-x/no-object-defineproperty -- safe
+    if (Object.isExtensible(buffer)) Object.defineProperty(buffer, 'a', { value: 8 });
+  }
+});
 
 
 /***/ }),
@@ -1121,6 +1778,51 @@ module.exports = function (target, source, exceptions) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/correct-prototype-getter.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/core-js/internals/correct-prototype-getter.js ***!
+  \********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
+
+module.exports = !fails(function () {
+  function F() { /* empty */ }
+  F.prototype.constructor = null;
+  // eslint-disable-next-line es-x/no-object-getprototypeof -- required for testing
+  return Object.getPrototypeOf(new F()) !== F.prototype;
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/create-iterator-constructor.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/core-js/internals/create-iterator-constructor.js ***!
+  \***********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var IteratorPrototype = (__webpack_require__(/*! ../internals/iterators-core */ "./node_modules/core-js/internals/iterators-core.js").IteratorPrototype);
+var create = __webpack_require__(/*! ../internals/object-create */ "./node_modules/core-js/internals/object-create.js");
+var createPropertyDescriptor = __webpack_require__(/*! ../internals/create-property-descriptor */ "./node_modules/core-js/internals/create-property-descriptor.js");
+var setToStringTag = __webpack_require__(/*! ../internals/set-to-string-tag */ "./node_modules/core-js/internals/set-to-string-tag.js");
+var Iterators = __webpack_require__(/*! ../internals/iterators */ "./node_modules/core-js/internals/iterators.js");
+
+var returnThis = function () { return this; };
+
+module.exports = function (IteratorConstructor, NAME, next, ENUMERABLE_NEXT) {
+  var TO_STRING_TAG = NAME + ' Iterator';
+  IteratorConstructor.prototype = create(IteratorPrototype, { next: createPropertyDescriptor(+!ENUMERABLE_NEXT, next) });
+  setToStringTag(IteratorConstructor, TO_STRING_TAG, false, true);
+  Iterators[TO_STRING_TAG] = returnThis;
+  return IteratorConstructor;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/create-non-enumerable-property.js":
 /*!**************************************************************************!*\
   !*** ./node_modules/core-js/internals/create-non-enumerable-property.js ***!
@@ -1227,6 +1929,137 @@ module.exports = function (key, value) {
   } catch (error) {
     global[key] = value;
   } return value;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/define-iterator.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/core-js/internals/define-iterator.js ***!
+  \***********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var call = __webpack_require__(/*! ../internals/function-call */ "./node_modules/core-js/internals/function-call.js");
+var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ "./node_modules/core-js/internals/is-pure.js");
+var FunctionName = __webpack_require__(/*! ../internals/function-name */ "./node_modules/core-js/internals/function-name.js");
+var isCallable = __webpack_require__(/*! ../internals/is-callable */ "./node_modules/core-js/internals/is-callable.js");
+var createIteratorConstructor = __webpack_require__(/*! ../internals/create-iterator-constructor */ "./node_modules/core-js/internals/create-iterator-constructor.js");
+var getPrototypeOf = __webpack_require__(/*! ../internals/object-get-prototype-of */ "./node_modules/core-js/internals/object-get-prototype-of.js");
+var setPrototypeOf = __webpack_require__(/*! ../internals/object-set-prototype-of */ "./node_modules/core-js/internals/object-set-prototype-of.js");
+var setToStringTag = __webpack_require__(/*! ../internals/set-to-string-tag */ "./node_modules/core-js/internals/set-to-string-tag.js");
+var createNonEnumerableProperty = __webpack_require__(/*! ../internals/create-non-enumerable-property */ "./node_modules/core-js/internals/create-non-enumerable-property.js");
+var defineBuiltIn = __webpack_require__(/*! ../internals/define-built-in */ "./node_modules/core-js/internals/define-built-in.js");
+var wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ "./node_modules/core-js/internals/well-known-symbol.js");
+var Iterators = __webpack_require__(/*! ../internals/iterators */ "./node_modules/core-js/internals/iterators.js");
+var IteratorsCore = __webpack_require__(/*! ../internals/iterators-core */ "./node_modules/core-js/internals/iterators-core.js");
+
+var PROPER_FUNCTION_NAME = FunctionName.PROPER;
+var CONFIGURABLE_FUNCTION_NAME = FunctionName.CONFIGURABLE;
+var IteratorPrototype = IteratorsCore.IteratorPrototype;
+var BUGGY_SAFARI_ITERATORS = IteratorsCore.BUGGY_SAFARI_ITERATORS;
+var ITERATOR = wellKnownSymbol('iterator');
+var KEYS = 'keys';
+var VALUES = 'values';
+var ENTRIES = 'entries';
+
+var returnThis = function () { return this; };
+
+module.exports = function (Iterable, NAME, IteratorConstructor, next, DEFAULT, IS_SET, FORCED) {
+  createIteratorConstructor(IteratorConstructor, NAME, next);
+
+  var getIterationMethod = function (KIND) {
+    if (KIND === DEFAULT && defaultIterator) return defaultIterator;
+    if (!BUGGY_SAFARI_ITERATORS && KIND in IterablePrototype) return IterablePrototype[KIND];
+    switch (KIND) {
+      case KEYS: return function keys() { return new IteratorConstructor(this, KIND); };
+      case VALUES: return function values() { return new IteratorConstructor(this, KIND); };
+      case ENTRIES: return function entries() { return new IteratorConstructor(this, KIND); };
+    } return function () { return new IteratorConstructor(this); };
+  };
+
+  var TO_STRING_TAG = NAME + ' Iterator';
+  var INCORRECT_VALUES_NAME = false;
+  var IterablePrototype = Iterable.prototype;
+  var nativeIterator = IterablePrototype[ITERATOR]
+    || IterablePrototype['@@iterator']
+    || DEFAULT && IterablePrototype[DEFAULT];
+  var defaultIterator = !BUGGY_SAFARI_ITERATORS && nativeIterator || getIterationMethod(DEFAULT);
+  var anyNativeIterator = NAME == 'Array' ? IterablePrototype.entries || nativeIterator : nativeIterator;
+  var CurrentIteratorPrototype, methods, KEY;
+
+  // fix native
+  if (anyNativeIterator) {
+    CurrentIteratorPrototype = getPrototypeOf(anyNativeIterator.call(new Iterable()));
+    if (CurrentIteratorPrototype !== Object.prototype && CurrentIteratorPrototype.next) {
+      if (!IS_PURE && getPrototypeOf(CurrentIteratorPrototype) !== IteratorPrototype) {
+        if (setPrototypeOf) {
+          setPrototypeOf(CurrentIteratorPrototype, IteratorPrototype);
+        } else if (!isCallable(CurrentIteratorPrototype[ITERATOR])) {
+          defineBuiltIn(CurrentIteratorPrototype, ITERATOR, returnThis);
+        }
+      }
+      // Set @@toStringTag to native iterators
+      setToStringTag(CurrentIteratorPrototype, TO_STRING_TAG, true, true);
+      if (IS_PURE) Iterators[TO_STRING_TAG] = returnThis;
+    }
+  }
+
+  // fix Array.prototype.{ values, @@iterator }.name in V8 / FF
+  if (PROPER_FUNCTION_NAME && DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
+    if (!IS_PURE && CONFIGURABLE_FUNCTION_NAME) {
+      createNonEnumerableProperty(IterablePrototype, 'name', VALUES);
+    } else {
+      INCORRECT_VALUES_NAME = true;
+      defaultIterator = function values() { return call(nativeIterator, this); };
+    }
+  }
+
+  // export additional methods
+  if (DEFAULT) {
+    methods = {
+      values: getIterationMethod(VALUES),
+      keys: IS_SET ? defaultIterator : getIterationMethod(KEYS),
+      entries: getIterationMethod(ENTRIES)
+    };
+    if (FORCED) for (KEY in methods) {
+      if (BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME || !(KEY in IterablePrototype)) {
+        defineBuiltIn(IterablePrototype, KEY, methods[KEY]);
+      }
+    } else $({ target: NAME, proto: true, forced: BUGGY_SAFARI_ITERATORS || INCORRECT_VALUES_NAME }, methods);
+  }
+
+  // define iterator
+  if ((!IS_PURE || FORCED) && IterablePrototype[ITERATOR] !== defaultIterator) {
+    defineBuiltIn(IterablePrototype, ITERATOR, defaultIterator, { name: DEFAULT });
+  }
+  Iterators[NAME] = defaultIterator;
+
+  return methods;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/define-well-known-symbol.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/core-js/internals/define-well-known-symbol.js ***!
+  \********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var path = __webpack_require__(/*! ../internals/path */ "./node_modules/core-js/internals/path.js");
+var hasOwn = __webpack_require__(/*! ../internals/has-own-property */ "./node_modules/core-js/internals/has-own-property.js");
+var wrappedWellKnownSymbolModule = __webpack_require__(/*! ../internals/well-known-symbol-wrapped */ "./node_modules/core-js/internals/well-known-symbol-wrapped.js");
+var defineProperty = (__webpack_require__(/*! ../internals/object-define-property */ "./node_modules/core-js/internals/object-define-property.js").f);
+
+module.exports = function (NAME) {
+  var Symbol = path.Symbol || (path.Symbol = {});
+  if (!hasOwn(Symbol, NAME)) defineProperty(Symbol, NAME, {
+    value: wrappedWellKnownSymbolModule.f(NAME)
+  });
 };
 
 
@@ -1580,6 +2413,22 @@ module.exports = function (KEY, exec, FORCED, SHAM) {
 
   if (SHAM) createNonEnumerableProperty(RegExpPrototype[SYMBOL], 'sham', true);
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/freezing.js":
+/*!****************************************************!*\
+  !*** ./node_modules/core-js/internals/freezing.js ***!
+  \****************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
+
+module.exports = !fails(function () {
+  // eslint-disable-next-line es-x/no-object-isextensible, es-x/no-object-preventextensions -- required for testing
+  return Object.isExtensible(Object.preventExtensions({}));
+});
 
 
 /***/ }),
@@ -1944,6 +2793,105 @@ module.exports = store.inspectSource;
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/internal-metadata.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/internals/internal-metadata.js ***!
+  \*************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ "./node_modules/core-js/internals/function-uncurry-this.js");
+var hiddenKeys = __webpack_require__(/*! ../internals/hidden-keys */ "./node_modules/core-js/internals/hidden-keys.js");
+var isObject = __webpack_require__(/*! ../internals/is-object */ "./node_modules/core-js/internals/is-object.js");
+var hasOwn = __webpack_require__(/*! ../internals/has-own-property */ "./node_modules/core-js/internals/has-own-property.js");
+var defineProperty = (__webpack_require__(/*! ../internals/object-define-property */ "./node_modules/core-js/internals/object-define-property.js").f);
+var getOwnPropertyNamesModule = __webpack_require__(/*! ../internals/object-get-own-property-names */ "./node_modules/core-js/internals/object-get-own-property-names.js");
+var getOwnPropertyNamesExternalModule = __webpack_require__(/*! ../internals/object-get-own-property-names-external */ "./node_modules/core-js/internals/object-get-own-property-names-external.js");
+var isExtensible = __webpack_require__(/*! ../internals/object-is-extensible */ "./node_modules/core-js/internals/object-is-extensible.js");
+var uid = __webpack_require__(/*! ../internals/uid */ "./node_modules/core-js/internals/uid.js");
+var FREEZING = __webpack_require__(/*! ../internals/freezing */ "./node_modules/core-js/internals/freezing.js");
+
+var REQUIRED = false;
+var METADATA = uid('meta');
+var id = 0;
+
+var setMetadata = function (it) {
+  defineProperty(it, METADATA, { value: {
+    objectID: 'O' + id++, // object ID
+    weakData: {}          // weak collections IDs
+  } });
+};
+
+var fastKey = function (it, create) {
+  // return a primitive with prefix
+  if (!isObject(it)) return typeof it == 'symbol' ? it : (typeof it == 'string' ? 'S' : 'P') + it;
+  if (!hasOwn(it, METADATA)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return 'F';
+    // not necessary to add metadata
+    if (!create) return 'E';
+    // add missing metadata
+    setMetadata(it);
+  // return object ID
+  } return it[METADATA].objectID;
+};
+
+var getWeakData = function (it, create) {
+  if (!hasOwn(it, METADATA)) {
+    // can't set metadata to uncaught frozen object
+    if (!isExtensible(it)) return true;
+    // not necessary to add metadata
+    if (!create) return false;
+    // add missing metadata
+    setMetadata(it);
+  // return the store of weak collections IDs
+  } return it[METADATA].weakData;
+};
+
+// add metadata on freeze-family methods calling
+var onFreeze = function (it) {
+  if (FREEZING && REQUIRED && isExtensible(it) && !hasOwn(it, METADATA)) setMetadata(it);
+  return it;
+};
+
+var enable = function () {
+  meta.enable = function () { /* empty */ };
+  REQUIRED = true;
+  var getOwnPropertyNames = getOwnPropertyNamesModule.f;
+  var splice = uncurryThis([].splice);
+  var test = {};
+  test[METADATA] = 1;
+
+  // prevent exposing of metadata key
+  if (getOwnPropertyNames(test).length) {
+    getOwnPropertyNamesModule.f = function (it) {
+      var result = getOwnPropertyNames(it);
+      for (var i = 0, length = result.length; i < length; i++) {
+        if (result[i] === METADATA) {
+          splice(result, i, 1);
+          break;
+        }
+      } return result;
+    };
+
+    $({ target: 'Object', stat: true, forced: true }, {
+      getOwnPropertyNames: getOwnPropertyNamesExternalModule.f
+    });
+  }
+};
+
+var meta = module.exports = {
+  enable: enable,
+  fastKey: fastKey,
+  getWeakData: getWeakData,
+  onFreeze: onFreeze
+};
+
+hiddenKeys[METADATA] = true;
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/internal-state.js":
 /*!**********************************************************!*\
   !*** ./node_modules/core-js/internals/internal-state.js ***!
@@ -2221,6 +3169,76 @@ module.exports = USE_SYMBOL_AS_UID ? function (it) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/iterators-core.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/internals/iterators-core.js ***!
+  \**********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
+var isCallable = __webpack_require__(/*! ../internals/is-callable */ "./node_modules/core-js/internals/is-callable.js");
+var create = __webpack_require__(/*! ../internals/object-create */ "./node_modules/core-js/internals/object-create.js");
+var getPrototypeOf = __webpack_require__(/*! ../internals/object-get-prototype-of */ "./node_modules/core-js/internals/object-get-prototype-of.js");
+var defineBuiltIn = __webpack_require__(/*! ../internals/define-built-in */ "./node_modules/core-js/internals/define-built-in.js");
+var wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ "./node_modules/core-js/internals/well-known-symbol.js");
+var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ "./node_modules/core-js/internals/is-pure.js");
+
+var ITERATOR = wellKnownSymbol('iterator');
+var BUGGY_SAFARI_ITERATORS = false;
+
+// `%IteratorPrototype%` object
+// https://tc39.es/ecma262/#sec-%iteratorprototype%-object
+var IteratorPrototype, PrototypeOfArrayIteratorPrototype, arrayIterator;
+
+/* eslint-disable es-x/no-array-prototype-keys -- safe */
+if ([].keys) {
+  arrayIterator = [].keys();
+  // Safari 8 has buggy iterators w/o `next`
+  if (!('next' in arrayIterator)) BUGGY_SAFARI_ITERATORS = true;
+  else {
+    PrototypeOfArrayIteratorPrototype = getPrototypeOf(getPrototypeOf(arrayIterator));
+    if (PrototypeOfArrayIteratorPrototype !== Object.prototype) IteratorPrototype = PrototypeOfArrayIteratorPrototype;
+  }
+}
+
+var NEW_ITERATOR_PROTOTYPE = IteratorPrototype == undefined || fails(function () {
+  var test = {};
+  // FF44- legacy iterators case
+  return IteratorPrototype[ITERATOR].call(test) !== test;
+});
+
+if (NEW_ITERATOR_PROTOTYPE) IteratorPrototype = {};
+else if (IS_PURE) IteratorPrototype = create(IteratorPrototype);
+
+// `%IteratorPrototype%[@@iterator]()` method
+// https://tc39.es/ecma262/#sec-%iteratorprototype%-@@iterator
+if (!isCallable(IteratorPrototype[ITERATOR])) {
+  defineBuiltIn(IteratorPrototype, ITERATOR, function () {
+    return this;
+  });
+}
+
+module.exports = {
+  IteratorPrototype: IteratorPrototype,
+  BUGGY_SAFARI_ITERATORS: BUGGY_SAFARI_ITERATORS
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/iterators.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/core-js/internals/iterators.js ***!
+  \*****************************************************/
+/***/ ((module) => {
+
+module.exports = {};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/length-of-array-like.js":
 /*!****************************************************************!*\
   !*** ./node_modules/core-js/internals/length-of-array-like.js ***!
@@ -2316,6 +3334,20 @@ module.exports = Math.trunc || function trunc(x) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/native-symbol-registry.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/core-js/internals/native-symbol-registry.js ***!
+  \******************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var NATIVE_SYMBOL = __webpack_require__(/*! ../internals/native-symbol */ "./node_modules/core-js/internals/native-symbol.js");
+
+/* eslint-disable es-x/no-symbol -- safe */
+module.exports = NATIVE_SYMBOL && !!Symbol['for'] && !!Symbol.keyFor;
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/native-symbol.js":
 /*!*********************************************************!*\
   !*** ./node_modules/core-js/internals/native-symbol.js ***!
@@ -2352,6 +3384,74 @@ var inspectSource = __webpack_require__(/*! ../internals/inspect-source */ "./no
 var WeakMap = global.WeakMap;
 
 module.exports = isCallable(WeakMap) && /native code/.test(inspectSource(WeakMap));
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/object-assign.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/core-js/internals/object-assign.js ***!
+  \*********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var DESCRIPTORS = __webpack_require__(/*! ../internals/descriptors */ "./node_modules/core-js/internals/descriptors.js");
+var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ "./node_modules/core-js/internals/function-uncurry-this.js");
+var call = __webpack_require__(/*! ../internals/function-call */ "./node_modules/core-js/internals/function-call.js");
+var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
+var objectKeys = __webpack_require__(/*! ../internals/object-keys */ "./node_modules/core-js/internals/object-keys.js");
+var getOwnPropertySymbolsModule = __webpack_require__(/*! ../internals/object-get-own-property-symbols */ "./node_modules/core-js/internals/object-get-own-property-symbols.js");
+var propertyIsEnumerableModule = __webpack_require__(/*! ../internals/object-property-is-enumerable */ "./node_modules/core-js/internals/object-property-is-enumerable.js");
+var toObject = __webpack_require__(/*! ../internals/to-object */ "./node_modules/core-js/internals/to-object.js");
+var IndexedObject = __webpack_require__(/*! ../internals/indexed-object */ "./node_modules/core-js/internals/indexed-object.js");
+
+// eslint-disable-next-line es-x/no-object-assign -- safe
+var $assign = Object.assign;
+// eslint-disable-next-line es-x/no-object-defineproperty -- required for testing
+var defineProperty = Object.defineProperty;
+var concat = uncurryThis([].concat);
+
+// `Object.assign` method
+// https://tc39.es/ecma262/#sec-object.assign
+module.exports = !$assign || fails(function () {
+  // should have correct order of operations (Edge bug)
+  if (DESCRIPTORS && $assign({ b: 1 }, $assign(defineProperty({}, 'a', {
+    enumerable: true,
+    get: function () {
+      defineProperty(this, 'b', {
+        value: 3,
+        enumerable: false
+      });
+    }
+  }), { b: 2 })).b !== 1) return true;
+  // should work with symbols and should have deterministic property order (V8 bug)
+  var A = {};
+  var B = {};
+  // eslint-disable-next-line es-x/no-symbol -- safe
+  var symbol = Symbol();
+  var alphabet = 'abcdefghijklmnopqrst';
+  A[symbol] = 7;
+  alphabet.split('').forEach(function (chr) { B[chr] = chr; });
+  return $assign({}, A)[symbol] != 7 || objectKeys($assign({}, B)).join('') != alphabet;
+}) ? function assign(target, source) { // eslint-disable-line no-unused-vars -- required for `.length`
+  var T = toObject(target);
+  var argumentsLength = arguments.length;
+  var index = 1;
+  var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
+  var propertyIsEnumerable = propertyIsEnumerableModule.f;
+  while (argumentsLength > index) {
+    var S = IndexedObject(arguments[index++]);
+    var keys = getOwnPropertySymbols ? concat(objectKeys(S), getOwnPropertySymbols(S)) : objectKeys(S);
+    var length = keys.length;
+    var j = 0;
+    var key;
+    while (length > j) {
+      key = keys[j++];
+      if (!DESCRIPTORS || call(propertyIsEnumerable, S, key)) T[key] = S[key];
+    }
+  } return T;
+} : $assign;
 
 
 /***/ }),
@@ -2564,6 +3664,39 @@ exports.f = DESCRIPTORS ? $getOwnPropertyDescriptor : function getOwnPropertyDes
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/object-get-own-property-names-external.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/core-js/internals/object-get-own-property-names-external.js ***!
+  \**********************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+/* eslint-disable es-x/no-object-getownpropertynames -- safe */
+var classof = __webpack_require__(/*! ../internals/classof-raw */ "./node_modules/core-js/internals/classof-raw.js");
+var toIndexedObject = __webpack_require__(/*! ../internals/to-indexed-object */ "./node_modules/core-js/internals/to-indexed-object.js");
+var $getOwnPropertyNames = (__webpack_require__(/*! ../internals/object-get-own-property-names */ "./node_modules/core-js/internals/object-get-own-property-names.js").f);
+var arraySlice = __webpack_require__(/*! ../internals/array-slice-simple */ "./node_modules/core-js/internals/array-slice-simple.js");
+
+var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
+  ? Object.getOwnPropertyNames(window) : [];
+
+var getWindowNames = function (it) {
+  try {
+    return $getOwnPropertyNames(it);
+  } catch (error) {
+    return arraySlice(windowNames);
+  }
+};
+
+// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
+module.exports.f = function getOwnPropertyNames(it) {
+  return windowNames && classof(it) == 'Window'
+    ? getWindowNames(it)
+    : $getOwnPropertyNames(toIndexedObject(it));
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/object-get-own-property-names.js":
 /*!*************************************************************************!*\
   !*** ./node_modules/core-js/internals/object-get-own-property-names.js ***!
@@ -2593,6 +3726,63 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 // eslint-disable-next-line es-x/no-object-getownpropertysymbols -- safe
 exports.f = Object.getOwnPropertySymbols;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/object-get-prototype-of.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/core-js/internals/object-get-prototype-of.js ***!
+  \*******************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var hasOwn = __webpack_require__(/*! ../internals/has-own-property */ "./node_modules/core-js/internals/has-own-property.js");
+var isCallable = __webpack_require__(/*! ../internals/is-callable */ "./node_modules/core-js/internals/is-callable.js");
+var toObject = __webpack_require__(/*! ../internals/to-object */ "./node_modules/core-js/internals/to-object.js");
+var sharedKey = __webpack_require__(/*! ../internals/shared-key */ "./node_modules/core-js/internals/shared-key.js");
+var CORRECT_PROTOTYPE_GETTER = __webpack_require__(/*! ../internals/correct-prototype-getter */ "./node_modules/core-js/internals/correct-prototype-getter.js");
+
+var IE_PROTO = sharedKey('IE_PROTO');
+var $Object = Object;
+var ObjectPrototype = $Object.prototype;
+
+// `Object.getPrototypeOf` method
+// https://tc39.es/ecma262/#sec-object.getprototypeof
+// eslint-disable-next-line es-x/no-object-getprototypeof -- safe
+module.exports = CORRECT_PROTOTYPE_GETTER ? $Object.getPrototypeOf : function (O) {
+  var object = toObject(O);
+  if (hasOwn(object, IE_PROTO)) return object[IE_PROTO];
+  var constructor = object.constructor;
+  if (isCallable(constructor) && object instanceof constructor) {
+    return constructor.prototype;
+  } return object instanceof $Object ? ObjectPrototype : null;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/object-is-extensible.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/core-js/internals/object-is-extensible.js ***!
+  \****************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
+var isObject = __webpack_require__(/*! ../internals/is-object */ "./node_modules/core-js/internals/is-object.js");
+var classof = __webpack_require__(/*! ../internals/classof-raw */ "./node_modules/core-js/internals/classof-raw.js");
+var ARRAY_BUFFER_NON_EXTENSIBLE = __webpack_require__(/*! ../internals/array-buffer-non-extensible */ "./node_modules/core-js/internals/array-buffer-non-extensible.js");
+
+// eslint-disable-next-line es-x/no-object-isextensible -- safe
+var $isExtensible = Object.isExtensible;
+var FAILS_ON_PRIMITIVES = fails(function () { $isExtensible(1); });
+
+// `Object.isExtensible` method
+// https://tc39.es/ecma262/#sec-object.isextensible
+module.exports = (FAILS_ON_PRIMITIVES || ARRAY_BUFFER_NON_EXTENSIBLE) ? function isExtensible(it) {
+  if (!isObject(it)) return false;
+  if (ARRAY_BUFFER_NON_EXTENSIBLE && classof(it) == 'ArrayBuffer') return false;
+  return $isExtensible ? $isExtensible(it) : true;
+} : $isExtensible;
 
 
 /***/ }),
@@ -2684,6 +3874,43 @@ exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/object-set-prototype-of.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/core-js/internals/object-set-prototype-of.js ***!
+  \*******************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+/* eslint-disable no-proto -- safe */
+var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ "./node_modules/core-js/internals/function-uncurry-this.js");
+var anObject = __webpack_require__(/*! ../internals/an-object */ "./node_modules/core-js/internals/an-object.js");
+var aPossiblePrototype = __webpack_require__(/*! ../internals/a-possible-prototype */ "./node_modules/core-js/internals/a-possible-prototype.js");
+
+// `Object.setPrototypeOf` method
+// https://tc39.es/ecma262/#sec-object.setprototypeof
+// Works with __proto__ only. Old v8 can't work with null proto objects.
+// eslint-disable-next-line es-x/no-object-setprototypeof -- safe
+module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
+  var CORRECT_SETTER = false;
+  var test = {};
+  var setter;
+  try {
+    // eslint-disable-next-line es-x/no-object-getownpropertydescriptor -- safe
+    setter = uncurryThis(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set);
+    setter(test, []);
+    CORRECT_SETTER = test instanceof Array;
+  } catch (error) { /* empty */ }
+  return function setPrototypeOf(O, proto) {
+    anObject(O);
+    aPossiblePrototype(proto);
+    if (CORRECT_SETTER) setter(O, proto);
+    else O.__proto__ = proto;
+    return O;
+  };
+}() : undefined);
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/object-to-string.js":
 /*!************************************************************!*\
   !*** ./node_modules/core-js/internals/object-to-string.js ***!
@@ -2749,6 +3976,19 @@ module.exports = getBuiltIn('Reflect', 'ownKeys') || function ownKeys(it) {
   var getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
   return getOwnPropertySymbols ? concat(keys, getOwnPropertySymbols(it)) : keys;
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/path.js":
+/*!************************************************!*\
+  !*** ./node_modules/core-js/internals/path.js ***!
+  \************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var global = __webpack_require__(/*! ../internals/global */ "./node_modules/core-js/internals/global.js");
+
+module.exports = global;
 
 
 /***/ }),
@@ -3060,6 +4300,28 @@ module.exports = function (it) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/set-to-string-tag.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/core-js/internals/set-to-string-tag.js ***!
+  \*************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var defineProperty = (__webpack_require__(/*! ../internals/object-define-property */ "./node_modules/core-js/internals/object-define-property.js").f);
+var hasOwn = __webpack_require__(/*! ../internals/has-own-property */ "./node_modules/core-js/internals/has-own-property.js");
+var wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ "./node_modules/core-js/internals/well-known-symbol.js");
+
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+
+module.exports = function (target, TAG, STATIC) {
+  if (target && !STATIC) target = target.prototype;
+  if (target && !hasOwn(target, TO_STRING_TAG)) {
+    defineProperty(target, TO_STRING_TAG, { configurable: true, value: TAG });
+  }
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/shared-key.js":
 /*!******************************************************!*\
   !*** ./node_modules/core-js/internals/shared-key.js ***!
@@ -3181,6 +4443,36 @@ module.exports = {
   // `String.prototype.at` method
   // https://github.com/mathiasbynens/String.prototype.at
   charAt: createMethod(true)
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/internals/symbol-define-to-primitive.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/core-js/internals/symbol-define-to-primitive.js ***!
+  \**********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var call = __webpack_require__(/*! ../internals/function-call */ "./node_modules/core-js/internals/function-call.js");
+var getBuiltIn = __webpack_require__(/*! ../internals/get-built-in */ "./node_modules/core-js/internals/get-built-in.js");
+var wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ "./node_modules/core-js/internals/well-known-symbol.js");
+var defineBuiltIn = __webpack_require__(/*! ../internals/define-built-in */ "./node_modules/core-js/internals/define-built-in.js");
+
+module.exports = function () {
+  var Symbol = getBuiltIn('Symbol');
+  var SymbolPrototype = Symbol && Symbol.prototype;
+  var valueOf = SymbolPrototype && SymbolPrototype.valueOf;
+  var TO_PRIMITIVE = wellKnownSymbol('toPrimitive');
+
+  if (SymbolPrototype && !SymbolPrototype[TO_PRIMITIVE]) {
+    // `Symbol.prototype[@@toPrimitive]` method
+    // https://tc39.es/ecma262/#sec-symbol.prototype-@@toprimitive
+    // eslint-disable-next-line no-unused-vars -- required for .length
+    defineBuiltIn(SymbolPrototype, TO_PRIMITIVE, function (hint) {
+      return call(valueOf, this);
+    }, { arity: 1 });
+  }
 };
 
 
@@ -3448,6 +4740,19 @@ module.exports = DESCRIPTORS && fails(function () {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/internals/well-known-symbol-wrapped.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/core-js/internals/well-known-symbol-wrapped.js ***!
+  \*********************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+var wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ "./node_modules/core-js/internals/well-known-symbol.js");
+
+exports.f = wellKnownSymbol;
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/internals/well-known-symbol.js":
 /*!*************************************************************!*\
   !*** ./node_modules/core-js/internals/well-known-symbol.js ***!
@@ -3553,6 +4858,38 @@ $({ target: 'Array', proto: true, arity: 1, forced: FORCED }, {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es.array.find.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/core-js/modules/es.array.find.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var $find = (__webpack_require__(/*! ../internals/array-iteration */ "./node_modules/core-js/internals/array-iteration.js").find);
+var addToUnscopables = __webpack_require__(/*! ../internals/add-to-unscopables */ "./node_modules/core-js/internals/add-to-unscopables.js");
+
+var FIND = 'find';
+var SKIPS_HOLES = true;
+
+// Shouldn't skip holes
+if (FIND in []) Array(1)[FIND](function () { SKIPS_HOLES = false; });
+
+// `Array.prototype.find` method
+// https://tc39.es/ecma262/#sec-array.prototype.find
+$({ target: 'Array', proto: true, forced: SKIPS_HOLES }, {
+  find: function find(callbackfn /* , that = undefined */) {
+    return $find(this, callbackfn, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables(FIND);
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/es.array.for-each.js":
 /*!***********************************************************!*\
   !*** ./node_modules/core-js/modules/es.array.for-each.js ***!
@@ -3570,6 +4907,110 @@ var forEach = __webpack_require__(/*! ../internals/array-for-each */ "./node_mod
 $({ target: 'Array', proto: true, forced: [].forEach != forEach }, {
   forEach: forEach
 });
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es.array.includes.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.array.includes.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var $includes = (__webpack_require__(/*! ../internals/array-includes */ "./node_modules/core-js/internals/array-includes.js").includes);
+var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
+var addToUnscopables = __webpack_require__(/*! ../internals/add-to-unscopables */ "./node_modules/core-js/internals/add-to-unscopables.js");
+
+// FF99+ bug
+var BROKEN_ON_SPARSE = fails(function () {
+  return !Array(1).includes();
+});
+
+// `Array.prototype.includes` method
+// https://tc39.es/ecma262/#sec-array.prototype.includes
+$({ target: 'Array', proto: true, forced: BROKEN_ON_SPARSE }, {
+  includes: function includes(el /* , fromIndex = 0 */) {
+    return $includes(this, el, arguments.length > 1 ? arguments[1] : undefined);
+  }
+});
+
+// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables('includes');
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es.array.iterator.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.array.iterator.js ***!
+  \***********************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var toIndexedObject = __webpack_require__(/*! ../internals/to-indexed-object */ "./node_modules/core-js/internals/to-indexed-object.js");
+var addToUnscopables = __webpack_require__(/*! ../internals/add-to-unscopables */ "./node_modules/core-js/internals/add-to-unscopables.js");
+var Iterators = __webpack_require__(/*! ../internals/iterators */ "./node_modules/core-js/internals/iterators.js");
+var InternalStateModule = __webpack_require__(/*! ../internals/internal-state */ "./node_modules/core-js/internals/internal-state.js");
+var defineProperty = (__webpack_require__(/*! ../internals/object-define-property */ "./node_modules/core-js/internals/object-define-property.js").f);
+var defineIterator = __webpack_require__(/*! ../internals/define-iterator */ "./node_modules/core-js/internals/define-iterator.js");
+var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ "./node_modules/core-js/internals/is-pure.js");
+var DESCRIPTORS = __webpack_require__(/*! ../internals/descriptors */ "./node_modules/core-js/internals/descriptors.js");
+
+var ARRAY_ITERATOR = 'Array Iterator';
+var setInternalState = InternalStateModule.set;
+var getInternalState = InternalStateModule.getterFor(ARRAY_ITERATOR);
+
+// `Array.prototype.entries` method
+// https://tc39.es/ecma262/#sec-array.prototype.entries
+// `Array.prototype.keys` method
+// https://tc39.es/ecma262/#sec-array.prototype.keys
+// `Array.prototype.values` method
+// https://tc39.es/ecma262/#sec-array.prototype.values
+// `Array.prototype[@@iterator]` method
+// https://tc39.es/ecma262/#sec-array.prototype-@@iterator
+// `CreateArrayIterator` internal method
+// https://tc39.es/ecma262/#sec-createarrayiterator
+module.exports = defineIterator(Array, 'Array', function (iterated, kind) {
+  setInternalState(this, {
+    type: ARRAY_ITERATOR,
+    target: toIndexedObject(iterated), // target
+    index: 0,                          // next index
+    kind: kind                         // kind
+  });
+// `%ArrayIteratorPrototype%.next` method
+// https://tc39.es/ecma262/#sec-%arrayiteratorprototype%.next
+}, function () {
+  var state = getInternalState(this);
+  var target = state.target;
+  var kind = state.kind;
+  var index = state.index++;
+  if (!target || index >= target.length) {
+    state.target = undefined;
+    return { value: undefined, done: true };
+  }
+  if (kind == 'keys') return { value: index, done: false };
+  if (kind == 'values') return { value: target[index], done: false };
+  return { value: [index, target[index]], done: false };
+}, 'values');
+
+// argumentsList[@@iterator] is %ArrayProto_values%
+// https://tc39.es/ecma262/#sec-createunmappedargumentsobject
+// https://tc39.es/ecma262/#sec-createmappedargumentsobject
+var values = Iterators.Arguments = Iterators.Array;
+
+// https://tc39.es/ecma262/#sec-array.prototype-@@unscopables
+addToUnscopables('keys');
+addToUnscopables('values');
+addToUnscopables('entries');
+
+// V8 ~ Chrome 45- bug
+if (!IS_PURE && DESCRIPTORS && values.name !== 'values') try {
+  defineProperty(values, 'name', { value: 'values' });
+} catch (error) { /* empty */ }
 
 
 /***/ }),
@@ -3698,6 +5139,162 @@ if (DESCRIPTORS && !FUNCTION_NAME_EXISTS) {
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es.json.stringify.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.json.stringify.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var getBuiltIn = __webpack_require__(/*! ../internals/get-built-in */ "./node_modules/core-js/internals/get-built-in.js");
+var apply = __webpack_require__(/*! ../internals/function-apply */ "./node_modules/core-js/internals/function-apply.js");
+var call = __webpack_require__(/*! ../internals/function-call */ "./node_modules/core-js/internals/function-call.js");
+var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ "./node_modules/core-js/internals/function-uncurry-this.js");
+var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
+var isArray = __webpack_require__(/*! ../internals/is-array */ "./node_modules/core-js/internals/is-array.js");
+var isCallable = __webpack_require__(/*! ../internals/is-callable */ "./node_modules/core-js/internals/is-callable.js");
+var isObject = __webpack_require__(/*! ../internals/is-object */ "./node_modules/core-js/internals/is-object.js");
+var isSymbol = __webpack_require__(/*! ../internals/is-symbol */ "./node_modules/core-js/internals/is-symbol.js");
+var arraySlice = __webpack_require__(/*! ../internals/array-slice */ "./node_modules/core-js/internals/array-slice.js");
+var NATIVE_SYMBOL = __webpack_require__(/*! ../internals/native-symbol */ "./node_modules/core-js/internals/native-symbol.js");
+
+var $stringify = getBuiltIn('JSON', 'stringify');
+var exec = uncurryThis(/./.exec);
+var charAt = uncurryThis(''.charAt);
+var charCodeAt = uncurryThis(''.charCodeAt);
+var replace = uncurryThis(''.replace);
+var numberToString = uncurryThis(1.0.toString);
+
+var tester = /[\uD800-\uDFFF]/g;
+var low = /^[\uD800-\uDBFF]$/;
+var hi = /^[\uDC00-\uDFFF]$/;
+
+var WRONG_SYMBOLS_CONVERSION = !NATIVE_SYMBOL || fails(function () {
+  var symbol = getBuiltIn('Symbol')();
+  // MS Edge converts symbol values to JSON as {}
+  return $stringify([symbol]) != '[null]'
+    // WebKit converts symbol values to JSON as null
+    || $stringify({ a: symbol }) != '{}'
+    // V8 throws on boxed symbols
+    || $stringify(Object(symbol)) != '{}';
+});
+
+// https://github.com/tc39/proposal-well-formed-stringify
+var ILL_FORMED_UNICODE = fails(function () {
+  return $stringify('\uDF06\uD834') !== '"\\udf06\\ud834"'
+    || $stringify('\uDEAD') !== '"\\udead"';
+});
+
+var stringifyWithSymbolsFix = function (it, replacer) {
+  var args = arraySlice(arguments);
+  var $replacer = replacer;
+  if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
+  if (!isArray(replacer)) replacer = function (key, value) {
+    if (isCallable($replacer)) value = call($replacer, this, key, value);
+    if (!isSymbol(value)) return value;
+  };
+  args[1] = replacer;
+  return apply($stringify, null, args);
+};
+
+var fixIllFormed = function (match, offset, string) {
+  var prev = charAt(string, offset - 1);
+  var next = charAt(string, offset + 1);
+  if ((exec(low, match) && !exec(hi, next)) || (exec(hi, match) && !exec(low, prev))) {
+    return '\\u' + numberToString(charCodeAt(match, 0), 16);
+  } return match;
+};
+
+if ($stringify) {
+  // `JSON.stringify` method
+  // https://tc39.es/ecma262/#sec-json.stringify
+  $({ target: 'JSON', stat: true, arity: 3, forced: WRONG_SYMBOLS_CONVERSION || ILL_FORMED_UNICODE }, {
+    // eslint-disable-next-line no-unused-vars -- required for `.length`
+    stringify: function stringify(it, replacer, space) {
+      var args = arraySlice(arguments);
+      var result = apply(WRONG_SYMBOLS_CONVERSION ? stringifyWithSymbolsFix : $stringify, null, args);
+      return ILL_FORMED_UNICODE && typeof result == 'string' ? replace(result, tester, fixIllFormed) : result;
+    }
+  });
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es.object.assign.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.object.assign.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var assign = __webpack_require__(/*! ../internals/object-assign */ "./node_modules/core-js/internals/object-assign.js");
+
+// `Object.assign` method
+// https://tc39.es/ecma262/#sec-object.assign
+// eslint-disable-next-line es-x/no-object-assign -- required for testing
+$({ target: 'Object', stat: true, arity: 2, forced: Object.assign !== assign }, {
+  assign: assign
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es.object.freeze.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.object.freeze.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var FREEZING = __webpack_require__(/*! ../internals/freezing */ "./node_modules/core-js/internals/freezing.js");
+var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
+var isObject = __webpack_require__(/*! ../internals/is-object */ "./node_modules/core-js/internals/is-object.js");
+var onFreeze = (__webpack_require__(/*! ../internals/internal-metadata */ "./node_modules/core-js/internals/internal-metadata.js").onFreeze);
+
+// eslint-disable-next-line es-x/no-object-freeze -- safe
+var $freeze = Object.freeze;
+var FAILS_ON_PRIMITIVES = fails(function () { $freeze(1); });
+
+// `Object.freeze` method
+// https://tc39.es/ecma262/#sec-object.freeze
+$({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !FREEZING }, {
+  freeze: function freeze(it) {
+    return $freeze && isObject(it) ? $freeze(onFreeze(it)) : it;
+  }
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es.object.get-own-property-symbols.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/core-js/modules/es.object.get-own-property-symbols.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var NATIVE_SYMBOL = __webpack_require__(/*! ../internals/native-symbol */ "./node_modules/core-js/internals/native-symbol.js");
+var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
+var getOwnPropertySymbolsModule = __webpack_require__(/*! ../internals/object-get-own-property-symbols */ "./node_modules/core-js/internals/object-get-own-property-symbols.js");
+var toObject = __webpack_require__(/*! ../internals/to-object */ "./node_modules/core-js/internals/to-object.js");
+
+// V8 ~ Chrome 38 and 39 `Object.getOwnPropertySymbols` fails on primitives
+// https://bugs.chromium.org/p/v8/issues/detail?id=3443
+var FORCED = !NATIVE_SYMBOL || fails(function () { getOwnPropertySymbolsModule.f(1); });
+
+// `Object.getOwnPropertySymbols` method
+// https://tc39.es/ecma262/#sec-object.getownpropertysymbols
+$({ target: 'Object', stat: true, forced: FORCED }, {
+  getOwnPropertySymbols: function getOwnPropertySymbols(it) {
+    var $getOwnPropertySymbols = getOwnPropertySymbolsModule.f;
+    return $getOwnPropertySymbols ? $getOwnPropertySymbols(toObject(it)) : [];
+  }
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/es.object.keys.js":
 /*!********************************************************!*\
   !*** ./node_modules/core-js/modules/es.object.keys.js ***!
@@ -3794,6 +5391,47 @@ if (NOT_GENERIC || INCORRECT_NAME) {
     return '/' + pattern + '/' + flags;
   }, { unsafe: true });
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es.string.iterator.js":
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/modules/es.string.iterator.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var charAt = (__webpack_require__(/*! ../internals/string-multibyte */ "./node_modules/core-js/internals/string-multibyte.js").charAt);
+var toString = __webpack_require__(/*! ../internals/to-string */ "./node_modules/core-js/internals/to-string.js");
+var InternalStateModule = __webpack_require__(/*! ../internals/internal-state */ "./node_modules/core-js/internals/internal-state.js");
+var defineIterator = __webpack_require__(/*! ../internals/define-iterator */ "./node_modules/core-js/internals/define-iterator.js");
+
+var STRING_ITERATOR = 'String Iterator';
+var setInternalState = InternalStateModule.set;
+var getInternalState = InternalStateModule.getterFor(STRING_ITERATOR);
+
+// `String.prototype[@@iterator]` method
+// https://tc39.es/ecma262/#sec-string.prototype-@@iterator
+defineIterator(String, 'String', function (iterated) {
+  setInternalState(this, {
+    type: STRING_ITERATOR,
+    string: toString(iterated),
+    index: 0
+  });
+// `%StringIteratorPrototype%.next` method
+// https://tc39.es/ecma262/#sec-%stringiteratorprototype%.next
+}, function next() {
+  var state = getInternalState(this);
+  var string = state.string;
+  var index = state.index;
+  var point;
+  if (index >= string.length) return { value: undefined, done: true };
+  point = charAt(string, index);
+  state.index += point.length;
+  return { value: point, done: false };
+});
 
 
 /***/ }),
@@ -4112,6 +5750,429 @@ fixRegExpWellKnownSymbolLogic('split', function (SPLIT, nativeSplit, maybeCallNa
 
 /***/ }),
 
+/***/ "./node_modules/core-js/modules/es.symbol.constructor.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/core-js/modules/es.symbol.constructor.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var global = __webpack_require__(/*! ../internals/global */ "./node_modules/core-js/internals/global.js");
+var call = __webpack_require__(/*! ../internals/function-call */ "./node_modules/core-js/internals/function-call.js");
+var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ "./node_modules/core-js/internals/function-uncurry-this.js");
+var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ "./node_modules/core-js/internals/is-pure.js");
+var DESCRIPTORS = __webpack_require__(/*! ../internals/descriptors */ "./node_modules/core-js/internals/descriptors.js");
+var NATIVE_SYMBOL = __webpack_require__(/*! ../internals/native-symbol */ "./node_modules/core-js/internals/native-symbol.js");
+var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
+var hasOwn = __webpack_require__(/*! ../internals/has-own-property */ "./node_modules/core-js/internals/has-own-property.js");
+var isPrototypeOf = __webpack_require__(/*! ../internals/object-is-prototype-of */ "./node_modules/core-js/internals/object-is-prototype-of.js");
+var anObject = __webpack_require__(/*! ../internals/an-object */ "./node_modules/core-js/internals/an-object.js");
+var toIndexedObject = __webpack_require__(/*! ../internals/to-indexed-object */ "./node_modules/core-js/internals/to-indexed-object.js");
+var toPropertyKey = __webpack_require__(/*! ../internals/to-property-key */ "./node_modules/core-js/internals/to-property-key.js");
+var $toString = __webpack_require__(/*! ../internals/to-string */ "./node_modules/core-js/internals/to-string.js");
+var createPropertyDescriptor = __webpack_require__(/*! ../internals/create-property-descriptor */ "./node_modules/core-js/internals/create-property-descriptor.js");
+var nativeObjectCreate = __webpack_require__(/*! ../internals/object-create */ "./node_modules/core-js/internals/object-create.js");
+var objectKeys = __webpack_require__(/*! ../internals/object-keys */ "./node_modules/core-js/internals/object-keys.js");
+var getOwnPropertyNamesModule = __webpack_require__(/*! ../internals/object-get-own-property-names */ "./node_modules/core-js/internals/object-get-own-property-names.js");
+var getOwnPropertyNamesExternal = __webpack_require__(/*! ../internals/object-get-own-property-names-external */ "./node_modules/core-js/internals/object-get-own-property-names-external.js");
+var getOwnPropertySymbolsModule = __webpack_require__(/*! ../internals/object-get-own-property-symbols */ "./node_modules/core-js/internals/object-get-own-property-symbols.js");
+var getOwnPropertyDescriptorModule = __webpack_require__(/*! ../internals/object-get-own-property-descriptor */ "./node_modules/core-js/internals/object-get-own-property-descriptor.js");
+var definePropertyModule = __webpack_require__(/*! ../internals/object-define-property */ "./node_modules/core-js/internals/object-define-property.js");
+var definePropertiesModule = __webpack_require__(/*! ../internals/object-define-properties */ "./node_modules/core-js/internals/object-define-properties.js");
+var propertyIsEnumerableModule = __webpack_require__(/*! ../internals/object-property-is-enumerable */ "./node_modules/core-js/internals/object-property-is-enumerable.js");
+var defineBuiltIn = __webpack_require__(/*! ../internals/define-built-in */ "./node_modules/core-js/internals/define-built-in.js");
+var shared = __webpack_require__(/*! ../internals/shared */ "./node_modules/core-js/internals/shared.js");
+var sharedKey = __webpack_require__(/*! ../internals/shared-key */ "./node_modules/core-js/internals/shared-key.js");
+var hiddenKeys = __webpack_require__(/*! ../internals/hidden-keys */ "./node_modules/core-js/internals/hidden-keys.js");
+var uid = __webpack_require__(/*! ../internals/uid */ "./node_modules/core-js/internals/uid.js");
+var wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ "./node_modules/core-js/internals/well-known-symbol.js");
+var wrappedWellKnownSymbolModule = __webpack_require__(/*! ../internals/well-known-symbol-wrapped */ "./node_modules/core-js/internals/well-known-symbol-wrapped.js");
+var defineWellKnownSymbol = __webpack_require__(/*! ../internals/define-well-known-symbol */ "./node_modules/core-js/internals/define-well-known-symbol.js");
+var defineSymbolToPrimitive = __webpack_require__(/*! ../internals/symbol-define-to-primitive */ "./node_modules/core-js/internals/symbol-define-to-primitive.js");
+var setToStringTag = __webpack_require__(/*! ../internals/set-to-string-tag */ "./node_modules/core-js/internals/set-to-string-tag.js");
+var InternalStateModule = __webpack_require__(/*! ../internals/internal-state */ "./node_modules/core-js/internals/internal-state.js");
+var $forEach = (__webpack_require__(/*! ../internals/array-iteration */ "./node_modules/core-js/internals/array-iteration.js").forEach);
+
+var HIDDEN = sharedKey('hidden');
+var SYMBOL = 'Symbol';
+var PROTOTYPE = 'prototype';
+
+var setInternalState = InternalStateModule.set;
+var getInternalState = InternalStateModule.getterFor(SYMBOL);
+
+var ObjectPrototype = Object[PROTOTYPE];
+var $Symbol = global.Symbol;
+var SymbolPrototype = $Symbol && $Symbol[PROTOTYPE];
+var TypeError = global.TypeError;
+var QObject = global.QObject;
+var nativeGetOwnPropertyDescriptor = getOwnPropertyDescriptorModule.f;
+var nativeDefineProperty = definePropertyModule.f;
+var nativeGetOwnPropertyNames = getOwnPropertyNamesExternal.f;
+var nativePropertyIsEnumerable = propertyIsEnumerableModule.f;
+var push = uncurryThis([].push);
+
+var AllSymbols = shared('symbols');
+var ObjectPrototypeSymbols = shared('op-symbols');
+var WellKnownSymbolsStore = shared('wks');
+
+// Don't use setters in Qt Script, https://github.com/zloirock/core-js/issues/173
+var USE_SETTER = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
+
+// fallback for old Android, https://code.google.com/p/v8/issues/detail?id=687
+var setSymbolDescriptor = DESCRIPTORS && fails(function () {
+  return nativeObjectCreate(nativeDefineProperty({}, 'a', {
+    get: function () { return nativeDefineProperty(this, 'a', { value: 7 }).a; }
+  })).a != 7;
+}) ? function (O, P, Attributes) {
+  var ObjectPrototypeDescriptor = nativeGetOwnPropertyDescriptor(ObjectPrototype, P);
+  if (ObjectPrototypeDescriptor) delete ObjectPrototype[P];
+  nativeDefineProperty(O, P, Attributes);
+  if (ObjectPrototypeDescriptor && O !== ObjectPrototype) {
+    nativeDefineProperty(ObjectPrototype, P, ObjectPrototypeDescriptor);
+  }
+} : nativeDefineProperty;
+
+var wrap = function (tag, description) {
+  var symbol = AllSymbols[tag] = nativeObjectCreate(SymbolPrototype);
+  setInternalState(symbol, {
+    type: SYMBOL,
+    tag: tag,
+    description: description
+  });
+  if (!DESCRIPTORS) symbol.description = description;
+  return symbol;
+};
+
+var $defineProperty = function defineProperty(O, P, Attributes) {
+  if (O === ObjectPrototype) $defineProperty(ObjectPrototypeSymbols, P, Attributes);
+  anObject(O);
+  var key = toPropertyKey(P);
+  anObject(Attributes);
+  if (hasOwn(AllSymbols, key)) {
+    if (!Attributes.enumerable) {
+      if (!hasOwn(O, HIDDEN)) nativeDefineProperty(O, HIDDEN, createPropertyDescriptor(1, {}));
+      O[HIDDEN][key] = true;
+    } else {
+      if (hasOwn(O, HIDDEN) && O[HIDDEN][key]) O[HIDDEN][key] = false;
+      Attributes = nativeObjectCreate(Attributes, { enumerable: createPropertyDescriptor(0, false) });
+    } return setSymbolDescriptor(O, key, Attributes);
+  } return nativeDefineProperty(O, key, Attributes);
+};
+
+var $defineProperties = function defineProperties(O, Properties) {
+  anObject(O);
+  var properties = toIndexedObject(Properties);
+  var keys = objectKeys(properties).concat($getOwnPropertySymbols(properties));
+  $forEach(keys, function (key) {
+    if (!DESCRIPTORS || call($propertyIsEnumerable, properties, key)) $defineProperty(O, key, properties[key]);
+  });
+  return O;
+};
+
+var $create = function create(O, Properties) {
+  return Properties === undefined ? nativeObjectCreate(O) : $defineProperties(nativeObjectCreate(O), Properties);
+};
+
+var $propertyIsEnumerable = function propertyIsEnumerable(V) {
+  var P = toPropertyKey(V);
+  var enumerable = call(nativePropertyIsEnumerable, this, P);
+  if (this === ObjectPrototype && hasOwn(AllSymbols, P) && !hasOwn(ObjectPrototypeSymbols, P)) return false;
+  return enumerable || !hasOwn(this, P) || !hasOwn(AllSymbols, P) || hasOwn(this, HIDDEN) && this[HIDDEN][P]
+    ? enumerable : true;
+};
+
+var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(O, P) {
+  var it = toIndexedObject(O);
+  var key = toPropertyKey(P);
+  if (it === ObjectPrototype && hasOwn(AllSymbols, key) && !hasOwn(ObjectPrototypeSymbols, key)) return;
+  var descriptor = nativeGetOwnPropertyDescriptor(it, key);
+  if (descriptor && hasOwn(AllSymbols, key) && !(hasOwn(it, HIDDEN) && it[HIDDEN][key])) {
+    descriptor.enumerable = true;
+  }
+  return descriptor;
+};
+
+var $getOwnPropertyNames = function getOwnPropertyNames(O) {
+  var names = nativeGetOwnPropertyNames(toIndexedObject(O));
+  var result = [];
+  $forEach(names, function (key) {
+    if (!hasOwn(AllSymbols, key) && !hasOwn(hiddenKeys, key)) push(result, key);
+  });
+  return result;
+};
+
+var $getOwnPropertySymbols = function (O) {
+  var IS_OBJECT_PROTOTYPE = O === ObjectPrototype;
+  var names = nativeGetOwnPropertyNames(IS_OBJECT_PROTOTYPE ? ObjectPrototypeSymbols : toIndexedObject(O));
+  var result = [];
+  $forEach(names, function (key) {
+    if (hasOwn(AllSymbols, key) && (!IS_OBJECT_PROTOTYPE || hasOwn(ObjectPrototype, key))) {
+      push(result, AllSymbols[key]);
+    }
+  });
+  return result;
+};
+
+// `Symbol` constructor
+// https://tc39.es/ecma262/#sec-symbol-constructor
+if (!NATIVE_SYMBOL) {
+  $Symbol = function Symbol() {
+    if (isPrototypeOf(SymbolPrototype, this)) throw TypeError('Symbol is not a constructor');
+    var description = !arguments.length || arguments[0] === undefined ? undefined : $toString(arguments[0]);
+    var tag = uid(description);
+    var setter = function (value) {
+      if (this === ObjectPrototype) call(setter, ObjectPrototypeSymbols, value);
+      if (hasOwn(this, HIDDEN) && hasOwn(this[HIDDEN], tag)) this[HIDDEN][tag] = false;
+      setSymbolDescriptor(this, tag, createPropertyDescriptor(1, value));
+    };
+    if (DESCRIPTORS && USE_SETTER) setSymbolDescriptor(ObjectPrototype, tag, { configurable: true, set: setter });
+    return wrap(tag, description);
+  };
+
+  SymbolPrototype = $Symbol[PROTOTYPE];
+
+  defineBuiltIn(SymbolPrototype, 'toString', function toString() {
+    return getInternalState(this).tag;
+  });
+
+  defineBuiltIn($Symbol, 'withoutSetter', function (description) {
+    return wrap(uid(description), description);
+  });
+
+  propertyIsEnumerableModule.f = $propertyIsEnumerable;
+  definePropertyModule.f = $defineProperty;
+  definePropertiesModule.f = $defineProperties;
+  getOwnPropertyDescriptorModule.f = $getOwnPropertyDescriptor;
+  getOwnPropertyNamesModule.f = getOwnPropertyNamesExternal.f = $getOwnPropertyNames;
+  getOwnPropertySymbolsModule.f = $getOwnPropertySymbols;
+
+  wrappedWellKnownSymbolModule.f = function (name) {
+    return wrap(wellKnownSymbol(name), name);
+  };
+
+  if (DESCRIPTORS) {
+    // https://github.com/tc39/proposal-Symbol-description
+    nativeDefineProperty(SymbolPrototype, 'description', {
+      configurable: true,
+      get: function description() {
+        return getInternalState(this).description;
+      }
+    });
+    if (!IS_PURE) {
+      defineBuiltIn(ObjectPrototype, 'propertyIsEnumerable', $propertyIsEnumerable, { unsafe: true });
+    }
+  }
+}
+
+$({ global: true, constructor: true, wrap: true, forced: !NATIVE_SYMBOL, sham: !NATIVE_SYMBOL }, {
+  Symbol: $Symbol
+});
+
+$forEach(objectKeys(WellKnownSymbolsStore), function (name) {
+  defineWellKnownSymbol(name);
+});
+
+$({ target: SYMBOL, stat: true, forced: !NATIVE_SYMBOL }, {
+  useSetter: function () { USE_SETTER = true; },
+  useSimple: function () { USE_SETTER = false; }
+});
+
+$({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL, sham: !DESCRIPTORS }, {
+  // `Object.create` method
+  // https://tc39.es/ecma262/#sec-object.create
+  create: $create,
+  // `Object.defineProperty` method
+  // https://tc39.es/ecma262/#sec-object.defineproperty
+  defineProperty: $defineProperty,
+  // `Object.defineProperties` method
+  // https://tc39.es/ecma262/#sec-object.defineproperties
+  defineProperties: $defineProperties,
+  // `Object.getOwnPropertyDescriptor` method
+  // https://tc39.es/ecma262/#sec-object.getownpropertydescriptors
+  getOwnPropertyDescriptor: $getOwnPropertyDescriptor
+});
+
+$({ target: 'Object', stat: true, forced: !NATIVE_SYMBOL }, {
+  // `Object.getOwnPropertyNames` method
+  // https://tc39.es/ecma262/#sec-object.getownpropertynames
+  getOwnPropertyNames: $getOwnPropertyNames
+});
+
+// `Symbol.prototype[@@toPrimitive]` method
+// https://tc39.es/ecma262/#sec-symbol.prototype-@@toprimitive
+defineSymbolToPrimitive();
+
+// `Symbol.prototype[@@toStringTag]` property
+// https://tc39.es/ecma262/#sec-symbol.prototype-@@tostringtag
+setToStringTag($Symbol, SYMBOL);
+
+hiddenKeys[HIDDEN] = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es.symbol.description.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/core-js/modules/es.symbol.description.js ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+// `Symbol.prototype.description` getter
+// https://tc39.es/ecma262/#sec-symbol.prototype.description
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var DESCRIPTORS = __webpack_require__(/*! ../internals/descriptors */ "./node_modules/core-js/internals/descriptors.js");
+var global = __webpack_require__(/*! ../internals/global */ "./node_modules/core-js/internals/global.js");
+var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ "./node_modules/core-js/internals/function-uncurry-this.js");
+var hasOwn = __webpack_require__(/*! ../internals/has-own-property */ "./node_modules/core-js/internals/has-own-property.js");
+var isCallable = __webpack_require__(/*! ../internals/is-callable */ "./node_modules/core-js/internals/is-callable.js");
+var isPrototypeOf = __webpack_require__(/*! ../internals/object-is-prototype-of */ "./node_modules/core-js/internals/object-is-prototype-of.js");
+var toString = __webpack_require__(/*! ../internals/to-string */ "./node_modules/core-js/internals/to-string.js");
+var defineProperty = (__webpack_require__(/*! ../internals/object-define-property */ "./node_modules/core-js/internals/object-define-property.js").f);
+var copyConstructorProperties = __webpack_require__(/*! ../internals/copy-constructor-properties */ "./node_modules/core-js/internals/copy-constructor-properties.js");
+
+var NativeSymbol = global.Symbol;
+var SymbolPrototype = NativeSymbol && NativeSymbol.prototype;
+
+if (DESCRIPTORS && isCallable(NativeSymbol) && (!('description' in SymbolPrototype) ||
+  // Safari 12 bug
+  NativeSymbol().description !== undefined
+)) {
+  var EmptyStringDescriptionStore = {};
+  // wrap Symbol constructor for correct work with undefined description
+  var SymbolWrapper = function Symbol() {
+    var description = arguments.length < 1 || arguments[0] === undefined ? undefined : toString(arguments[0]);
+    var result = isPrototypeOf(SymbolPrototype, this)
+      ? new NativeSymbol(description)
+      // in Edge 13, String(Symbol(undefined)) === 'Symbol(undefined)'
+      : description === undefined ? NativeSymbol() : NativeSymbol(description);
+    if (description === '') EmptyStringDescriptionStore[result] = true;
+    return result;
+  };
+
+  copyConstructorProperties(SymbolWrapper, NativeSymbol);
+  SymbolWrapper.prototype = SymbolPrototype;
+  SymbolPrototype.constructor = SymbolWrapper;
+
+  var NATIVE_SYMBOL = String(NativeSymbol('test')) == 'Symbol(test)';
+  var symbolToString = uncurryThis(SymbolPrototype.toString);
+  var symbolValueOf = uncurryThis(SymbolPrototype.valueOf);
+  var regexp = /^Symbol\((.*)\)[^)]+$/;
+  var replace = uncurryThis(''.replace);
+  var stringSlice = uncurryThis(''.slice);
+
+  defineProperty(SymbolPrototype, 'description', {
+    configurable: true,
+    get: function description() {
+      var symbol = symbolValueOf(this);
+      var string = symbolToString(symbol);
+      if (hasOwn(EmptyStringDescriptionStore, symbol)) return '';
+      var desc = NATIVE_SYMBOL ? stringSlice(string, 7, -1) : replace(string, regexp, '$1');
+      return desc === '' ? undefined : desc;
+    }
+  });
+
+  $({ global: true, constructor: true, forced: true }, {
+    Symbol: SymbolWrapper
+  });
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es.symbol.for.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/core-js/modules/es.symbol.for.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var getBuiltIn = __webpack_require__(/*! ../internals/get-built-in */ "./node_modules/core-js/internals/get-built-in.js");
+var hasOwn = __webpack_require__(/*! ../internals/has-own-property */ "./node_modules/core-js/internals/has-own-property.js");
+var toString = __webpack_require__(/*! ../internals/to-string */ "./node_modules/core-js/internals/to-string.js");
+var shared = __webpack_require__(/*! ../internals/shared */ "./node_modules/core-js/internals/shared.js");
+var NATIVE_SYMBOL_REGISTRY = __webpack_require__(/*! ../internals/native-symbol-registry */ "./node_modules/core-js/internals/native-symbol-registry.js");
+
+var StringToSymbolRegistry = shared('string-to-symbol-registry');
+var SymbolToStringRegistry = shared('symbol-to-string-registry');
+
+// `Symbol.for` method
+// https://tc39.es/ecma262/#sec-symbol.for
+$({ target: 'Symbol', stat: true, forced: !NATIVE_SYMBOL_REGISTRY }, {
+  'for': function (key) {
+    var string = toString(key);
+    if (hasOwn(StringToSymbolRegistry, string)) return StringToSymbolRegistry[string];
+    var symbol = getBuiltIn('Symbol')(string);
+    StringToSymbolRegistry[string] = symbol;
+    SymbolToStringRegistry[symbol] = string;
+    return symbol;
+  }
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es.symbol.iterator.js":
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/modules/es.symbol.iterator.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+var defineWellKnownSymbol = __webpack_require__(/*! ../internals/define-well-known-symbol */ "./node_modules/core-js/internals/define-well-known-symbol.js");
+
+// `Symbol.iterator` well-known symbol
+// https://tc39.es/ecma262/#sec-symbol.iterator
+defineWellKnownSymbol('iterator');
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es.symbol.js":
+/*!***************************************************!*\
+  !*** ./node_modules/core-js/modules/es.symbol.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+// TODO: Remove this module from `core-js@4` since it's split to modules listed below
+__webpack_require__(/*! ../modules/es.symbol.constructor */ "./node_modules/core-js/modules/es.symbol.constructor.js");
+__webpack_require__(/*! ../modules/es.symbol.for */ "./node_modules/core-js/modules/es.symbol.for.js");
+__webpack_require__(/*! ../modules/es.symbol.key-for */ "./node_modules/core-js/modules/es.symbol.key-for.js");
+__webpack_require__(/*! ../modules/es.json.stringify */ "./node_modules/core-js/modules/es.json.stringify.js");
+__webpack_require__(/*! ../modules/es.object.get-own-property-symbols */ "./node_modules/core-js/modules/es.object.get-own-property-symbols.js");
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/es.symbol.key-for.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/core-js/modules/es.symbol.key-for.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
+var hasOwn = __webpack_require__(/*! ../internals/has-own-property */ "./node_modules/core-js/internals/has-own-property.js");
+var isSymbol = __webpack_require__(/*! ../internals/is-symbol */ "./node_modules/core-js/internals/is-symbol.js");
+var tryToString = __webpack_require__(/*! ../internals/try-to-string */ "./node_modules/core-js/internals/try-to-string.js");
+var shared = __webpack_require__(/*! ../internals/shared */ "./node_modules/core-js/internals/shared.js");
+var NATIVE_SYMBOL_REGISTRY = __webpack_require__(/*! ../internals/native-symbol-registry */ "./node_modules/core-js/internals/native-symbol-registry.js");
+
+var SymbolToStringRegistry = shared('symbol-to-string-registry');
+
+// `Symbol.keyFor` method
+// https://tc39.es/ecma262/#sec-symbol.keyfor
+$({ target: 'Symbol', stat: true, forced: !NATIVE_SYMBOL_REGISTRY }, {
+  keyFor: function keyFor(sym) {
+    if (!isSymbol(sym)) throw TypeError(tryToString(sym) + ' is not a symbol');
+    if (hasOwn(SymbolToStringRegistry, sym)) return SymbolToStringRegistry[sym];
+  }
+});
+
+
+/***/ }),
+
 /***/ "./node_modules/core-js/modules/web.dom-collections.for-each.js":
 /*!**********************************************************************!*\
   !*** ./node_modules/core-js/modules/web.dom-collections.for-each.js ***!
@@ -4140,6 +6201,54 @@ for (var COLLECTION_NAME in DOMIterables) {
 }
 
 handlePrototype(DOMTokenListPrototype);
+
+
+/***/ }),
+
+/***/ "./node_modules/core-js/modules/web.dom-collections.iterator.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/core-js/modules/web.dom-collections.iterator.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+var global = __webpack_require__(/*! ../internals/global */ "./node_modules/core-js/internals/global.js");
+var DOMIterables = __webpack_require__(/*! ../internals/dom-iterables */ "./node_modules/core-js/internals/dom-iterables.js");
+var DOMTokenListPrototype = __webpack_require__(/*! ../internals/dom-token-list-prototype */ "./node_modules/core-js/internals/dom-token-list-prototype.js");
+var ArrayIteratorMethods = __webpack_require__(/*! ../modules/es.array.iterator */ "./node_modules/core-js/modules/es.array.iterator.js");
+var createNonEnumerableProperty = __webpack_require__(/*! ../internals/create-non-enumerable-property */ "./node_modules/core-js/internals/create-non-enumerable-property.js");
+var wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ "./node_modules/core-js/internals/well-known-symbol.js");
+
+var ITERATOR = wellKnownSymbol('iterator');
+var TO_STRING_TAG = wellKnownSymbol('toStringTag');
+var ArrayValues = ArrayIteratorMethods.values;
+
+var handlePrototype = function (CollectionPrototype, COLLECTION_NAME) {
+  if (CollectionPrototype) {
+    // some Chrome versions have non-configurable methods on DOMTokenList
+    if (CollectionPrototype[ITERATOR] !== ArrayValues) try {
+      createNonEnumerableProperty(CollectionPrototype, ITERATOR, ArrayValues);
+    } catch (error) {
+      CollectionPrototype[ITERATOR] = ArrayValues;
+    }
+    if (!CollectionPrototype[TO_STRING_TAG]) {
+      createNonEnumerableProperty(CollectionPrototype, TO_STRING_TAG, COLLECTION_NAME);
+    }
+    if (DOMIterables[COLLECTION_NAME]) for (var METHOD_NAME in ArrayIteratorMethods) {
+      // some Chrome versions have non-configurable methods on DOMTokenList
+      if (CollectionPrototype[METHOD_NAME] !== ArrayIteratorMethods[METHOD_NAME]) try {
+        createNonEnumerableProperty(CollectionPrototype, METHOD_NAME, ArrayIteratorMethods[METHOD_NAME]);
+      } catch (error) {
+        CollectionPrototype[METHOD_NAME] = ArrayIteratorMethods[METHOD_NAME];
+      }
+    }
+  }
+};
+
+for (var COLLECTION_NAME in DOMIterables) {
+  handlePrototype(global[COLLECTION_NAME] && global[COLLECTION_NAME].prototype, COLLECTION_NAME);
+}
+
+handlePrototype(DOMTokenListPrototype, 'DOMTokenList');
 
 
 /***/ }),
@@ -4261,6 +6370,36 @@ function objectToString(o) {
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoAdvancedProperties.vue?vue&type=style&index=0&id=018d13b4&scoped=true&lang=css&":
+/*!**********************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoAdvancedProperties.vue?vue&type=style&index=0&id=018d13b4&scoped=true&lang=css& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_bamo_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!./bamo.css */ "./node_modules/css-loader/dist/cjs.js!./src/components/bamo.css");
+// Imports
+
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_bamo_css__WEBPACK_IMPORTED_MODULE_2__["default"]);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, " ", "",{"version":3,"sources":[],"names":[],"mappings":"","sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./src/components/bamo.css":
 /*!***********************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./src/components/bamo.css ***!
@@ -4281,7 +6420,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\r\n#BAMO .dialog_content {\r\n    margin: 0;\r\n} \r\n\r\n#BAMO .wizardWrapper {\r\n    display: flex; \r\n    flex-direction: row;\r\n    height: 100%;\r\n} \r\n\r\n#BAMO .wizardPage {\r\n    width: 100%; \r\n    padding: 12px 20px;\r\n} \r\n\r\n#BAMO .headerLabel {\r\n    font-size: 20px; \r\n    display: inline-block\r\n} \r\n\r\n#BAMO .headerDescription {\r\n    color: white;\r\n} \r\n\r\n#BAMO input[type='text'] {\r\n    display: block; \r\n    width: 100%; \r\n    height: auto; \r\n    padding: 4px 8px; \r\n    border: 1px solid black;\r\n} \r\n\r\n#BAMO input[type='number']{\r\n    display: inline-block; \r\n    width: 50px; \r\n    height: auto; \r\n    border: 1px solid black; \r\n    padding-left: 4px; \r\n    margin-right: 8px; \r\n    text-align: right;\r\n} \r\n\r\n#BAMO input[type='checkbox'] {\r\n    padding-right: 8px;\r\n} \r\n\r\n#BAMO select {\r\n    width: 100%; \r\n    height: auto; \r\n    padding: 4px 8px;\r\n    border: 1px solid black; \r\n} \r\n\r\n#sideBar {\r\n    border-right: 2px solid black;\r\n    width: 175px;\r\n} \r\n\r\n#sideBar li {\r\n    width: 100%; \r\n    padding: 8px 20px; \r\n    cursor: pointer;\r\n} \r\n\r\n#sideBar li.selected {\r\n    width: 100%; \r\n    padding: 8px 20px; \r\n    border-right: 4px solid green; \r\n    cursor: default;\r\n    background-color: gray;\r\n} \r\n\r\n#sideBar li.sideBarHeader {\r\n    width: 100%;\r\n    padding: 2px 10px;\r\n    font-size: 12px;\r\n    cursor: default;\r\n}\r\n\r\nul.settingsList li {\r\n    padding: 8px 0;\r\n}\r\n\t", "",{"version":3,"sources":["webpack://./src/components/bamo.css"],"names":[],"mappings":";AACA;IACI,SAAS;AACb;;AAEA;IACI,aAAa;IACb,mBAAmB;IACnB,YAAY;AAChB;;AAEA;IACI,WAAW;IACX,kBAAkB;AACtB;;AAEA;IACI,eAAe;IACf;AACJ;;AAEA;IACI,YAAY;AAChB;;AAEA;IACI,cAAc;IACd,WAAW;IACX,YAAY;IACZ,gBAAgB;IAChB,uBAAuB;AAC3B;;AAEA;IACI,qBAAqB;IACrB,WAAW;IACX,YAAY;IACZ,uBAAuB;IACvB,iBAAiB;IACjB,iBAAiB;IACjB,iBAAiB;AACrB;;AAEA;IACI,kBAAkB;AACtB;;AAEA;IACI,WAAW;IACX,YAAY;IACZ,gBAAgB;IAChB,uBAAuB;AAC3B;;AAEA;IACI,6BAA6B;IAC7B,YAAY;AAChB;;AAEA;IACI,WAAW;IACX,iBAAiB;IACjB,eAAe;AACnB;;AAEA;IACI,WAAW;IACX,iBAAiB;IACjB,6BAA6B;IAC7B,eAAe;IACf,sBAAsB;AAC1B;;AAEA;IACI,WAAW;IACX,iBAAiB;IACjB,eAAe;IACf,eAAe;AACnB;;AAEA;IACI,cAAc;AAClB","sourcesContent":["\r\n#BAMO .dialog_content {\r\n    margin: 0;\r\n} \r\n\r\n#BAMO .wizardWrapper {\r\n    display: flex; \r\n    flex-direction: row;\r\n    height: 100%;\r\n} \r\n\r\n#BAMO .wizardPage {\r\n    width: 100%; \r\n    padding: 12px 20px;\r\n} \r\n\r\n#BAMO .headerLabel {\r\n    font-size: 20px; \r\n    display: inline-block\r\n} \r\n\r\n#BAMO .headerDescription {\r\n    color: white;\r\n} \r\n\r\n#BAMO input[type='text'] {\r\n    display: block; \r\n    width: 100%; \r\n    height: auto; \r\n    padding: 4px 8px; \r\n    border: 1px solid black;\r\n} \r\n\r\n#BAMO input[type='number']{\r\n    display: inline-block; \r\n    width: 50px; \r\n    height: auto; \r\n    border: 1px solid black; \r\n    padding-left: 4px; \r\n    margin-right: 8px; \r\n    text-align: right;\r\n} \r\n\r\n#BAMO input[type='checkbox'] {\r\n    padding-right: 8px;\r\n} \r\n\r\n#BAMO select {\r\n    width: 100%; \r\n    height: auto; \r\n    padding: 4px 8px;\r\n    border: 1px solid black; \r\n} \r\n\r\n#sideBar {\r\n    border-right: 2px solid black;\r\n    width: 175px;\r\n} \r\n\r\n#sideBar li {\r\n    width: 100%; \r\n    padding: 8px 20px; \r\n    cursor: pointer;\r\n} \r\n\r\n#sideBar li.selected {\r\n    width: 100%; \r\n    padding: 8px 20px; \r\n    border-right: 4px solid green; \r\n    cursor: default;\r\n    background-color: gray;\r\n} \r\n\r\n#sideBar li.sideBarHeader {\r\n    width: 100%;\r\n    padding: 2px 10px;\r\n    font-size: 12px;\r\n    cursor: default;\r\n}\r\n\r\nul.settingsList li {\r\n    padding: 8px 0;\r\n}\r\n\t"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "\r\n#BAMO .dialog_content {\r\n    margin: 0;\r\n} \r\n\r\n#BAMO .wizardWrapper {\r\n    display: flex; \r\n    flex-direction: row;\r\n    height: 100%;\r\n} \r\n\r\n#BAMO .wizardPage {\r\n    width: 100%; \r\n    padding: 12px 20px;\r\n} \r\n\r\n#BAMO .headerLabel {\r\n    font-size: 20px; \r\n    display: inline-block\r\n} \r\n\r\n#BAMO .headerDescription {\r\n    color: white;\r\n} \r\n\r\n#BAMO input[type='text'] {\r\n    display: block; \r\n    width: 100%; \r\n    height: auto; \r\n    padding: 4px 8px; \r\n    border: 1px solid black;\r\n} \r\n\r\n#BAMO input[type='number']{\r\n    display: inline-block; \r\n    width: 50px; \r\n    height: auto; \r\n    border: 1px solid black; \r\n    padding-left: 4px; \r\n    margin-right: 8px; \r\n    text-align: right;\r\n} \r\n\r\n#BAMO input[type='checkbox'] {\r\n    padding-right: 8px;\r\n} \r\n\r\n#BAMO select {\r\n    width: 100%; \r\n    height: auto; \r\n    padding: 4px 8px;\r\n    border: 1px solid black; \r\n} \r\n\r\n#BAMOsideBar {\r\n    border-right: 2px solid black;\r\n    width: 175px;\r\n} \r\n\r\n#BAMOsideBar li {\r\n    width: 100%; \r\n    padding: 8px 20px; \r\n    cursor: pointer;\r\n} \r\n\r\n#BAMOsideBar li.selected {\r\n    width: 100%; \r\n    padding: 8px 20px; \r\n    border-right: 4px solid green; \r\n    cursor: default;\r\n    background-color: gray;\r\n} \r\n\r\n#BAMOsideBar li.sideBarHeader {\r\n    width: 100%;\r\n    padding: 2px 10px;\r\n    font-size: 12px;\r\n    cursor: default;\r\n}\r\n\r\nul.settingsList li {\r\n    padding: 8px 0;\r\n}\r\n\t", "",{"version":3,"sources":["webpack://./src/components/bamo.css"],"names":[],"mappings":";AACA;IACI,SAAS;AACb;;AAEA;IACI,aAAa;IACb,mBAAmB;IACnB,YAAY;AAChB;;AAEA;IACI,WAAW;IACX,kBAAkB;AACtB;;AAEA;IACI,eAAe;IACf;AACJ;;AAEA;IACI,YAAY;AAChB;;AAEA;IACI,cAAc;IACd,WAAW;IACX,YAAY;IACZ,gBAAgB;IAChB,uBAAuB;AAC3B;;AAEA;IACI,qBAAqB;IACrB,WAAW;IACX,YAAY;IACZ,uBAAuB;IACvB,iBAAiB;IACjB,iBAAiB;IACjB,iBAAiB;AACrB;;AAEA;IACI,kBAAkB;AACtB;;AAEA;IACI,WAAW;IACX,YAAY;IACZ,gBAAgB;IAChB,uBAAuB;AAC3B;;AAEA;IACI,6BAA6B;IAC7B,YAAY;AAChB;;AAEA;IACI,WAAW;IACX,iBAAiB;IACjB,eAAe;AACnB;;AAEA;IACI,WAAW;IACX,iBAAiB;IACjB,6BAA6B;IAC7B,eAAe;IACf,sBAAsB;AAC1B;;AAEA;IACI,WAAW;IACX,iBAAiB;IACjB,eAAe;IACf,eAAe;AACnB;;AAEA;IACI,cAAc;AAClB","sourcesContent":["\r\n#BAMO .dialog_content {\r\n    margin: 0;\r\n} \r\n\r\n#BAMO .wizardWrapper {\r\n    display: flex; \r\n    flex-direction: row;\r\n    height: 100%;\r\n} \r\n\r\n#BAMO .wizardPage {\r\n    width: 100%; \r\n    padding: 12px 20px;\r\n} \r\n\r\n#BAMO .headerLabel {\r\n    font-size: 20px; \r\n    display: inline-block\r\n} \r\n\r\n#BAMO .headerDescription {\r\n    color: white;\r\n} \r\n\r\n#BAMO input[type='text'] {\r\n    display: block; \r\n    width: 100%; \r\n    height: auto; \r\n    padding: 4px 8px; \r\n    border: 1px solid black;\r\n} \r\n\r\n#BAMO input[type='number']{\r\n    display: inline-block; \r\n    width: 50px; \r\n    height: auto; \r\n    border: 1px solid black; \r\n    padding-left: 4px; \r\n    margin-right: 8px; \r\n    text-align: right;\r\n} \r\n\r\n#BAMO input[type='checkbox'] {\r\n    padding-right: 8px;\r\n} \r\n\r\n#BAMO select {\r\n    width: 100%; \r\n    height: auto; \r\n    padding: 4px 8px;\r\n    border: 1px solid black; \r\n} \r\n\r\n#BAMOsideBar {\r\n    border-right: 2px solid black;\r\n    width: 175px;\r\n} \r\n\r\n#BAMOsideBar li {\r\n    width: 100%; \r\n    padding: 8px 20px; \r\n    cursor: pointer;\r\n} \r\n\r\n#BAMOsideBar li.selected {\r\n    width: 100%; \r\n    padding: 8px 20px; \r\n    border-right: 4px solid green; \r\n    cursor: default;\r\n    background-color: gray;\r\n} \r\n\r\n#BAMOsideBar li.sideBarHeader {\r\n    width: 100%;\r\n    padding: 2px 10px;\r\n    font-size: 12px;\r\n    cursor: default;\r\n}\r\n\r\nul.settingsList li {\r\n    padding: 8px 0;\r\n}\r\n\t"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4651,7 +6790,7 @@ exports.decode = function(input) {
         throw new Error("Invalid base64 input, it looks like a data url.");
     }
 
-    input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+    input = input.replace(/[^A-Za-z0-9+/=]/g, "");
 
     var totalLength = input.length * 3 / 4;
     if(input.charAt(input.length - 1) === _keyStr.charAt(64)) {
@@ -4747,7 +6886,7 @@ CompressedObject.prototype = {
 
         var that = this;
         worker.on("end", function () {
-            if (this.streamInfo['data_length'] !== that.uncompressedSize) {
+            if (this.streamInfo["data_length"] !== that.uncompressedSize) {
                 throw new Error("Bug : uncompressed data size mismatch");
             }
         });
@@ -4763,7 +6902,7 @@ CompressedObject.prototype = {
             .withStreamInfo("uncompressedSize", this.uncompressedSize)
             .withStreamInfo("crc32", this.crc32)
             .withStreamInfo("compression", this.compression)
-            ;
+        ;
     }
 };
 
@@ -4802,7 +6941,7 @@ var GenericWorker = __webpack_require__(/*! ./stream/GenericWorker */ "./node_mo
 
 exports.STORE = {
     magic: "\x00\x00",
-    compressWorker : function (compressionOptions) {
+    compressWorker : function () {
         return new GenericWorker("STORE compression");
     },
     uncompressWorker : function () {
@@ -4931,7 +7070,6 @@ exports.dosPermissions = null;
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-/* global Promise */
 
 
 // load the global object first:
@@ -4962,7 +7100,7 @@ module.exports = {
 
 "use strict";
 
-var USE_TYPEDARRAY = (typeof Uint8Array !== 'undefined') && (typeof Uint16Array !== 'undefined') && (typeof Uint32Array !== 'undefined');
+var USE_TYPEDARRAY = (typeof Uint8Array !== "undefined") && (typeof Uint16Array !== "undefined") && (typeof Uint32Array !== "undefined");
 
 var pako = __webpack_require__(/*! pako */ "./node_modules/pako/index.js");
 var utils = __webpack_require__(/*! ./utils */ "./node_modules/jszip/lib/utils.js");
@@ -5121,8 +7259,7 @@ var generateUnixExternalFileAttr = function (unixPermissions, isDir) {
  * Bit 4     Directory
  * Bit 5     Archive
  */
-var generateDosExternalFileAttr = function (dosPermissions, isDir) {
-
+var generateDosExternalFileAttr = function (dosPermissions) {
     // the dir flag is already set for compatibility
     return (dosPermissions || 0)  & 0x3F;
 };
@@ -5138,23 +7275,23 @@ var generateDosExternalFileAttr = function (dosPermissions, isDir) {
  * @return {Object} the zip parts.
  */
 var generateZipParts = function(streamInfo, streamedContent, streamingEnded, offset, platform, encodeFileName) {
-    var file = streamInfo['file'],
-    compression = streamInfo['compression'],
-    useCustomEncoding = encodeFileName !== utf8.utf8encode,
-    encodedFileName = utils.transformTo("string", encodeFileName(file.name)),
-    utfEncodedFileName = utils.transformTo("string", utf8.utf8encode(file.name)),
-    comment = file.comment,
-    encodedComment = utils.transformTo("string", encodeFileName(comment)),
-    utfEncodedComment = utils.transformTo("string", utf8.utf8encode(comment)),
-    useUTF8ForFileName = utfEncodedFileName.length !== file.name.length,
-    useUTF8ForComment = utfEncodedComment.length !== comment.length,
-    dosTime,
-    dosDate,
-    extraFields = "",
-    unicodePathExtraField = "",
-    unicodeCommentExtraField = "",
-    dir = file.dir,
-    date = file.date;
+    var file = streamInfo["file"],
+        compression = streamInfo["compression"],
+        useCustomEncoding = encodeFileName !== utf8.utf8encode,
+        encodedFileName = utils.transformTo("string", encodeFileName(file.name)),
+        utfEncodedFileName = utils.transformTo("string", utf8.utf8encode(file.name)),
+        comment = file.comment,
+        encodedComment = utils.transformTo("string", encodeFileName(comment)),
+        utfEncodedComment = utils.transformTo("string", utf8.utf8encode(comment)),
+        useUTF8ForFileName = utfEncodedFileName.length !== file.name.length,
+        useUTF8ForComment = utfEncodedComment.length !== comment.length,
+        dosTime,
+        dosDate,
+        extraFields = "",
+        unicodePathExtraField = "",
+        unicodeCommentExtraField = "",
+        dir = file.dir,
+        date = file.date;
 
 
     var dataInfo = {
@@ -5166,9 +7303,9 @@ var generateZipParts = function(streamInfo, streamedContent, streamingEnded, off
     // if the content is streamed, the sizes/crc32 are only available AFTER
     // the end of the stream.
     if (!streamedContent || streamingEnded) {
-        dataInfo.crc32 = streamInfo['crc32'];
-        dataInfo.compressedSize = streamInfo['compressedSize'];
-        dataInfo.uncompressedSize = streamInfo['uncompressedSize'];
+        dataInfo.crc32 = streamInfo["crc32"];
+        dataInfo.compressedSize = streamInfo["compressedSize"];
+        dataInfo.uncompressedSize = streamInfo["uncompressedSize"];
     }
 
     var bitflag = 0;
@@ -5360,11 +7497,11 @@ var generateDataDescriptors = function (streamInfo) {
     var descriptor = "";
     descriptor = signature.DATA_DESCRIPTOR +
         // crc-32                          4 bytes
-        decToHex(streamInfo['crc32'], 4) +
+        decToHex(streamInfo["crc32"], 4) +
         // compressed size                 4 bytes
-        decToHex(streamInfo['compressedSize'], 4) +
+        decToHex(streamInfo["compressedSize"], 4) +
         // uncompressed size               4 bytes
-        decToHex(streamInfo['uncompressedSize'], 4);
+        decToHex(streamInfo["uncompressedSize"], 4);
 
     return descriptor;
 };
@@ -5443,9 +7580,9 @@ ZipFileWorker.prototype.push = function (chunk) {
  */
 ZipFileWorker.prototype.openedSource = function (streamInfo) {
     this.currentSourceOffset = this.bytesWritten;
-    this.currentFile = streamInfo['file'].name;
+    this.currentFile = streamInfo["file"].name;
 
-    var streamedContent = this.streamFiles && !streamInfo['file'].dir;
+    var streamedContent = this.streamFiles && !streamInfo["file"].dir;
 
     // don't stream folders (because they don't have any content)
     if(streamedContent) {
@@ -5466,7 +7603,7 @@ ZipFileWorker.prototype.openedSource = function (streamInfo) {
  */
 ZipFileWorker.prototype.closedSource = function (streamInfo) {
     this.accumulate = false;
-    var streamedContent = this.streamFiles && !streamInfo['file'].dir;
+    var streamedContent = this.streamFiles && !streamInfo["file"].dir;
     var record = generateZipParts(streamInfo, streamedContent, true, this.currentSourceOffset, this.zipPlatform, this.encodeFileName);
 
     this.dirRecords.push(record.dirRecord);
@@ -5532,10 +7669,10 @@ ZipFileWorker.prototype.registerPrevious = function (previous) {
     this._sources.push(previous);
     var self = this;
 
-    previous.on('data', function (chunk) {
+    previous.on("data", function (chunk) {
         self.processChunk(chunk);
     });
-    previous.on('end', function () {
+    previous.on("end", function () {
         self.closedSource(self.previous.streamInfo);
         if(self._sources.length) {
             self.prepareNextSource();
@@ -5543,7 +7680,7 @@ ZipFileWorker.prototype.registerPrevious = function (previous) {
             self.end();
         }
     });
-    previous.on('error', function (e) {
+    previous.on("error", function (e) {
         self.error(e);
     });
     return this;
@@ -5648,15 +7785,15 @@ exports.generateWorker = function (zip, options, comment) {
             var dir = file.dir, date = file.date;
 
             file._compressWorker(compression, compressionOptions)
-            .withStreamInfo("file", {
-                name : relativePath,
-                dir : dir,
-                date : date,
-                comment : file.comment || "",
-                unixPermissions : file.unixPermissions,
-                dosPermissions : file.dosPermissions
-            })
-            .pipe(zipFileWorker);
+                .withStreamInfo("file", {
+                    name : relativePath,
+                    dir : dir,
+                    date : date,
+                    comment : file.comment || "",
+                    unixPermissions : file.unixPermissions,
+                    dosPermissions : file.dosPermissions
+                })
+                .pipe(zipFileWorker);
         });
         zipFileWorker.entriesCount = entriesCount;
     } catch (e) {
@@ -5683,7 +7820,7 @@ exports.generateWorker = function (zip, options, comment) {
  * @constructor
  */
 function JSZip() {
-    // if this constructor is used without `new`, it adds `new` before itself:
+    // if this constructor is used without `new`, it adds `new` before itself:
     if(!(this instanceof JSZip)) {
         return new JSZip();
     }
@@ -5723,7 +7860,7 @@ JSZip.defaults = __webpack_require__(/*! ./defaults */ "./node_modules/jszip/lib
 
 // TODO find a better way to handle this version,
 // a require('package.json').version doesn't work with webpack, see #327
-JSZip.version = "3.10.0";
+JSZip.version = "3.10.1";
 
 JSZip.loadAsync = function (content, options) {
     return new JSZip().loadAsync(content, options);
@@ -5938,28 +8075,28 @@ NodejsStreamInputAdapter.prototype._bindStream = function (stream) {
     this._stream = stream;
     stream.pause();
     stream
-    .on("data", function (chunk) {
-        self.push({
-            data: chunk,
-            meta : {
-                percent : 0
+        .on("data", function (chunk) {
+            self.push({
+                data: chunk,
+                meta : {
+                    percent : 0
+                }
+            });
+        })
+        .on("error", function (e) {
+            if(self.isPaused) {
+                this.generatedError = e;
+            } else {
+                self.error(e);
+            }
+        })
+        .on("end", function () {
+            if(self.isPaused) {
+                self._upstreamEnded = true;
+            } else {
+                self.end();
             }
         });
-    })
-    .on("error", function (e) {
-        if(self.isPaused) {
-            this.generatedError = e;
-        } else {
-            self.error(e);
-        }
-    })
-    .on("end", function () {
-        if(self.isPaused) {
-            self._upstreamEnded = true;
-        } else {
-            self.end();
-        }
-    });
 };
 NodejsStreamInputAdapter.prototype.pause = function () {
     if(!GenericWorker.prototype.pause.call(this)) {
@@ -6022,12 +8159,12 @@ function NodejsStreamOutputAdapter(helper, options, updateCb) {
             updateCb(meta);
         }
     })
-    .on("error", function(e) {
-        self.emit('error', e);
-    })
-    .on("end", function () {
-        self.push(null);
-    });
+        .on("error", function(e) {
+            self.emit("error", e);
+        })
+        .on("end", function () {
+            self.push(null);
+        });
 }
 
 
@@ -6156,10 +8293,10 @@ var fileAdd = function(name, data, originalOptions) {
  * @return {string} the parent folder, or ""
  */
 var parentFolder = function (path) {
-    if (path.slice(-1) === '/') {
+    if (path.slice(-1) === "/") {
         path = path.substring(0, path.length - 1);
     }
-    var lastSlash = path.lastIndexOf('/');
+    var lastSlash = path.lastIndexOf("/");
     return (lastSlash > 0) ? path.substring(0, lastSlash) : "";
 };
 
@@ -6186,7 +8323,7 @@ var forceTrailingSlash = function(path) {
  * @return {Object} the new folder.
  */
 var folderAdd = function(name, createFolders) {
-    createFolders = (typeof createFolders !== 'undefined') ? createFolders : defaults.createFolders;
+    createFolders = (typeof createFolders !== "undefined") ? createFolders : defaults.createFolders;
 
     name = forceTrailingSlash(name);
 
@@ -6228,8 +8365,8 @@ var out = {
      */
     forEach: function(cb) {
         var filename, relativePath, file;
-        /* jshint ignore:start */
         // ignore warning about unwanted properties because this.files is a null prototype object
+        /* eslint-disable-next-line guard-for-in */
         for (filename in this.files) {
             file = this.files[filename];
             relativePath = filename.slice(this.root.length, filename.length);
@@ -6237,7 +8374,6 @@ var out = {
                 cb(relativePath, file); // TODO reverse the parameters ? need to be clean AND consistent with the filter search fn...
             }
         }
-        /* jshint ignore:end */
     },
 
     /**
@@ -6350,13 +8486,9 @@ var out = {
     },
 
     /**
-     * Generate the complete zip file
-     * @param {Object} options the options to generate the zip file :
-     * - compression, "STORE" by default.
-     * - type, "base64" by default. Values are : string, base64, uint8array, arraybuffer, blob.
-     * @return {String|Uint8Array|ArrayBuffer|Buffer|Blob} the zip file
+     * @deprecated This method has been removed in JSZip 3.0, please check the upgrade guide.
      */
-    generate: function(options) {
+    generate: function() {
         throw new Error("This method has been removed in JSZip 3.0, please check the upgrade guide.");
     },
 
@@ -6368,53 +8500,53 @@ var out = {
      * @return {StreamHelper} the streamed zip file.
      */
     generateInternalStream: function(options) {
-      var worker, opts = {};
-      try {
-          opts = utils.extend(options || {}, {
-              streamFiles: false,
-              compression: "STORE",
-              compressionOptions : null,
-              type: "",
-              platform: "DOS",
-              comment: null,
-              mimeType: 'application/zip',
-              encodeFileName: utf8.utf8encode
-          });
+        var worker, opts = {};
+        try {
+            opts = utils.extend(options || {}, {
+                streamFiles: false,
+                compression: "STORE",
+                compressionOptions : null,
+                type: "",
+                platform: "DOS",
+                comment: null,
+                mimeType: "application/zip",
+                encodeFileName: utf8.utf8encode
+            });
 
-          opts.type = opts.type.toLowerCase();
-          opts.compression = opts.compression.toUpperCase();
+            opts.type = opts.type.toLowerCase();
+            opts.compression = opts.compression.toUpperCase();
 
-          // "binarystring" is preferred but the internals use "string".
-          if(opts.type === "binarystring") {
-            opts.type = "string";
-          }
+            // "binarystring" is preferred but the internals use "string".
+            if(opts.type === "binarystring") {
+                opts.type = "string";
+            }
 
-          if (!opts.type) {
-            throw new Error("No output type specified.");
-          }
+            if (!opts.type) {
+                throw new Error("No output type specified.");
+            }
 
-          utils.checkSupport(opts.type);
+            utils.checkSupport(opts.type);
 
-          // accept nodejs `process.platform`
-          if(
-              opts.platform === 'darwin' ||
-              opts.platform === 'freebsd' ||
-              opts.platform === 'linux' ||
-              opts.platform === 'sunos'
-          ) {
-              opts.platform = "UNIX";
-          }
-          if (opts.platform === 'win32') {
-              opts.platform = "DOS";
-          }
+            // accept nodejs `process.platform`
+            if(
+                opts.platform === "darwin" ||
+                opts.platform === "freebsd" ||
+                opts.platform === "linux" ||
+                opts.platform === "sunos"
+            ) {
+                opts.platform = "UNIX";
+            }
+            if (opts.platform === "win32") {
+                opts.platform = "DOS";
+            }
 
-          var comment = opts.comment || this.comment || "";
-          worker = generate.generateWorker(this, opts, comment);
-      } catch (e) {
-        worker = new GenericWorker("error");
-        worker.error(e);
-      }
-      return new StreamHelper(worker, opts.type || "string", opts.mimeType);
+            var comment = opts.comment || this.comment || "";
+            worker = generate.generateWorker(this, opts, comment);
+        } catch (e) {
+            worker = new GenericWorker("error");
+            worker.error(e);
+        }
+        return new StreamHelper(worker, opts.type || "string", opts.mimeType);
     },
     /**
      * Generate the complete zip file asynchronously.
@@ -6453,9 +8585,9 @@ var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.
 
 function ArrayReader(data) {
     DataReader.call(this, data);
-	for(var i = 0; i < this.data.length; i++) {
-		data[i] = data[i] & 0xFF;
-	}
+    for(var i = 0; i < this.data.length; i++) {
+        data[i] = data[i] & 0xFF;
+    }
 }
 utils.inherits(ArrayReader, DataReader);
 /**
@@ -6565,7 +8697,7 @@ DataReader.prototype = {
      * @param {number} i the index to use.
      * @return {number} a byte.
      */
-    byteAt: function(i) {
+    byteAt: function() {
         // see implementations
     },
     /**
@@ -6596,7 +8728,7 @@ DataReader.prototype = {
      * @param {number} size the number of bytes to read.
      * @return {Object} the raw data, implementation specific.
      */
-    readData: function(size) {
+    readData: function() {
         // see implementations
     },
     /**
@@ -6604,7 +8736,7 @@ DataReader.prototype = {
      * @param {string} sig the signature to find.
      * @return {number} the index of the last occurrence, -1 if not found.
      */
-    lastIndexOfSignature: function(sig) {
+    lastIndexOfSignature: function() {
         // see implementations
     },
     /**
@@ -6612,7 +8744,7 @@ DataReader.prototype = {
      * @param {string} sig the expected signature
      * @return {boolean} true if the signature matches, false otherwise.
      */
-    readAndCheckSignature: function(sig) {
+    readAndCheckSignature: function() {
         // see implementations
     },
     /**
@@ -6622,12 +8754,12 @@ DataReader.prototype = {
     readDate: function() {
         var dostime = this.readInt(4);
         return new Date(Date.UTC(
-        ((dostime >> 25) & 0x7f) + 1980, // year
-        ((dostime >> 21) & 0x0f) - 1, // month
-        (dostime >> 16) & 0x1f, // day
-        (dostime >> 11) & 0x1f, // hour
-        (dostime >> 5) & 0x3f, // minute
-        (dostime & 0x1f) << 1)); // second
+            ((dostime >> 25) & 0x7f) + 1980, // year
+            ((dostime >> 21) & 0x0f) - 1, // month
+            (dostime >> 16) & 0x1f, // day
+            (dostime >> 11) & 0x1f, // hour
+            (dostime >> 5) & 0x3f, // minute
+            (dostime & 0x1f) << 1)); // second
     }
 };
 module.exports = DataReader;
@@ -7017,15 +9149,15 @@ DataWorker.prototype._tick = function() {
         return this.end();
     } else {
         switch(this.type) {
-            case "string":
-                data = this.data.substring(this.index, nextIndex);
+        case "string":
+            data = this.data.substring(this.index, nextIndex);
             break;
-            case "uint8array":
-                data = this.data.subarray(this.index, nextIndex);
+        case "uint8array":
+            data = this.data.subarray(this.index, nextIndex);
             break;
-            case "array":
-            case "nodebuffer":
-                data = this.data.slice(this.index, nextIndex);
+        case "array":
+        case "nodebuffer":
+            data = this.data.slice(this.index, nextIndex);
             break;
         }
         this.index = nextIndex;
@@ -7083,9 +9215,9 @@ function GenericWorker(name) {
     this.isLocked = false;
     // the event listeners
     this._listeners = {
-        'data':[],
-        'end':[],
-        'error':[]
+        "data":[],
+        "end":[],
+        "error":[]
     };
     // the previous worker, if any
     this.previous = null;
@@ -7202,13 +9334,13 @@ GenericWorker.prototype = {
         this.mergeStreamInfo();
         this.previous =  previous;
         var self = this;
-        previous.on('data', function (chunk) {
+        previous.on("data", function (chunk) {
             self.processChunk(chunk);
         });
-        previous.on('end', function () {
+        previous.on("end", function () {
             self.end();
         });
-        previous.on('error', function (e) {
+        previous.on("error", function (e) {
             self.error(e);
         });
         return this;
@@ -7277,7 +9409,7 @@ GenericWorker.prototype = {
      */
     mergeStreamInfo : function () {
         for(var key in this.extraStreamInfo) {
-            if (!this.extraStreamInfo.hasOwnProperty(key)) {
+            if (!Object.prototype.hasOwnProperty.call(this.extraStreamInfo, key)) {
                 continue;
             }
             this.streamInfo[key] = this.extraStreamInfo[key];
@@ -7337,7 +9469,9 @@ var NodejsStreamOutputAdapter = null;
 if (support.nodestream) {
     try {
         NodejsStreamOutputAdapter = __webpack_require__(/*! ../nodejs/NodejsStreamOutputAdapter */ "./node_modules/jszip/lib/nodejs/NodejsStreamOutputAdapter.js");
-    } catch(e) {}
+    } catch(e) {
+        // ignore
+    }
 }
 
 /**
@@ -7351,12 +9485,12 @@ if (support.nodestream) {
  */
 function transformZipOutput(type, content, mimeType) {
     switch(type) {
-        case "blob" :
-            return utils.newBlob(utils.transformTo("arraybuffer", content), mimeType);
-        case "base64" :
-            return base64.encode(content);
-        default :
-            return utils.transformTo(type, content);
+    case "blob" :
+        return utils.newBlob(utils.transformTo("arraybuffer", content), mimeType);
+    case "base64" :
+        return base64.encode(content);
+    default :
+        return utils.transformTo(type, content);
     }
 }
 
@@ -7373,21 +9507,21 @@ function concat (type, dataArray) {
         totalLength += dataArray[i].length;
     }
     switch(type) {
-        case "string":
-            return dataArray.join("");
-          case "array":
-            return Array.prototype.concat.apply([], dataArray);
-        case "uint8array":
-            res = new Uint8Array(totalLength);
-            for(i = 0; i < dataArray.length; i++) {
-                res.set(dataArray[i], index);
-                index += dataArray[i].length;
-            }
-            return res;
-        case "nodebuffer":
-            return Buffer.concat(dataArray);
-        default:
-            throw new Error("concat : unsupported type '"  + type + "'");
+    case "string":
+        return dataArray.join("");
+    case "array":
+        return Array.prototype.concat.apply([], dataArray);
+    case "uint8array":
+        res = new Uint8Array(totalLength);
+        for(i = 0; i < dataArray.length; i++) {
+            res.set(dataArray[i], index);
+            index += dataArray[i].length;
+        }
+        return res;
+    case "nodebuffer":
+        return Buffer.concat(dataArray);
+    default:
+        throw new Error("concat : unsupported type '"  + type + "'");
     }
 }
 
@@ -7407,26 +9541,26 @@ function accumulate(helper, updateCallback) {
             resultType = helper._outputType,
             mimeType = helper._mimeType;
         helper
-        .on('data', function (data, meta) {
-            dataArray.push(data);
-            if(updateCallback) {
-                updateCallback(meta);
-            }
-        })
-        .on('error', function(err) {
-            dataArray = [];
-            reject(err);
-        })
-        .on('end', function (){
-            try {
-                var result = transformZipOutput(resultType, concat(chunkType, dataArray), mimeType);
-                resolve(result);
-            } catch (e) {
-                reject(e);
-            }
-            dataArray = [];
-        })
-        .resume();
+            .on("data", function (data, meta) {
+                dataArray.push(data);
+                if(updateCallback) {
+                    updateCallback(meta);
+                }
+            })
+            .on("error", function(err) {
+                dataArray = [];
+                reject(err);
+            })
+            .on("end", function (){
+                try {
+                    var result = transformZipOutput(resultType, concat(chunkType, dataArray), mimeType);
+                    resolve(result);
+                } catch (e) {
+                    reject(e);
+                }
+                dataArray = [];
+            })
+            .resume();
     });
 }
 
@@ -7440,12 +9574,12 @@ function accumulate(helper, updateCallback) {
 function StreamHelper(worker, outputType, mimeType) {
     var internalType = outputType;
     switch(outputType) {
-        case "blob":
-        case "arraybuffer":
-            internalType = "uint8array";
+    case "blob":
+    case "arraybuffer":
+        internalType = "uint8array";
         break;
-        case "base64":
-            internalType = "string";
+    case "base64":
+        internalType = "string";
         break;
     }
 
@@ -7572,7 +9706,7 @@ else {
             var Builder = self.BlobBuilder || self.WebKitBlobBuilder || self.MozBlobBuilder || self.MSBlobBuilder;
             var builder = new Builder();
             builder.append(buffer);
-            exports.blob = builder.getBlob('application/zip').size === 0;
+            exports.blob = builder.getBlob("application/zip").size === 0;
         }
         catch (e) {
             exports.blob = false;
@@ -7613,7 +9747,7 @@ var GenericWorker = __webpack_require__(/*! ./stream/GenericWorker */ "./node_mo
 // because max possible codepoint is 0x10ffff
 var _utf8len = new Array(256);
 for (var i=0; i<256; i++) {
-  _utf8len[i] = (i >= 252 ? 6 : i >= 248 ? 5 : i >= 240 ? 4 : i >= 224 ? 3 : i >= 192 ? 2 : 1);
+    _utf8len[i] = (i >= 252 ? 6 : i >= 248 ? 5 : i >= 240 ? 4 : i >= 224 ? 3 : i >= 192 ? 2 : 1);
 }
 _utf8len[254]=_utf8len[254]=1; // Invalid sequence start
 
@@ -7704,7 +9838,7 @@ var utf8border = function(buf, max) {
 
 // convert array to string
 var buf2string = function (buf) {
-    var str, i, out, c, c_len;
+    var i, out, c, c_len;
     var len = buf.length;
 
     // Reserve max possible length (2 words per char)
@@ -7901,9 +10035,9 @@ __webpack_require__(/*! setimmediate */ "./node_modules/setimmediate/setImmediat
 function string2binary(str) {
     var result = null;
     if (support.uint8array) {
-      result = new Uint8Array(str.length);
+        result = new Uint8Array(str.length);
     } else {
-      result = new Array(str.length);
+        result = new Array(str.length);
     }
     return stringToArrayLike(str, result);
 }
@@ -8271,11 +10405,11 @@ exports.MAX_VALUE_32BITS = -1; // well, "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" is pa
  * @return {string} a pretty string.
  */
 exports.pretty = function(str) {
-    var res = '',
+    var res = "",
         code, i;
     for (i = 0; i < (str || "").length; i++) {
         code = str.charCodeAt(i);
-        res += '\\x' + (code < 16 ? "0" : "") + code.toString(16).toUpperCase();
+        res += "\\x" + (code < 16 ? "0" : "") + code.toString(16).toUpperCase();
     }
     return res;
 };
@@ -8313,7 +10447,7 @@ exports.extend = function() {
     var result = {}, i, attr;
     for (i = 0; i < arguments.length; i++) { // arguments is not enumerable in some browsers
         for (attr in arguments[i]) {
-            if (arguments[i].hasOwnProperty(attr) && typeof result[attr] === "undefined") {
+            if (Object.prototype.hasOwnProperty.call(arguments[i], attr) && typeof result[attr] === "undefined") {
                 result[attr] = arguments[i][attr];
             }
         }
@@ -8336,7 +10470,7 @@ exports.prepareContent = function(name, inputData, isBinary, isOptimizedBinarySt
     var promise = external.Promise.resolve(inputData).then(function(data) {
 
 
-        var isBlob = support.blob && (data instanceof Blob || ['[object File]', '[object Blob]'].indexOf(Object.prototype.toString.call(data)) !== -1);
+        var isBlob = support.blob && (data instanceof Blob || ["[object File]", "[object Blob]"].indexOf(Object.prototype.toString.call(data)) !== -1);
 
         if (isBlob && typeof FileReader !== "undefined") {
             return new external.Promise(function (resolve, reject) {
@@ -8399,7 +10533,6 @@ var readerFor = __webpack_require__(/*! ./reader/readerFor */ "./node_modules/js
 var utils = __webpack_require__(/*! ./utils */ "./node_modules/jszip/lib/utils.js");
 var sig = __webpack_require__(/*! ./signature */ "./node_modules/jszip/lib/signature.js");
 var ZipEntry = __webpack_require__(/*! ./zipEntry */ "./node_modules/jszip/lib/zipEntry.js");
-var utf8 = __webpack_require__(/*! ./utf8 */ "./node_modules/jszip/lib/utf8.js");
 var support = __webpack_require__(/*! ./support */ "./node_modules/jszip/lib/support.js");
 //  class ZipEntries {{{
 /**
@@ -8686,7 +10819,7 @@ var MADE_BY_UNIX = 0x03;
  */
 var findCompression = function(compressionMethod) {
     for (var method in compressions) {
-        if (!compressions.hasOwnProperty(method)) {
+        if (!Object.prototype.hasOwnProperty.call(compressions, method)) {
             continue;
         }
         if (compressions[method].magic === compressionMethod) {
@@ -8822,7 +10955,7 @@ ZipEntry.prototype = {
         }
 
         // fail safe : if the name ends with a / it probably means a folder
-        if (!this.dir && this.fileNameStr.slice(-1) === '/') {
+        if (!this.dir && this.fileNameStr.slice(-1) === "/") {
             this.dir = true;
         }
     },
@@ -8831,8 +10964,7 @@ ZipEntry.prototype = {
      * Parse the ZIP64 extra field and merge the info in the current ZipEntry.
      * @param {DataReader} reader the reader to use.
      */
-    parseZIP64ExtraField: function(reader) {
-
+    parseZIP64ExtraField: function() {
         if (!this.extraFields[0x0001]) {
             return;
         }
@@ -9369,7 +11501,7 @@ var Stream = __webpack_require__(/*! ./internal/streams/stream */ "./node_module
 /*<replacement>*/
 
 var Buffer = (__webpack_require__(/*! safe-buffer */ "./node_modules/jszip/node_modules/safe-buffer/index.js").Buffer);
-var OurUint8Array = global.Uint8Array || function () {};
+var OurUint8Array = (typeof global !== 'undefined' ? global : typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : {}).Uint8Array || function () {};
 function _uint8ArrayToBuffer(chunk) {
   return Buffer.from(chunk);
 }
@@ -9939,8 +12071,8 @@ Readable.prototype.pipe = function (dest, pipeOpts) {
       // also returned false.
       // => Check whether `dest` is still a piping destination.
       if ((state.pipesCount === 1 && state.pipes === dest || state.pipesCount > 1 && indexOf(state.pipes, dest) !== -1) && !cleanedUp) {
-        debug('false write response, pause', src._readableState.awaitDrain);
-        src._readableState.awaitDrain++;
+        debug('false write response, pause', state.awaitDrain);
+        state.awaitDrain++;
         increasedAwaitDrain = true;
       }
       src.pause();
@@ -10034,7 +12166,7 @@ Readable.prototype.unpipe = function (dest) {
     state.flowing = false;
 
     for (var i = 0; i < len; i++) {
-      dests[i].emit('unpipe', this, unpipeInfo);
+      dests[i].emit('unpipe', this, { hasUnpiped: false });
     }return this;
   }
 
@@ -10650,7 +12782,7 @@ var Stream = __webpack_require__(/*! ./internal/streams/stream */ "./node_module
 /*<replacement>*/
 
 var Buffer = (__webpack_require__(/*! safe-buffer */ "./node_modules/jszip/node_modules/safe-buffer/index.js").Buffer);
-var OurUint8Array = global.Uint8Array || function () {};
+var OurUint8Array = (typeof global !== 'undefined' ? global : typeof window !== 'undefined' ? window : typeof self !== 'undefined' ? self : {}).Uint8Array || function () {};
 function _uint8ArrayToBuffer(chunk) {
   return Buffer.from(chunk);
 }
@@ -10918,7 +13050,7 @@ Writable.prototype.uncork = function () {
   if (state.corked) {
     state.corked--;
 
-    if (!state.writing && !state.corked && !state.finished && !state.bufferProcessing && state.bufferedRequest) clearBuffer(this, state);
+    if (!state.writing && !state.corked && !state.bufferProcessing && state.bufferedRequest) clearBuffer(this, state);
   }
 };
 
@@ -11160,7 +13292,7 @@ Writable.prototype.end = function (chunk, encoding, cb) {
   }
 
   // ignore unnecessary end() calls.
-  if (!state.ending && !state.finished) endWritable(this, state, cb);
+  if (!state.ending) endWritable(this, state, cb);
 };
 
 function needFinish(state) {
@@ -11221,11 +13353,9 @@ function onCorkedFinish(corkReq, state, err) {
     cb(err);
     entry = entry.next;
   }
-  if (state.corkedRequestsFree) {
-    state.corkedRequestsFree.next = corkReq;
-  } else {
-    state.corkedRequestsFree = corkReq;
-  }
+
+  // reuse the free corkReq.
+  state.corkedRequestsFree.next = corkReq;
 }
 
 Object.defineProperty(Writable.prototype, 'destroyed', {
@@ -11322,7 +13452,6 @@ module.exports = function () {
 
   BufferList.prototype.concat = function concat(n) {
     if (this.length === 0) return Buffer.alloc(0);
-    if (this.length === 1) return this.head.data;
     var ret = Buffer.allocUnsafe(n >>> 0);
     var p = this.head;
     var i = 0;
@@ -11370,9 +13499,15 @@ function destroy(err, cb) {
   if (readableDestroyed || writableDestroyed) {
     if (cb) {
       cb(err);
-    } else if (err && (!this._writableState || !this._writableState.errorEmitted)) {
-      pna.nextTick(emitErrorNT, this, err);
+    } else if (err) {
+      if (!this._writableState) {
+        pna.nextTick(emitErrorNT, this, err);
+      } else if (!this._writableState.errorEmitted) {
+        this._writableState.errorEmitted = true;
+        pna.nextTick(emitErrorNT, this, err);
+      }
     }
+
     return this;
   }
 
@@ -11390,9 +13525,11 @@ function destroy(err, cb) {
 
   this._destroy(err || null, function (err) {
     if (!cb && err) {
-      pna.nextTick(emitErrorNT, _this, err);
-      if (_this._writableState) {
+      if (!_this._writableState) {
+        pna.nextTick(emitErrorNT, _this, err);
+      } else if (!_this._writableState.errorEmitted) {
         _this._writableState.errorEmitted = true;
+        pna.nextTick(emitErrorNT, _this, err);
       }
     } else if (cb) {
       cb(err);
@@ -11414,6 +13551,8 @@ function undestroy() {
     this._writableState.destroyed = false;
     this._writableState.ended = false;
     this._writableState.ending = false;
+    this._writableState.finalCalled = false;
+    this._writableState.prefinished = false;
     this._writableState.finished = false;
     this._writableState.errorEmitted = false;
   }
@@ -19369,6 +21508,28 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 /***/ }),
 
+/***/ "./node_modules/to-string-loader/src/to-string.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoAdvancedProperties.vue?vue&type=style&index=0&id=018d13b4&scoped=true&lang=css&":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/to-string-loader/src/to-string.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoAdvancedProperties.vue?vue&type=style&index=0&id=018d13b4&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+        var result = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js!../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../node_modules/vue-loader/lib/index.js??vue-loader-options!./BamoAdvancedProperties.vue?vue&type=style&index=0&id=018d13b4&scoped=true&lang=css& */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoAdvancedProperties.vue?vue&type=style&index=0&id=018d13b4&scoped=true&lang=css&");
+
+        if (result && result.__esModule) {
+            result = result.default;
+        }
+
+        if (typeof result === "string") {
+            module.exports = result;
+        } else {
+            module.exports = result.toString();
+        }
+    
+
+/***/ }),
+
 /***/ "./src/components/bamo.css":
 /*!*********************************!*\
   !*** ./src/components/bamo.css ***!
@@ -19407,10 +21568,10 @@ module.exports = __webpack_require__(/*! util */ "util").deprecate;
 
 /***/ }),
 
-/***/ "./src/components/BamoComponent.vue":
-/*!******************************************!*\
-  !*** ./src/components/BamoComponent.vue ***!
-  \******************************************/
+/***/ "./src/components/BamoAdvancedProperties.vue":
+/*!***************************************************!*\
+  !*** ./src/components/BamoAdvancedProperties.vue ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -19418,8 +21579,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ComponentTemplate_html_vue_type_template_id_7efb7c48___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ComponentTemplate.html?vue&type=template&id=7efb7c48& */ "./src/components/ComponentTemplate.html?vue&type=template&id=7efb7c48&");
-/* harmony import */ var _BamoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BamoComponent.vue?vue&type=script&lang=js& */ "./src/components/BamoComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _BamoAdvancedTemplate_html_vue_type_template_id_018d13b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BamoAdvancedTemplate.html?vue&type=template&id=018d13b4&scoped=true& */ "./src/components/BamoAdvancedTemplate.html?vue&type=template&id=018d13b4&scoped=true&");
+/* harmony import */ var _BamoAdvancedProperties_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BamoAdvancedProperties.vue?vue&type=script&lang=js& */ "./src/components/BamoAdvancedProperties.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+function injectStyles (context) {
+  
+  var style0 = __webpack_require__(/*! ./BamoAdvancedProperties.vue?vue&type=style&index=0&id=018d13b4&scoped=true&lang=css& */ "./src/components/BamoAdvancedProperties.vue?vue&type=style&index=0&id=018d13b4&scoped=true&lang=css&")
+if (style0.__inject__) style0.__inject__(context)
+
+}
+
+/* normalize component */
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _BamoAdvancedProperties_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BamoAdvancedTemplate_html_vue_type_template_id_018d13b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _BamoAdvancedTemplate_html_vue_type_template_id_018d13b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  injectStyles,
+  "018d13b4",
+  "0908dd08"
+  
+)
+
+component.options.__file = "src/components/BamoAdvancedProperties.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./src/components/BamoBaseComponent.vue":
+/*!**********************************************!*\
+  !*** ./src/components/BamoBaseComponent.vue ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _BamoBaseComponent_vue_vue_type_template_id_2d170b0b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BamoBaseComponent.vue?vue&type=template&id=2d170b0b& */ "./src/components/BamoBaseComponent.vue?vue&type=template&id=2d170b0b&");
+/* harmony import */ var _BamoBaseComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BamoBaseComponent.vue?vue&type=script&lang=js& */ "./src/components/BamoBaseComponent.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -19429,25 +21632,25 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _BamoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ComponentTemplate_html_vue_type_template_id_7efb7c48___WEBPACK_IMPORTED_MODULE_0__.render,
-  _ComponentTemplate_html_vue_type_template_id_7efb7c48___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _BamoBaseComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BamoBaseComponent_vue_vue_type_template_id_2d170b0b___WEBPACK_IMPORTED_MODULE_0__.render,
+  _BamoBaseComponent_vue_vue_type_template_id_2d170b0b___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
   null,
-  "655334ba"
+  "48575ee9"
   
 )
 
-component.options.__file = "src/components/BamoComponent.vue"
+component.options.__file = "src/components/BamoBaseComponent.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
 
-/***/ "./src/components/BamoComponent.vue?vue&type=script&lang=js&":
-/*!*******************************************************************!*\
-  !*** ./src/components/BamoComponent.vue?vue&type=script&lang=js& ***!
-  \*******************************************************************/
+/***/ "./src/components/BamoAdvancedProperties.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./src/components/BamoAdvancedProperties.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -19455,32 +21658,82 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js!../../node_modules/vue-loader/lib/index.js??vue-loader-options!./BamoComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoComponent.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoAdvancedProperties_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js!../../node_modules/vue-loader/lib/index.js??vue-loader-options!./BamoAdvancedProperties.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoAdvancedProperties.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoAdvancedProperties_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./src/components/ComponentTemplate.html?vue&type=template&id=7efb7c48&":
-/*!******************************************************************************!*\
-  !*** ./src/components/ComponentTemplate.html?vue&type=template&id=7efb7c48& ***!
-  \******************************************************************************/
+/***/ "./src/components/BamoBaseComponent.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./src/components/BamoBaseComponent.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_ComponentTemplate_html_vue_type_template_id_7efb7c48___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_ComponentTemplate_html_vue_type_template_id_7efb7c48___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_ComponentTemplate_html_vue_type_template_id_7efb7c48___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./ComponentTemplate.html?vue&type=template&id=7efb7c48& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./src/components/ComponentTemplate.html?vue&type=template&id=7efb7c48&");
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoBaseComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js!../../node_modules/vue-loader/lib/index.js??vue-loader-options!./BamoBaseComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoBaseComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoBaseComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./src/components/BamoAdvancedProperties.vue?vue&type=style&index=0&id=018d13b4&scoped=true&lang=css&":
+/*!************************************************************************************************************!*\
+  !*** ./src/components/BamoAdvancedProperties.vue?vue&type=style&index=0&id=018d13b4&scoped=true&lang=css& ***!
+  \************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_to_string_loader_src_to_string_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoAdvancedProperties_vue_vue_type_style_index_0_id_018d13b4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/to-string-loader/src/to-string.js!../../node_modules/css-loader/dist/cjs.js!../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../node_modules/vue-loader/lib/index.js??vue-loader-options!./BamoAdvancedProperties.vue?vue&type=style&index=0&id=018d13b4&scoped=true&lang=css& */ "./node_modules/to-string-loader/src/to-string.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoAdvancedProperties.vue?vue&type=style&index=0&id=018d13b4&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_to_string_loader_src_to_string_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoAdvancedProperties_vue_vue_type_style_index_0_id_018d13b4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_to_string_loader_src_to_string_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoAdvancedProperties_vue_vue_type_style_index_0_id_018d13b4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_to_string_loader_src_to_string_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoAdvancedProperties_vue_vue_type_style_index_0_id_018d13b4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_to_string_loader_src_to_string_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoAdvancedProperties_vue_vue_type_style_index_0_id_018d13b4_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
 
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./src/components/ComponentTemplate.html?vue&type=template&id=7efb7c48&":
-/*!**********************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./src/components/ComponentTemplate.html?vue&type=template&id=7efb7c48& ***!
-  \**********************************************************************************************************************************************************/
+/***/ "./src/components/BamoBaseComponent.vue?vue&type=template&id=2d170b0b&":
+/*!*****************************************************************************!*\
+  !*** ./src/components/BamoBaseComponent.vue?vue&type=template&id=2d170b0b& ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoBaseComponent_vue_vue_type_template_id_2d170b0b___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoBaseComponent_vue_vue_type_template_id_2d170b0b___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BamoBaseComponent_vue_vue_type_template_id_2d170b0b___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../node_modules/vue-loader/lib/index.js??vue-loader-options!./BamoBaseComponent.vue?vue&type=template&id=2d170b0b& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoBaseComponent.vue?vue&type=template&id=2d170b0b&");
+
+
+/***/ }),
+
+/***/ "./src/components/BamoAdvancedTemplate.html?vue&type=template&id=018d13b4&scoped=true&":
+/*!*********************************************************************************************!*\
+  !*** ./src/components/BamoAdvancedTemplate.html?vue&type=template&id=018d13b4&scoped=true& ***!
+  \*********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_BamoAdvancedTemplate_html_vue_type_template_id_018d13b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_BamoAdvancedTemplate_html_vue_type_template_id_018d13b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_BamoAdvancedTemplate_html_vue_type_template_id_018d13b4_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./BamoAdvancedTemplate.html?vue&type=template&id=018d13b4&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./src/components/BamoAdvancedTemplate.html?vue&type=template&id=018d13b4&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoBaseComponent.vue?vue&type=template&id=2d170b0b&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/components/BamoBaseComponent.vue?vue&type=template&id=2d170b0b& ***!
+  \********************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -19493,224 +21746,587 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "wizardWrapper" }, [
-    _c("ul", { attrs: { id: "sideBar" } }, [
-      _c(
-        "li",
-        {
-          class: { selected: _vm.step == "start" },
-          on: {
-            click: function ($event) {
-              $event.preventDefault()
-              return _vm.changePage($event, "start")
-            },
-          },
-        },
-        [_vm._v("\r\n            Start\r\n        ")]
-      ),
-      _vm._v(" "),
-      _c("li", { staticClass: "sideBarHeader" }, [_vm._v("Blocks")]),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          class: { selected: _vm.step == "types" },
-          on: {
-            click: function ($event) {
-              $event.preventDefault()
-              return _vm.changePage($event, "types")
-            },
-          },
-        },
-        [_vm._v("\r\n            Block Types\r\n        ")]
-      ),
-      _vm._v(" "),
-      _vm.types.block
-        ? _c(
-            "li",
-            {
-              class: { selected: _vm.step == "variant" },
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.changePage($event, "variant")
-                },
+  return _c("div", [_c("BamoAdvancedProperties")], 1)
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./src/components/BamoAdvancedTemplate.html?vue&type=template&id=018d13b4&scoped=true&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./src/components/BamoAdvancedTemplate.html?vue&type=template&id=018d13b4&scoped=true& ***!
+  \*************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "BAMO" } }, [
+    _c("div", { staticClass: "wizardWrapper" }, [
+      _c("ul", { attrs: { id: "BAMOsideBar" } }, [
+        _c(
+          "li",
+          {
+            class: { selected: _vm.step == "start" },
+            on: {
+              click: function ($event) {
+                $event.preventDefault()
+                return _vm.changePage($event, "start")
               },
             },
-            [_vm._v("\r\n            Variants\r\n        ")]
-          )
+          },
+          [_vm._v("\r\n                Start\r\n            ")]
+        ),
+        _vm._v(" "),
+        _c("li", { staticClass: "sideBarHeader" }, [_vm._v("Blocks")]),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            class: { selected: _vm.step == "types" },
+            on: {
+              click: function ($event) {
+                $event.preventDefault()
+                return _vm.changePage($event, "types")
+              },
+            },
+          },
+          [_vm._v("\r\n                Block Types\r\n            ")]
+        ),
+        _vm._v(" "),
+        _vm.parentData.properties.types.custom
+          ? _c(
+              "li",
+              {
+                class: { selected: _vm.step == "custom" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "custom")
+                  },
+                },
+              },
+              [_vm._v("\r\n                Custom Block\r\n            ")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.parentData.properties.types.block
+          ? _c(
+              "li",
+              {
+                class: { selected: _vm.step == "variant" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "variant")
+                  },
+                },
+              },
+              [_vm._v("\r\n                Variants\r\n            ")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _c("li", { staticClass: "sideBarHeader" }, [_vm._v("Properties")]),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            class: { selected: _vm.step == "physical" },
+            on: {
+              click: function ($event) {
+                $event.preventDefault()
+                return _vm.changePage($event, "physical")
+              },
+            },
+          },
+          [_vm._v("\r\n                Physical\r\n            ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            class: { selected: _vm.step == "advPhys" },
+            on: {
+              click: function ($event) {
+                $event.preventDefault()
+                return _vm.changePage($event, "advPhys")
+              },
+            },
+          },
+          [_vm._v("\r\n                Adv Physical\r\n            ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            class: { selected: _vm.step == "particles" },
+            on: {
+              click: function ($event) {
+                $event.preventDefault()
+                return _vm.changePage($event, "particles")
+              },
+            },
+          },
+          [_vm._v("\r\n                Particles\r\n            ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            class: { selected: _vm.step == "datapack" },
+            on: {
+              click: function ($event) {
+                $event.preventDefault()
+                return _vm.changePage($event, "datapack")
+              },
+            },
+          },
+          [_vm._v("\r\n                Datapack\r\n            ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "li",
+          {
+            class: { selected: _vm.step == "other" },
+            on: {
+              click: function ($event) {
+                $event.preventDefault()
+                return _vm.changePage($event, "other")
+              },
+            },
+          },
+          [_vm._v("\r\n                Other\r\n            ")]
+        ),
+        _vm._v(" "),
+         false
+          ? 0
+          : _vm._e(),
+        _vm._v(" "),
+         false
+          ? 0
+          : _vm._e(),
+      ]),
+      _vm._v(" "),
+      _vm.step == "start"
+        ? _c("div", { staticClass: "wizardPage" }, [
+            _c(
+              "h1",
+              { staticStyle: { padding: "0", "text-align": "center" } },
+              [_vm._v("BAMO Exporter")]
+            ),
+            _vm._v(" "),
+            _c("p", { attrs: { align: "center" } }, [
+              _vm._v(
+                'Click "Export" at any time to export the model. Any unmodified properties will be set to the default values for a dirt block. Changes will persist until Blockbench is closed.'
+              ),
+            ]),
+            _vm._v(" "),
+            _c("ul", { staticClass: "settingsList" }, [
+              _c("li", [
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Display Name"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v(
+                    "The (unique) name of the block as will be seen in Minecraft"
+                  ),
+                ]),
+                _vm._v(" "),
+                _vm.error == "name"
+                  ? _c("p", { staticStyle: { color: "red" } }, [
+                      _vm._v("Block display name cannot be blank"),
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.$parent.$data.properties.displayName,
+                      expression: "$parent.$data.properties.displayName",
+                    },
+                  ],
+                  staticClass: "dark_bordered",
+                  attrs: { type: "text", placeholder: "Name of the Block" },
+                  domProps: { value: _vm.$parent.$data.properties.displayName },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.$parent.$data.properties,
+                        "displayName",
+                        $event.target.value
+                      )
+                    },
+                  },
+                }),
+              ]),
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "types")
+                  },
+                },
+              },
+              [_vm._v("Continue")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticStyle: { float: "right" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.createJSON.apply(null, arguments)
+                  },
+                },
+              },
+              [_vm._v("Export")]
+            ),
+          ])
         : _vm._e(),
       _vm._v(" "),
-      _c("li", { staticClass: "sideBarHeader" }, [_vm._v("Properties")]),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          class: { selected: _vm.step == "physical" },
-          on: {
-            click: function ($event) {
-              $event.preventDefault()
-              return _vm.changePage($event, "physical")
-            },
-          },
-        },
-        [_vm._v("\r\n            Physical\r\n        ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          class: { selected: _vm.step == "advPhys" },
-          on: {
-            click: function ($event) {
-              $event.preventDefault()
-              return _vm.changePage($event, "advPhys")
-            },
-          },
-        },
-        [_vm._v("\r\n            Adv Physical\r\n        ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          class: { selected: _vm.step == "other" },
-          on: {
-            click: function ($event) {
-              $event.preventDefault()
-              return _vm.changePage($event, "other")
-            },
-          },
-        },
-        [_vm._v("\r\n            Other\r\n        ")]
-      ),
-      _vm._v(" "),
-      _c("li", { staticClass: "sideBarHeader" }, [_vm._v("Adv. Options")]),
-      _vm._v(" "),
-      _c(
-        "li",
-        {
-          class: { selected: _vm.step == "settings" },
-          on: {
-            click: function ($event) {
-              $event.preventDefault()
-              return _vm.changePage($event, "settings")
-            },
-          },
-        },
-        [_vm._v("\r\n            BAMO settings\r\n        ")]
-      ),
-    ]),
-    _vm._v(" "),
-    _vm.step == "start"
-      ? _c("div", { staticClass: "wizardPage" }, [
-          _c("h1", { staticStyle: { padding: "0", "text-align": "center" } }, [
-            _vm._v("BAMO Exporter"),
-          ]),
-          _vm._v(" "),
-          _c("p", { attrs: { align: "center" } }, [
-            _vm._v(
-              'Click "Export" at any time to export the model. Any unmodified properties will be set to the default values for a dirt block. Changes will persist until Blockbench is closed.'
+      _vm.step == "types"
+        ? _c("div", { staticClass: "wizardPage" }, [
+            _c(
+              "h1",
+              { staticStyle: { padding: "0", "text-align": "center" } },
+              [_vm._v("Block Types")]
             ),
-          ]),
-          _vm._v(" "),
-          _c("ul", { staticClass: "settingsList" }, [
-            _c("li", [
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Display Name"),
+            _vm._v(" "),
+            _c("ul", { staticClass: "settingsList" }, [
+              _c("li", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.$parent.$data.properties.types.custom,
+                      expression: "$parent.$data.properties.types.custom",
+                    },
+                  ],
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(
+                      _vm.$parent.$data.properties.types.custom
+                    )
+                      ? _vm._i(
+                          _vm.$parent.$data.properties.types.custom,
+                          null
+                        ) > -1
+                      : _vm.$parent.$data.properties.types.custom,
+                  },
+                  on: {
+                    change: [
+                      function ($event) {
+                        var $$a = _vm.$parent.$data.properties.types.custom,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(
+                                _vm.$parent.$data.properties.types,
+                                "custom",
+                                $$a.concat([$$v])
+                              )
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                _vm.$parent.$data.properties.types,
+                                "custom",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
+                        } else {
+                          _vm.$set(
+                            _vm.$parent.$data.properties.types,
+                            "custom",
+                            $$c
+                          )
+                        }
+                      },
+                      function ($event) {
+                        return _vm.toggleType($event, "custom")
+                      },
+                    ],
+                  },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Custom Block"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v("Block with a custom model and hitbox"),
+                ]),
               ]),
               _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v("The unique name of the block to be exported"),
-              ]),
-              _vm._v(" "),
-              _vm.error == true
-                ? _c("p", { staticStyle: { color: "red" } }, [
-                    _vm._v("Block display name cannot be blank"),
+              _vm.$parent.$data.properties.types.custom
+                ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Custom Block Type"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value:
+                              _vm.$parent.$data.properties.types.customType,
+                            expression:
+                              "$parent.$data.properties.types.customType",
+                          },
+                        ],
+                        staticClass: "dark_bordered",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.$parent.$data.properties.types,
+                              "customType",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      _vm._l(_vm.customTypeOptions, function (op) {
+                        return _c("option", { key: op }, [_vm._v(_vm._s(op))])
+                      }),
+                      0
+                    ),
                   ])
                 : _vm._e(),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.properties.displayName,
-                    expression: "properties.displayName",
+              _c("li", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.$parent.$data.properties.types.block,
+                      expression: "$parent.$data.properties.types.block",
+                    },
+                  ],
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(
+                      _vm.$parent.$data.properties.types.block
+                    )
+                      ? _vm._i(_vm.$parent.$data.properties.types.block, null) >
+                        -1
+                      : _vm.$parent.$data.properties.types.block,
                   },
-                ],
-                staticClass: "dark_bordered",
-                attrs: { type: "text", placeholder: "blockname" },
-                domProps: { value: _vm.properties.displayName },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.properties, "displayName", $event.target.value)
+                  on: {
+                    change: [
+                      function ($event) {
+                        var $$a = _vm.$parent.$data.properties.types.block,
+                          $$el = $event.target,
+                          $$c = $$el.checked ? true : false
+                        if (Array.isArray($$a)) {
+                          var $$v = null,
+                            $$i = _vm._i($$a, $$v)
+                          if ($$el.checked) {
+                            $$i < 0 &&
+                              _vm.$set(
+                                _vm.$parent.$data.properties.types,
+                                "block",
+                                $$a.concat([$$v])
+                              )
+                          } else {
+                            $$i > -1 &&
+                              _vm.$set(
+                                _vm.$parent.$data.properties.types,
+                                "block",
+                                $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                              )
+                          }
+                        } else {
+                          _vm.$set(
+                            _vm.$parent.$data.properties.types,
+                            "block",
+                            $$c
+                          )
+                        }
+                      },
+                      function ($event) {
+                        return _vm.toggleType($event, "block")
+                      },
+                    ],
                   },
-                },
-              }),
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Standard Block"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v("1x1 block with identical textures on all faces"),
+                ]),
+              ]),
+              _vm._v(" "),
+              _vm.$parent.$data.properties.types.block
+                ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Texture"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value:
+                              _vm.$parent.$data.properties.variant.default.all,
+                            expression:
+                              "$parent.$data.properties.variant.default.all",
+                          },
+                        ],
+                        staticClass: "dark_bordered",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.$parent.$data.properties.variant.default,
+                              "all",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      _vm._l(_vm.Textures(), function (op) {
+                        return _c("option", { key: op }, [
+                          _vm._v(_vm._s(op.name)),
+                        ])
+                      }),
+                      0
+                    ),
+                  ])
+                : _vm._e(),
             ]),
-          ]),
-          _c("br"),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.changePage($event, "types")
-                },
-              },
-            },
-            [_vm._v("Continue")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticStyle: { float: "right" },
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.createJSON.apply(null, arguments)
-                },
-              },
-            },
-            [_vm._v("Export")]
-          ),
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.step == "types"
-      ? _c("div", { staticClass: "wizardPage" }, [
-          _c("h1", { staticStyle: { padding: "0", "text-align": "center" } }, [
-            _vm._v("Block Types"),
-          ]),
-          _vm._v(" "),
-          _c("ul", { staticClass: "settingsList" }, [
-            _c("li", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.types.custom,
-                    expression: "types.custom",
-                  },
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  checked: Array.isArray(_vm.types.custom)
-                    ? _vm._i(_vm.types.custom, null) > -1
-                    : _vm.types.custom,
-                },
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
                 on: {
-                  change: [
-                    function ($event) {
-                      var $$a = _vm.types.custom,
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "start")
+                  },
+                },
+              },
+              [_vm._v("Previous")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "physical")
+                  },
+                },
+              },
+              [_vm._v("Continue")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticStyle: { float: "right" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.createJSON.apply(null, arguments)
+                  },
+                },
+              },
+              [_vm._v("Export")]
+            ),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.step == "custom"
+        ? _c("div", { staticClass: "wizardPage" }, [
+            _c(
+              "h1",
+              { staticStyle: { padding: "0", "text-align": "center" } },
+              [_vm._v("Custom Block Properties")]
+            ),
+            _vm._v(" "),
+            _c("ul", { staticClass: "settingsList" }, [
+              _c("li", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.$parent.$data.properties.bufferedHitbox,
+                      expression: "$parent.$data.properties.bufferedHitbox",
+                    },
+                  ],
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(
+                      _vm.$parent.$data.properties.bufferedHitbox
+                    )
+                      ? _vm._i(
+                          _vm.$parent.$data.properties.bufferedHitbox,
+                          null
+                        ) > -1
+                      : _vm.$parent.$data.properties.bufferedHitbox,
+                  },
+                  on: {
+                    change: function ($event) {
+                      var $$a = _vm.$parent.$data.properties.bufferedHitbox,
                         $$el = $event.target,
                         $$c = $$el.checked ? true : false
                       if (Array.isArray($$a)) {
@@ -19718,101 +22334,165 @@ var render = function () {
                           $$i = _vm._i($$a, $$v)
                         if ($$el.checked) {
                           $$i < 0 &&
-                            _vm.$set(_vm.types, "custom", $$a.concat([$$v]))
+                            _vm.$set(
+                              _vm.$parent.$data.properties,
+                              "bufferedHitbox",
+                              $$a.concat([$$v])
+                            )
                         } else {
                           $$i > -1 &&
                             _vm.$set(
-                              _vm.types,
-                              "custom",
+                              _vm.$parent.$data.properties,
+                              "bufferedHitbox",
                               $$a.slice(0, $$i).concat($$a.slice($$i + 1))
                             )
                         }
                       } else {
-                        _vm.$set(_vm.types, "custom", $$c)
+                        _vm.$set(
+                          _vm.$parent.$data.properties,
+                          "bufferedHitbox",
+                          $$c
+                        )
                       }
                     },
-                    function ($event) {
-                      return _vm.toggleType($event, "custom")
-                    },
-                  ],
-                },
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Custom Block"),
+                  },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Simplified Hitbox"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v(
+                    "Reduces the hitbox of the block to a single box encompasing the entire block. Use this if your model has rotated blocks, is mostly planes, or who's hitbox is otherwise messy"
+                  ),
+                ]),
               ]),
               _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v("Block with a custom model and hitbox"),
-              ]),
-            ]),
-            _vm._v(" "),
-            _vm.types.custom
-              ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
-                  _c("div", { staticClass: "headerLabel" }, [
-                    _vm._v("Custom Block Type"),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
+              _vm.$parent.$data.properties.bufferedHitbox
+                ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                    _c("input", {
                       directives: [
                         {
                           name: "model",
-                          rawName: "v-model",
-                          value: _vm.types.customType,
-                          expression: "types.customType",
+                          rawName: "v-model.number",
+                          value: _vm.$parent.$data.properties.hitboxBuffer,
+                          expression: "$parent.$data.properties.hitboxBuffer",
+                          modifiers: { number: true },
                         },
                       ],
                       staticClass: "dark_bordered",
+                      attrs: {
+                        type: "number",
+                        min: "0",
+                        max: "16",
+                        step: "0.1",
+                      },
+                      domProps: {
+                        value: _vm.$parent.$data.properties.hitboxBuffer,
+                      },
                       on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
                           _vm.$set(
-                            _vm.types,
-                            "customType",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
+                            _vm.$parent.$data.properties,
+                            "hitboxBuffer",
+                            _vm._n($event.target.value)
                           )
                         },
+                        blur: function ($event) {
+                          return _vm.$forceUpdate()
+                        },
                       },
-                    },
-                    _vm._l(_vm.customTypeOptions, function (op) {
-                      return _c("option", { key: op }, [_vm._v(_vm._s(op))])
                     }),
-                    0
-                  ),
-                ])
-              : _vm._e(),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Hitbox Buffer"),
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "headerDescription" }, [
+                      _vm._v("Closest distance of hitbox to model edge"),
+                    ]),
+                  ])
+                : _vm._e(),
+            ]),
+            _c("br"),
             _vm._v(" "),
-            _c("li", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.types.block,
-                    expression: "types.block",
-                  },
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  checked: Array.isArray(_vm.types.block)
-                    ? _vm._i(_vm.types.block, null) > -1
-                    : _vm.types.block,
-                },
+            _c(
+              "button",
+              {
                 on: {
-                  change: [
-                    function ($event) {
-                      var $$a = _vm.types.block,
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "start")
+                  },
+                },
+              },
+              [_vm._v("Previous")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "physical")
+                  },
+                },
+              },
+              [_vm._v("Continue")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticStyle: { float: "right" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.createJSON.apply(null, arguments)
+                  },
+                },
+              },
+              [_vm._v("Export")]
+            ),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.step == "variant"
+        ? _c("div", { staticClass: "wizardPage" }, [
+            _c(
+              "h1",
+              { staticStyle: { padding: "0", "text-align": "center" } },
+              [_vm._v("Variant Blocks")]
+            ),
+            _vm._v(" "),
+            _c("ul", { staticClass: "settingsList" }, [
+              _c("li", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.$parent.$data.properties.types.stair,
+                      expression: "$parent.$data.properties.types.stair",
+                    },
+                  ],
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(
+                      _vm.$parent.$data.properties.types.stair
+                    )
+                      ? _vm._i(_vm.$parent.$data.properties.types.stair, null) >
+                        -1
+                      : _vm.$parent.$data.properties.types.stair,
+                  },
+                  on: {
+                    change: function ($event) {
+                      var $$a = _vm.$parent.$data.properties.types.stair,
                         $$el = $event.target,
                         $$c = $$el.checked ? true : false
                       if (Array.isArray($$a)) {
@@ -19820,1313 +22500,1842 @@ var render = function () {
                           $$i = _vm._i($$a, $$v)
                         if ($$el.checked) {
                           $$i < 0 &&
-                            _vm.$set(_vm.types, "block", $$a.concat([$$v]))
+                            _vm.$set(
+                              _vm.$parent.$data.properties.types,
+                              "stair",
+                              $$a.concat([$$v])
+                            )
                         } else {
                           $$i > -1 &&
                             _vm.$set(
-                              _vm.types,
-                              "block",
+                              _vm.$parent.$data.properties.types,
+                              "stair",
                               $$a.slice(0, $$i).concat($$a.slice($$i + 1))
                             )
                         }
                       } else {
-                        _vm.$set(_vm.types, "block", $$c)
+                        _vm.$set(
+                          _vm.$parent.$data.properties.types,
+                          "stair",
+                          $$c
+                        )
                       }
                     },
-                    function ($event) {
-                      return _vm.toggleType($event, "block")
-                    },
-                  ],
-                },
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Standard Block"),
+                  },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Create Stair Block"),
+                ]),
               ]),
               _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v(
-                  "Standard minecraft block with identical textures on all faces"
-                ),
-              ]),
-            ]),
-            _vm._v(" "),
-            _vm.types.block
-              ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
-                  _c("div", { staticClass: "headerLabel" }, [
-                    _vm._v("Texture"),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.variant.default.all,
-                          expression: "variant.default.all",
-                        },
-                      ],
-                      staticClass: "dark_bordered",
-                      on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.variant.default,
-                            "all",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
+              _vm.$parent.$data.properties.types.stair
+                ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Top Texture"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value:
+                              _vm.$parent.$data.properties.variant.stair.top,
+                            expression:
+                              "$parent.$data.properties.variant.stair.top",
+                          },
+                        ],
+                        staticClass: "dark_bordered",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.$parent.$data.properties.variant.stair,
+                              "top",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
                         },
                       },
-                    },
-                    _vm._l(_vm.Textures(), function (op) {
-                      return _c("option", { key: op }, [
-                        _vm._v(_vm._s(op.name)),
-                      ])
-                    }),
-                    0
-                  ),
-                ])
-              : _vm._e(),
-          ]),
-          _c("br"),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.changePage($event, "start")
-                },
-              },
-            },
-            [_vm._v("Previous")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.changePage($event, "physical")
-                },
-              },
-            },
-            [_vm._v("Continue")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticStyle: { float: "right" },
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.createJSON.apply(null, arguments)
-                },
-              },
-            },
-            [_vm._v("Export")]
-          ),
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.step == "variant"
-      ? _c("div", { staticClass: "wizardPage" }, [
-          _c("h1", { staticStyle: { padding: "0", "text-align": "center" } }, [
-            _vm._v("Variant Blocks"),
-          ]),
-          _vm._v(" "),
-          _c("ul", { staticClass: "settingsList" }, [
-            _c("li", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.types.stair,
-                    expression: "types.stair",
-                  },
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  checked: Array.isArray(_vm.types.stair)
-                    ? _vm._i(_vm.types.stair, null) > -1
-                    : _vm.types.stair,
-                },
-                on: {
-                  change: function ($event) {
-                    var $$a = _vm.types.stair,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 &&
-                          _vm.$set(_vm.types, "stair", $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          _vm.$set(
-                            _vm.types,
-                            "stair",
-                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                          )
-                      }
-                    } else {
-                      _vm.$set(_vm.types, "stair", $$c)
-                    }
-                  },
-                },
-              }),
+                      _vm._l(_vm.Textures(), function (op) {
+                        return _c("option", { key: op }, [
+                          _vm._v(_vm._s(op.name)),
+                        ])
+                      }),
+                      0
+                    ),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Create Stair Block"),
-              ]),
-            ]),
-            _vm._v(" "),
-            _vm.types.stair
-              ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
-                  _c("div", { staticClass: "headerLabel" }, [
-                    _vm._v("Top Texture"),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.variant.stair.top,
-                          expression: "variant.stair.top",
-                        },
-                      ],
-                      staticClass: "dark_bordered",
-                      on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.variant.stair,
-                            "top",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
+              _vm.$parent.$data.properties.types.stair
+                ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Bottom Texture"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value:
+                              _vm.$parent.$data.properties.variant.stair.bottom,
+                            expression:
+                              "$parent.$data.properties.variant.stair.bottom",
+                          },
+                        ],
+                        staticClass: "dark_bordered",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.$parent.$data.properties.variant.stair,
+                              "bottom",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
                         },
                       },
-                    },
-                    _vm._l(_vm.Textures(), function (op) {
-                      return _c("option", { key: op }, [
-                        _vm._v(_vm._s(op.name)),
-                      ])
-                    }),
-                    0
-                  ),
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.types.stair
-              ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
-                  _c("div", { staticClass: "headerLabel" }, [
-                    _vm._v("Bottom Texture"),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.variant.stair.bottom,
-                          expression: "variant.stair.bottom",
-                        },
-                      ],
-                      staticClass: "dark_bordered",
-                      on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.variant.stair,
-                            "bottom",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                      },
-                    },
-                    _vm._l(_vm.Textures(), function (op) {
-                      return _c("option", { key: op }, [
-                        _vm._v(_vm._s(op.name)),
-                      ])
-                    }),
-                    0
-                  ),
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.types.stair
-              ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
-                  _c("div", { staticClass: "headerLabel" }, [
-                    _vm._v("Side Texture"),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.variant.stair.side,
-                          expression: "variant.stair.side",
-                        },
-                      ],
-                      staticClass: "dark_bordered",
-                      on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.variant.stair,
-                            "side",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                      },
-                    },
-                    _vm._l(_vm.Textures(), function (op) {
-                      return _c("option", { key: op }, [
-                        _vm._v(_vm._s(op.name)),
-                      ])
-                    }),
-                    0
-                  ),
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("li", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.types.slab,
-                    expression: "types.slab",
-                  },
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  checked: Array.isArray(_vm.types.slab)
-                    ? _vm._i(_vm.types.slab, null) > -1
-                    : _vm.types.slab,
-                },
-                on: {
-                  change: function ($event) {
-                    var $$a = _vm.types.slab,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 &&
-                          _vm.$set(_vm.types, "slab", $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          _vm.$set(
-                            _vm.types,
-                            "slab",
-                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                          )
-                      }
-                    } else {
-                      _vm.$set(_vm.types, "slab", $$c)
-                    }
-                  },
-                },
-              }),
+                      _vm._l(_vm.Textures(), function (op) {
+                        return _c("option", { key: op }, [
+                          _vm._v(_vm._s(op.name)),
+                        ])
+                      }),
+                      0
+                    ),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Create Slab Block"),
-              ]),
-            ]),
-            _vm._v(" "),
-            _vm.types.slab
-              ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
-                  _c("div", { staticClass: "headerLabel" }, [
-                    _vm._v("Top Texture"),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.variant.slab.top,
-                          expression: "variant.slab.top",
-                        },
-                      ],
-                      staticClass: "dark_bordered",
-                      on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.variant.slab,
-                            "top",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
+              _vm.$parent.$data.properties.types.stair
+                ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Side Texture"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value:
+                              _vm.$parent.$data.properties.variant.stair.side,
+                            expression:
+                              "$parent.$data.properties.variant.stair.side",
+                          },
+                        ],
+                        staticClass: "dark_bordered",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.$parent.$data.properties.variant.stair,
+                              "side",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
                         },
                       },
-                    },
-                    _vm._l(_vm.Textures(), function (op) {
-                      return _c("option", { key: op }, [
-                        _vm._v(_vm._s(op.name)),
-                      ])
-                    }),
-                    0
-                  ),
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.types.slab
-              ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
-                  _c("div", { staticClass: "headerLabel" }, [
-                    _vm._v("Bottom Texture"),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.variant.slab.bottom,
-                          expression: "variant.slab.bottom",
-                        },
-                      ],
-                      staticClass: "dark_bordered",
-                      on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.variant.slab,
-                            "bottom",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                      },
-                    },
-                    _vm._l(_vm.Textures(), function (op) {
-                      return _c("option", { key: op }, [
-                        _vm._v(_vm._s(op.name)),
-                      ])
-                    }),
-                    0
-                  ),
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _vm.types.slab
-              ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
-                  _c("div", { staticClass: "headerLabel" }, [
-                    _vm._v("Side Texture"),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.variant.slab.side,
-                          expression: "variant.slab.side",
-                        },
-                      ],
-                      staticClass: "dark_bordered",
-                      on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.variant.slab,
-                            "side",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                      },
-                    },
-                    _vm._l(_vm.Textures(), function (op) {
-                      return _c("option", { key: op }, [
-                        _vm._v(_vm._s(op.name)),
-                      ])
-                    }),
-                    0
-                  ),
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("li", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.types.wall,
-                    expression: "types.wall",
-                  },
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  checked: Array.isArray(_vm.types.wall)
-                    ? _vm._i(_vm.types.wall, null) > -1
-                    : _vm.types.wall,
-                },
-                on: {
-                  change: function ($event) {
-                    var $$a = _vm.types.wall,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 &&
-                          _vm.$set(_vm.types, "wall", $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          _vm.$set(
-                            _vm.types,
-                            "wall",
-                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                          )
-                      }
-                    } else {
-                      _vm.$set(_vm.types, "wall", $$c)
-                    }
-                  },
-                },
-              }),
+                      _vm._l(_vm.Textures(), function (op) {
+                        return _c("option", { key: op }, [
+                          _vm._v(_vm._s(op.name)),
+                        ])
+                      }),
+                      0
+                    ),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Create Wall Block"),
-              ]),
-            ]),
-            _vm._v(" "),
-            _vm.types.wall
-              ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
-                  _c("div", { staticClass: "headerLabel" }, [
-                    _vm._v("Wall Texture"),
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.variant.wall.wall,
-                          expression: "variant.wall.wall",
-                        },
-                      ],
-                      staticClass: "dark_bordered",
-                      on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.variant.wall,
-                            "wall",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        },
-                      },
-                    },
-                    _vm._l(_vm.Textures(), function (op) {
-                      return _c("option", { key: op }, [
-                        _vm._v(_vm._s(op.name)),
-                      ])
-                    }),
-                    0
-                  ),
-                ])
-              : _vm._e(),
-          ]),
-          _c("br"),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.changePage($event, "types")
-                },
-              },
-            },
-            [_vm._v("Previous")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.changePage($event, "physical")
-                },
-              },
-            },
-            [_vm._v("Continue")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticStyle: { float: "right" },
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.createJSON.apply(null, arguments)
-                },
-              },
-            },
-            [_vm._v("Export")]
-          ),
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.step == "physical"
-      ? _c("div", { staticClass: "wizardPage" }, [
-          _c("h1", { staticStyle: { padding: "0", "text-align": "center" } }, [
-            _vm._v("Physical Properties"),
-          ]),
-          _vm._v(" "),
-          _c("ul", { staticClass: "settingsList" }, [
-            _c("li", [
-              _c("div", { staticClass: "headerLabel" }, [_vm._v("Material")]),
-              _vm._v(" "),
-              _vm._m(0),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
+              _c("li", [
+                _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.properties.material,
-                      expression: "properties.material",
+                      value: _vm.$parent.$data.properties.types.slab,
+                      expression: "$parent.$data.properties.types.slab",
                     },
                   ],
-                  staticClass: "dark_bordered",
-                  on: {
-                    change: function ($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function (o) {
-                          return o.selected
-                        })
-                        .map(function (o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.properties,
-                        "material",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    },
-                  },
-                },
-                _vm._l(_vm.materialOptions, function (op) {
-                  return _c("option", { key: op }, [_vm._v(_vm._s(op))])
-                }),
-                0
-              ),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Block Sounds"),
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v(
-                  "Sets the sounds made when the custom block is stepped on/broken/etc to match the listed block"
-                ),
-              ]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.properties.sounds,
-                      expression: "properties.sounds",
-                    },
-                  ],
-                  staticClass: "dark_bordered",
-                  on: {
-                    change: function ($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function (o) {
-                          return o.selected
-                        })
-                        .map(function (o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.properties,
-                        "sounds",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    },
-                  },
-                },
-                _vm._l(_vm.soundOptions, function (op) {
-                  return _c("option", { key: op }, [_vm._v(_vm._s(op))])
-                }),
-                0
-              ),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Transparency"),
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v(
-                  "The transparency style of the block. Models with partially transparent textures should be set to Cutout"
-                ),
-              ]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.properties.transparency,
-                      expression: "properties.transparency",
-                    },
-                  ],
-                  staticClass: "dark_bordered",
-                  on: {
-                    change: function ($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function (o) {
-                          return o.selected
-                        })
-                        .map(function (o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.properties,
-                        "transparency",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    },
-                  },
-                },
-                _vm._l(_vm.transparencyOptions, function (tr) {
-                  return _c("option", { key: tr }, [_vm._v(_vm._s(tr))])
-                }),
-                0
-              ),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.properties.gravity,
-                    expression: "properties.gravity",
-                  },
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  checked: Array.isArray(_vm.properties.gravity)
-                    ? _vm._i(_vm.properties.gravity, null) > -1
-                    : _vm.properties.gravity,
-                },
-                on: {
-                  change: function ($event) {
-                    var $$a = _vm.properties.gravity,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 &&
-                          _vm.$set(_vm.properties, "gravity", $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          _vm.$set(
-                            _vm.properties,
-                            "gravity",
-                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                          )
-                      }
-                    } else {
-                      _vm.$set(_vm.properties, "gravity", $$c)
-                    }
-                  },
-                },
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "headerLabel" }, [_vm._v("Gravity")]),
-              _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v(
-                  "Determines if the block falls due to gravity (No effect for non-default custom blocks)"
-                ),
-              ]),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.changePage($event, "types")
-                },
-              },
-            },
-            [_vm._v("Previous")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.changePage($event, "advPhys")
-                },
-              },
-            },
-            [_vm._v("Continue")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticStyle: { float: "right" },
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.createJSON.apply(null, arguments)
-                },
-              },
-            },
-            [_vm._v("Export")]
-          ),
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.step == "advPhys"
-      ? _c("div", { staticClass: "wizardPage" }, [
-          _c("h1", { staticStyle: { padding: "0", "text-align": "center" } }, [
-            _vm._v("Advanced Physical Properties"),
-          ]),
-          _vm._v(" "),
-          _c("ul", { staticClass: "settingsList" }, [
-            _c("li", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model.number",
-                    value: _vm.properties.lum,
-                    expression: "properties.lum",
-                    modifiers: { number: true },
-                  },
-                ],
-                staticClass: "dark_bordered",
-                attrs: { type: "number", min: "0", max: "15" },
-                domProps: { value: _vm.properties.lum },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.properties, "lum", _vm._n($event.target.value))
-                  },
-                  blur: function ($event) {
-                    return _vm.$forceUpdate()
-                  },
-                },
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "headerLabel" }, [_vm._v("Luminance")]),
-              _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v(
-                  "The light level of the block. Ranges from 0 to 15. Torches default at 14"
-                ),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model.number",
-                    value: _vm.properties.blastRes,
-                    expression: "properties.blastRes",
-                    modifiers: { number: true },
-                  },
-                ],
-                staticClass: "dark_bordered",
-                attrs: { type: "number", min: "0" },
-                domProps: { value: _vm.properties.blastRes },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.properties,
-                      "blastRes",
-                      _vm._n($event.target.value)
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(
+                      _vm.$parent.$data.properties.types.slab
                     )
+                      ? _vm._i(_vm.$parent.$data.properties.types.slab, null) >
+                        -1
+                      : _vm.$parent.$data.properties.types.slab,
                   },
-                  blur: function ($event) {
-                    return _vm.$forceUpdate()
-                  },
-                },
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Blast Resistance"),
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v(
-                  "How resistant the block is to explosions. Most blocks fall between 0.1 and 9"
-                ),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model.number",
-                    value: _vm.properties.slip,
-                    expression: "properties.slip",
-                    modifiers: { number: true },
-                  },
-                ],
-                staticClass: "dark_bordered",
-                attrs: { type: "number", min: "0", step: "0.1" },
-                domProps: { value: _vm.properties.slip },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.properties,
-                      "slip",
-                      _vm._n($event.target.value)
-                    )
-                  },
-                  blur: function ($event) {
-                    return _vm.$forceUpdate()
-                  },
-                },
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Slipperiness"),
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v(
-                  "How much you slide when crossing the block. Default is 0.6 and reaches 0.989 for blue ice"
-                ),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.properties.fireproof,
-                    expression: "properties.fireproof",
-                  },
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  checked: Array.isArray(_vm.properties.fireproof)
-                    ? _vm._i(_vm.properties.fireproof, null) > -1
-                    : _vm.properties.fireproof,
-                },
-                on: {
-                  change: function ($event) {
-                    var $$a = _vm.properties.fireproof,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = null,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 &&
-                          _vm.$set(
-                            _vm.properties,
-                            "fireproof",
-                            $$a.concat([$$v])
-                          )
+                  on: {
+                    change: function ($event) {
+                      var $$a = _vm.$parent.$data.properties.types.slab,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 &&
+                            _vm.$set(
+                              _vm.$parent.$data.properties.types,
+                              "slab",
+                              $$a.concat([$$v])
+                            )
+                        } else {
+                          $$i > -1 &&
+                            _vm.$set(
+                              _vm.$parent.$data.properties.types,
+                              "slab",
+                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                            )
+                        }
                       } else {
-                        $$i > -1 &&
-                          _vm.$set(
-                            _vm.properties,
-                            "fireproof",
-                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                          )
+                        _vm.$set(
+                          _vm.$parent.$data.properties.types,
+                          "slab",
+                          $$c
+                        )
                       }
-                    } else {
-                      _vm.$set(_vm.properties, "fireproof", $$c)
-                    }
+                    },
                   },
-                },
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "headerLabel" }, [_vm._v("Fireproof")]),
-              _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v("Determines if the block will burn"),
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Create Slab Block"),
+                ]),
               ]),
-            ]),
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.changePage($event, "physical")
-                },
-              },
-            },
-            [_vm._v("Previous")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.changePage($event, "other")
-                },
-              },
-            },
-            [_vm._v("Continue")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticStyle: { float: "right" },
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.createJSON.apply(null, arguments)
-                },
-              },
-            },
-            [_vm._v("Export")]
-          ),
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.step == "other"
-      ? _c("div", { staticClass: "wizardPage" }, [
-          _c("h1", { staticStyle: { padding: "0", "text-align": "center" } }, [
-            _vm._v("Other Properties"),
-          ]),
-          _vm._v(" "),
-          _c("ul", { staticClass: "settingsList" }, [
-            _c("li", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model.number",
-                    value: _vm.properties.maxStack,
-                    expression: "properties.maxStack",
-                    modifiers: { number: true },
-                  },
-                ],
-                staticClass: "dark_bordered",
-                attrs: { type: "number", min: "0" },
-                domProps: { value: _vm.properties.maxStack },
-                on: {
-                  input: function ($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.properties,
-                      "maxStack",
-                      _vm._n($event.target.value)
+              _vm._v(" "),
+              _vm.$parent.$data.properties.types.slab
+                ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Top Texture"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value:
+                              _vm.$parent.$data.properties.variant.slab.top,
+                            expression:
+                              "$parent.$data.properties.variant.slab.top",
+                          },
+                        ],
+                        staticClass: "dark_bordered",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.$parent.$data.properties.variant.slab,
+                              "top",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      _vm._l(_vm.Textures(), function (op) {
+                        return _c("option", { key: op }, [
+                          _vm._v(_vm._s(op.name)),
+                        ])
+                      }),
+                      0
+                    ),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.$parent.$data.properties.types.slab
+                ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Bottom Texture"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value:
+                              _vm.$parent.$data.properties.variant.slab.bottom,
+                            expression:
+                              "$parent.$data.properties.variant.slab.bottom",
+                          },
+                        ],
+                        staticClass: "dark_bordered",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.$parent.$data.properties.variant.slab,
+                              "bottom",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      _vm._l(_vm.Textures(), function (op) {
+                        return _c("option", { key: op }, [
+                          _vm._v(_vm._s(op.name)),
+                        ])
+                      }),
+                      0
+                    ),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.$parent.$data.properties.types.slab
+                ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Side Texture"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value:
+                              _vm.$parent.$data.properties.variant.slab.side,
+                            expression:
+                              "$parent.$data.properties.variant.slab.side",
+                          },
+                        ],
+                        staticClass: "dark_bordered",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.$parent.$data.properties.variant.slab,
+                              "side",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      _vm._l(_vm.Textures(), function (op) {
+                        return _c("option", { key: op }, [
+                          _vm._v(_vm._s(op.name)),
+                        ])
+                      }),
+                      0
+                    ),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("li", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.$parent.$data.properties.types.wall,
+                      expression: "$parent.$data.properties.types.wall",
+                    },
+                  ],
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(
+                      _vm.$parent.$data.properties.types.wall
                     )
+                      ? _vm._i(_vm.$parent.$data.properties.types.wall, null) >
+                        -1
+                      : _vm.$parent.$data.properties.types.wall,
                   },
-                  blur: function ($event) {
-                    return _vm.$forceUpdate()
+                  on: {
+                    change: function ($event) {
+                      var $$a = _vm.$parent.$data.properties.types.wall,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 &&
+                            _vm.$set(
+                              _vm.$parent.$data.properties.types,
+                              "wall",
+                              $$a.concat([$$v])
+                            )
+                        } else {
+                          $$i > -1 &&
+                            _vm.$set(
+                              _vm.$parent.$data.properties.types,
+                              "wall",
+                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                            )
+                        }
+                      } else {
+                        _vm.$set(
+                          _vm.$parent.$data.properties.types,
+                          "wall",
+                          $$c
+                        )
+                      }
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Create Wall Block"),
+                ]),
+              ]),
+              _vm._v(" "),
+              _vm.$parent.$data.properties.types.wall
+                ? _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Wall Texture"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value:
+                              _vm.$parent.$data.properties.variant.wall.wall,
+                            expression:
+                              "$parent.$data.properties.variant.wall.wall",
+                          },
+                        ],
+                        staticClass: "dark_bordered",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.$parent.$data.properties.variant.wall,
+                              "wall",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      _vm._l(_vm.Textures(), function (op) {
+                        return _c("option", { key: op }, [
+                          _vm._v(_vm._s(op.name)),
+                        ])
+                      }),
+                      0
+                    ),
+                  ])
+                : _vm._e(),
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "types")
                   },
                 },
-              }),
-              _vm._v(" "),
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Max Stack Size"),
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v("The maximum number the block in a stack"),
-              ]),
-            ]),
+              },
+              [_vm._v("Previous")]
+            ),
             _vm._v(" "),
-            _c("li", [
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Creative Tab"),
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v(
-                  "Which tab on the creative inventory menu the block will be added to"
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "physical")
+                  },
+                },
+              },
+              [_vm._v("Continue")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticStyle: { float: "right" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.createJSON.apply(null, arguments)
+                  },
+                },
+              },
+              [_vm._v("Export")]
+            ),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.step == "physical"
+        ? _c("div", { staticClass: "wizardPage" }, [
+            _c(
+              "h1",
+              { staticStyle: { padding: "0", "text-align": "center" } },
+              [_vm._v("Physical Properties")]
+            ),
+            _vm._v(" "),
+            _c("ul", { staticClass: "settingsList" }, [
+              _c("li", [
+                _c("div", { staticClass: "headerLabel" }, [_vm._v("Material")]),
+                _vm._v(" "),
+                _vm._m(0),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.$parent.$data.properties.material,
+                        expression: "$parent.$data.properties.material",
+                      },
+                    ],
+                    staticClass: "dark_bordered",
+                    on: {
+                      change: function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.$parent.$data.properties,
+                          "material",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                    },
+                  },
+                  _vm._l(_vm.materialOptions, function (op) {
+                    return _c("option", { key: op }, [_vm._v(_vm._s(op))])
+                  }),
+                  0
                 ),
               ]),
               _vm._v(" "),
-              _c(
-                "select",
-                {
+              _c("li", [
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Block Sounds"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v(
+                    "Sets the sounds made when the custom block is stepped on/broken/etc to match the listed block"
+                  ),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.$parent.$data.properties.sounds,
+                        expression: "$parent.$data.properties.sounds",
+                      },
+                    ],
+                    staticClass: "dark_bordered",
+                    on: {
+                      change: function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.$parent.$data.properties,
+                          "sounds",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                    },
+                  },
+                  _vm._l(_vm.soundOptions, function (op) {
+                    return _c("option", { key: op }, [_vm._v(_vm._s(op))])
+                  }),
+                  0
+                ),
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Transparency"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v(
+                    "The transparency style of the block. Models with partially transparent textures should be set to Cutout"
+                  ),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.$parent.$data.properties.transparency,
+                        expression: "$parent.$data.properties.transparency",
+                      },
+                    ],
+                    staticClass: "dark_bordered",
+                    on: {
+                      change: function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.$parent.$data.properties,
+                          "transparency",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                    },
+                  },
+                  _vm._l(_vm.transparencyOptions, function (tr) {
+                    return _c("option", { key: tr }, [_vm._v(_vm._s(tr))])
+                  }),
+                  0
+                ),
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.properties.creativeTab,
-                      expression: "properties.creativeTab",
+                      value: _vm.$parent.$data.properties.gravity,
+                      expression: "$parent.$data.properties.gravity",
                     },
                   ],
-                  staticClass: "dark_bordered",
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(_vm.$parent.$data.properties.gravity)
+                      ? _vm._i(_vm.$parent.$data.properties.gravity, null) > -1
+                      : _vm.$parent.$data.properties.gravity,
+                  },
                   on: {
                     change: function ($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function (o) {
-                          return o.selected
-                        })
-                        .map(function (o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.properties,
-                        "creativeTab",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
+                      var $$a = _vm.$parent.$data.properties.gravity,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 &&
+                            _vm.$set(
+                              _vm.$parent.$data.properties,
+                              "gravity",
+                              $$a.concat([$$v])
+                            )
+                        } else {
+                          $$i > -1 &&
+                            _vm.$set(
+                              _vm.$parent.$data.properties,
+                              "gravity",
+                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                            )
+                        }
+                      } else {
+                        _vm.$set(_vm.$parent.$data.properties, "gravity", $$c)
+                      }
                     },
                   },
-                },
-                _vm._l(_vm.tabOptions, function (op) {
-                  return _c("option", { key: op }, [_vm._v(_vm._s(op))])
                 }),
-                0
-              ),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [_vm._v("Gravity")]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v(
+                    "Determines if the block falls due to gravity (No effect for non-default custom blocks)"
+                  ),
+                ]),
+              ]),
             ]),
             _vm._v(" "),
-            _c("li", [
-              _c("div", { staticClass: "headerLabel" }, [
-                _vm._v("Rotation Type"),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "types")
+                  },
+                },
+              },
+              [_vm._v("Previous")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "advPhys")
+                  },
+                },
+              },
+              [_vm._v("Continue")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticStyle: { float: "right" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.createJSON.apply(null, arguments)
+                  },
+                },
+              },
+              [_vm._v("Export")]
+            ),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.step == "advPhys"
+        ? _c("div", { staticClass: "wizardPage" }, [
+            _c(
+              "h1",
+              { staticStyle: { padding: "0", "text-align": "center" } },
+              [_vm._v("Advanced Physical Properties")]
+            ),
+            _vm._v(" "),
+            _c("ul", { staticClass: "settingsList" }, [
+              _c("li", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.number",
+                      value: _vm.$parent.$data.properties.lum,
+                      expression: "$parent.$data.properties.lum",
+                      modifiers: { number: true },
+                    },
+                  ],
+                  staticClass: "dark_bordered",
+                  attrs: { type: "number", min: "0", max: "15" },
+                  domProps: { value: _vm.$parent.$data.properties.lum },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.$parent.$data.properties,
+                        "lum",
+                        _vm._n($event.target.value)
+                      )
+                    },
+                    blur: function ($event) {
+                      return _vm.$forceUpdate()
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Luminance"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v(
+                    "The light level of the block. Ranges from 0 to 15. Torches default at 14"
+                  ),
+                ]),
               ]),
               _vm._v(" "),
-              _c("p", { staticClass: "headerDescription" }, [
-                _vm._v("WIP: Only default and y-axis added so far"),
+              _c("li", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.number",
+                      value: _vm.$parent.$data.properties.blastRes,
+                      expression: "$parent.$data.properties.blastRes",
+                      modifiers: { number: true },
+                    },
+                  ],
+                  staticClass: "dark_bordered",
+                  attrs: { type: "number", min: "0" },
+                  domProps: { value: _vm.$parent.$data.properties.blastRes },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.$parent.$data.properties,
+                        "blastRes",
+                        _vm._n($event.target.value)
+                      )
+                    },
+                    blur: function ($event) {
+                      return _vm.$forceUpdate()
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Blast Resistance"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v(
+                    "How resistant the block is to explosions. Most blocks fall between 0.1 and 9"
+                  ),
+                ]),
               ]),
               _vm._v(" "),
-              _c(
-                "select",
-                {
+              _c("li", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.number",
+                      value: _vm.$parent.$data.properties.slip,
+                      expression: "$parent.$data.properties.slip",
+                      modifiers: { number: true },
+                    },
+                  ],
+                  staticClass: "dark_bordered",
+                  attrs: { type: "number", min: "0", step: "0.1" },
+                  domProps: { value: _vm.$parent.$data.properties.slip },
+                  on: {
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(
+                        _vm.$parent.$data.properties,
+                        "slip",
+                        _vm._n($event.target.value)
+                      )
+                    },
+                    blur: function ($event) {
+                      return _vm.$forceUpdate()
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Slipperiness"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v(
+                    "How much you slide when crossing the block. Default is 0.6 and reaches 0.989 for blue ice"
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("input", {
                   directives: [
                     {
                       name: "model",
                       rawName: "v-model",
-                      value: _vm.properties.rotType,
-                      expression: "properties.rotType",
+                      value: _vm.$parent.$data.properties.fireproof,
+                      expression: "$parent.$data.properties.fireproof",
+                    },
+                  ],
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(
+                      _vm.$parent.$data.properties.fireproof
+                    )
+                      ? _vm._i(_vm.$parent.$data.properties.fireproof, null) >
+                        -1
+                      : _vm.$parent.$data.properties.fireproof,
+                  },
+                  on: {
+                    change: function ($event) {
+                      var $$a = _vm.$parent.$data.properties.fireproof,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 &&
+                            _vm.$set(
+                              _vm.$parent.$data.properties,
+                              "fireproof",
+                              $$a.concat([$$v])
+                            )
+                        } else {
+                          $$i > -1 &&
+                            _vm.$set(
+                              _vm.$parent.$data.properties,
+                              "fireproof",
+                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                            )
+                        }
+                      } else {
+                        _vm.$set(_vm.$parent.$data.properties, "fireproof", $$c)
+                      }
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Fireproof"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v("Determines if the block will burn"),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "physical")
+                  },
+                },
+              },
+              [_vm._v("Previous")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "particles")
+                  },
+                },
+              },
+              [_vm._v("Continue")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticStyle: { float: "right" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.createJSON.apply(null, arguments)
+                  },
+                },
+              },
+              [_vm._v("Export")]
+            ),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.step == "particles"
+        ? _c("div", { staticClass: "wizardPage" }, [
+            _c(
+              "h1",
+              { staticStyle: { padding: "0", "text-align": "center" } },
+              [_vm._v("Particles")]
+            ),
+            _vm._v(" "),
+            _c("ul", { staticClass: "settingsList" }, [
+              _c("li", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.parentData.properties.particles,
+                      expression: "parentData.properties.particles",
+                    },
+                  ],
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(_vm.parentData.properties.particles)
+                      ? _vm._i(_vm.parentData.properties.particles, null) > -1
+                      : _vm.parentData.properties.particles,
+                  },
+                  on: {
+                    change: function ($event) {
+                      var $$a = _vm.parentData.properties.particles,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 &&
+                            _vm.$set(
+                              _vm.parentData.properties,
+                              "particles",
+                              $$a.concat([$$v])
+                            )
+                        } else {
+                          $$i > -1 &&
+                            _vm.$set(
+                              _vm.parentData.properties,
+                              "particles",
+                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                            )
+                        }
+                      } else {
+                        _vm.$set(_vm.parentData.properties, "particles", $$c)
+                      }
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Emit Particles (WIP)"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v(
+                    "Enables particle emission. Still in active development"
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _vm.parentData.properties.particles
+                ? _c("li", [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Particle"),
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "headerDescription" }, [
+                      _vm._v("Which particle will be emitted"),
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.parentData.properties.particleType,
+                            expression: "parentData.properties.particleType",
+                          },
+                        ],
+                        staticClass: "dark_bordered",
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.parentData.properties,
+                              "particleType",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      _vm._l(_vm.particleOptions, function (op) {
+                        return _c("option", { key: op }, [_vm._v(_vm._s(op))])
+                      }),
+                      0
+                    ),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.parentData.properties.particles
+                ? _c("li", [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Particle Spawn Position"),
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "headerDescription" }, [
+                      _vm._v("Spawn point of the particles (between 0 and 16)"),
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.parentData.properties.particlePos.x,
+                          expression: "parentData.properties.particlePos.x",
+                        },
+                      ],
+                      attrs: { type: "number", min: "0", max: "16" },
+                      domProps: {
+                        value: _vm.parentData.properties.particlePos.x,
+                      },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.parentData.properties.particlePos,
+                            "x",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.parentData.properties.particlePos.y,
+                          expression: "parentData.properties.particlePos.y",
+                        },
+                      ],
+                      attrs: { type: "number", min: "0", max: "16" },
+                      domProps: {
+                        value: _vm.parentData.properties.particlePos.y,
+                      },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.parentData.properties.particlePos,
+                            "y",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.parentData.properties.particlePos.z,
+                          expression: "parentData.properties.particlePos.z",
+                        },
+                      ],
+                      attrs: { type: "number", min: "0", max: "16" },
+                      domProps: {
+                        value: _vm.parentData.properties.particlePos.z,
+                      },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.parentData.properties.particlePos,
+                            "z",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.parentData.properties.particles
+                ? _c("li", [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Particle Spread"),
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "headerDescription" }, [
+                      _vm._v("Spread of particles in blocks"),
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.parentData.properties.particleSpread.x,
+                          expression: "parentData.properties.particleSpread.x",
+                        },
+                      ],
+                      attrs: { type: "number", min: "0" },
+                      domProps: {
+                        value: _vm.parentData.properties.particleSpread.x,
+                      },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.parentData.properties.particleSpread,
+                            "x",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.parentData.properties.particleSpread.y,
+                          expression: "parentData.properties.particleSpread.y",
+                        },
+                      ],
+                      attrs: { type: "number", min: "0" },
+                      domProps: {
+                        value: _vm.parentData.properties.particleSpread.y,
+                      },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.parentData.properties.particleSpread,
+                            "y",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.parentData.properties.particleSpread.z,
+                          expression: "parentData.properties.particleSpread.z",
+                        },
+                      ],
+                      attrs: { type: "number", min: "0" },
+                      domProps: {
+                        value: _vm.parentData.properties.particleSpread.z,
+                      },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.parentData.properties.particleSpread,
+                            "z",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.parentData.properties.particles
+                ? _c("li", [
+                    _c("div", { staticClass: "headerLabel" }, [
+                      _vm._v("Particle Velocity"),
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "headerDescription" }, [
+                      _vm._v("Velocity of particles in blocks per tick"),
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.parentData.properties.particleVel.x,
+                          expression: "parentData.properties.particleVel.x",
+                        },
+                      ],
+                      attrs: { type: "number" },
+                      domProps: {
+                        value: _vm.parentData.properties.particleVel.x,
+                      },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.parentData.properties.particleVel,
+                            "x",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.parentData.properties.particleVel.y,
+                          expression: "parentData.properties.particleVel.y",
+                        },
+                      ],
+                      attrs: { type: "number" },
+                      domProps: {
+                        value: _vm.parentData.properties.particleVel.y,
+                      },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.parentData.properties.particleVel,
+                            "y",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.parentData.properties.particleVel.z,
+                          expression: "parentData.properties.particleVel.z",
+                        },
+                      ],
+                      attrs: { type: "number" },
+                      domProps: {
+                        value: _vm.parentData.properties.particleVel.z,
+                      },
+                      on: {
+                        input: function ($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.parentData.properties.particleVel,
+                            "z",
+                            $event.target.value
+                          )
+                        },
+                      },
+                    }),
+                  ])
+                : _vm._e(),
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "advPhys")
+                  },
+                },
+              },
+              [_vm._v("Previous")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "datapack")
+                  },
+                },
+              },
+              [_vm._v("Continue")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticStyle: { float: "right" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.createJSON.apply(null, arguments)
+                  },
+                },
+              },
+              [_vm._v("Export")]
+            ),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.step == "datapack"
+        ? _c("div", { staticClass: "wizardPage" }, [
+            _c(
+              "h1",
+              { staticStyle: { padding: "0", "text-align": "center" } },
+              [_vm._v("Datapack Properties")]
+            ),
+            _vm._v(" "),
+            _c("ul", { staticClass: "settingsList" }, [
+              _c("li", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.parentData.properties.genScRecipe,
+                      expression: "parentData.properties.genScRecipe",
+                    },
+                  ],
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(
+                      _vm.parentData.properties.genScRecipe
+                    )
+                      ? _vm._i(_vm.parentData.properties.genScRecipe, null) > -1
+                      : _vm.parentData.properties.genScRecipe,
+                  },
+                  on: {
+                    change: function ($event) {
+                      var $$a = _vm.parentData.properties.genScRecipe,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 &&
+                            _vm.$set(
+                              _vm.parentData.properties,
+                              "genScRecipe",
+                              $$a.concat([$$v])
+                            )
+                        } else {
+                          $$i > -1 &&
+                            _vm.$set(
+                              _vm.parentData.properties,
+                              "genScRecipe",
+                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                            )
+                        }
+                      } else {
+                        _vm.$set(_vm.parentData.properties, "genScRecipe", $$c)
+                      }
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Generate BAMO Crate recipe"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v(
+                    "Creates a stonecutter recipe for turning the BAMO Crate into this block"
+                  ),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("li", { staticStyle: { "padding-left": "20px" } }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.parentData.properties.genReversableScRecipe,
+                      expression: "parentData.properties.genReversableScRecipe",
+                    },
+                  ],
+                  attrs: { type: "checkbox" },
+                  domProps: {
+                    checked: Array.isArray(
+                      _vm.parentData.properties.genReversableScRecipe
+                    )
+                      ? _vm._i(
+                          _vm.parentData.properties.genReversableScRecipe,
+                          null
+                        ) > -1
+                      : _vm.parentData.properties.genReversableScRecipe,
+                  },
+                  on: {
+                    change: function ($event) {
+                      var $$a = _vm.parentData.properties.genReversableScRecipe,
+                        $$el = $event.target,
+                        $$c = $$el.checked ? true : false
+                      if (Array.isArray($$a)) {
+                        var $$v = null,
+                          $$i = _vm._i($$a, $$v)
+                        if ($$el.checked) {
+                          $$i < 0 &&
+                            _vm.$set(
+                              _vm.parentData.properties,
+                              "genReversableScRecipe",
+                              $$a.concat([$$v])
+                            )
+                        } else {
+                          $$i > -1 &&
+                            _vm.$set(
+                              _vm.parentData.properties,
+                              "genReversableScRecipe",
+                              $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                            )
+                        }
+                      } else {
+                        _vm.$set(
+                          _vm.parentData.properties,
+                          "genReversableScRecipe",
+                          $$c
+                        )
+                      }
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Make recipe reverseable"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v(
+                    "Allows the stonecutter to turn this block back into a BAMO Crate"
+                  ),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "particles")
+                  },
+                },
+              },
+              [_vm._v("Previous")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "other")
+                  },
+                },
+              },
+              [_vm._v("Continue")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticStyle: { float: "right" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.createJSON.apply(null, arguments)
+                  },
+                },
+              },
+              [_vm._v("Export")]
+            ),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.step == "other"
+        ? _c("div", { staticClass: "wizardPage" }, [
+            _c(
+              "h1",
+              { staticStyle: { padding: "0", "text-align": "center" } },
+              [_vm._v("Other Properties")]
+            ),
+            _vm._v(" "),
+            _c("ul", { staticClass: "settingsList" }, [
+              _c("li", [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model.number",
+                      value: _vm.$parent.$data.properties.maxStack,
+                      expression: "$parent.$data.properties.maxStack",
+                      modifiers: { number: true },
                     },
                   ],
                   staticClass: "dark_bordered",
+                  attrs: { type: "number", min: "0" },
+                  domProps: { value: _vm.$parent.$data.properties.maxStack },
                   on: {
-                    change: function ($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function (o) {
-                          return o.selected
-                        })
-                        .map(function (o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
+                    input: function ($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
                       _vm.$set(
-                        _vm.properties,
-                        "rotType",
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
+                        _vm.$parent.$data.properties,
+                        "maxStack",
+                        _vm._n($event.target.value)
                       )
                     },
+                    blur: function ($event) {
+                      return _vm.$forceUpdate()
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Max Stack Size"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v("The maximum number the block in a stack"),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Creative Tab"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v(
+                    "Which tab on the creative inventory menu the block will be added to"
+                  ),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.$parent.$data.properties.creativeTab,
+                        expression: "$parent.$data.properties.creativeTab",
+                      },
+                    ],
+                    staticClass: "dark_bordered",
+                    on: {
+                      change: function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.$parent.$data.properties,
+                          "creativeTab",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                    },
+                  },
+                  _vm._l(_vm.tabOptions, function (op) {
+                    return _c("option", { key: op }, [_vm._v(_vm._s(op))])
+                  }),
+                  0
+                ),
+              ]),
+              _vm._v(" "),
+              _c("li", [
+                _c("div", { staticClass: "headerLabel" }, [
+                  _vm._v("Rotation Type"),
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "headerDescription" }, [
+                  _vm._v("if y_axis, faces the player when placed"),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.$parent.$data.properties.rotType,
+                        expression: "$parent.$data.properties.rotType",
+                      },
+                    ],
+                    staticClass: "dark_bordered",
+                    on: {
+                      change: function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.$parent.$data.properties,
+                          "rotType",
+                          $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        )
+                      },
+                    },
+                  },
+                  _vm._l(_vm.rotationTypes, function (op) {
+                    return _c("option", { key: op }, [_vm._v(_vm._s(op))])
+                  }),
+                  0
+                ),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.changePage($event, "datapack")
                   },
                 },
-                _vm._l(_vm.rotationTypes, function (op) {
-                  return _c("option", { key: op }, [_vm._v(_vm._s(op))])
-                }),
-                0
-              ),
-            ]),
+              },
+              [_vm._v("Previous")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticStyle: { float: "right" },
+                on: {
+                  click: function ($event) {
+                    $event.preventDefault()
+                    return _vm.createJSON.apply(null, arguments)
+                  },
+                },
+              },
+              [_vm._v("Export")]
+            ),
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.step == "settings"
+        ? _c("div", { staticClass: "wizardPage" }, [
+            _c(
+              "h1",
+              { staticStyle: { padding: "0", "text-align": "center" } },
+              [_vm._v("BAMO Export Settings")]
+            ),
             _vm._v(" "),
             _vm._m(1),
-          ]),
-          _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.changePage($event, "advPhys")
-                },
-              },
-            },
-            [_vm._v("Previous")]
-          ),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticStyle: { float: "right" },
-              on: {
-                click: function ($event) {
-                  $event.preventDefault()
-                  return _vm.createJSON.apply(null, arguments)
-                },
-              },
-            },
-            [_vm._v("Export")]
-          ),
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _vm.step == "settings"
-      ? _c("div", { staticClass: "wizardPage" }, [
-          _c("h1", { staticStyle: { padding: "0", "text-align": "center" } }, [
-            _vm._v("BAMO Export Settings"),
-          ]),
-          _vm._v(" "),
-          _vm._m(2),
-        ])
-      : _vm._e(),
+          ])
+        : _vm._e(),
+    ]),
   ])
 }
 var staticRenderFns = [
@@ -21143,20 +24352,6 @@ var staticRenderFns = [
         { attrs: { href: "https://minecraft.fandom.com/wiki/Materials" } },
         [_vm._v("Minecraft wiki")]
       ),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c("div", { staticClass: "headerLabel" }, [_vm._v("Block Type")]),
-      _vm._v(" "),
-      _c("p", { staticClass: "headerDescription" }, [
-        _vm._v(
-          "What type of block (regular/stair/slab/etc) the model is (WIP)"
-        ),
-      ]),
     ])
   },
   function () {
@@ -21461,7 +24656,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_regexp_to_string_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_regexp_to_string_js__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.function.name.js */ "./node_modules/core-js/modules/es.function.name.js");
 /* harmony import */ var core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _components_BamoComponent_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/BamoComponent.vue */ "./src/components/BamoComponent.vue");
+/* harmony import */ var core_js_modules_es_object_assign_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.object.assign.js */ "./node_modules/core-js/modules/es.object.assign.js");
+/* harmony import */ var core_js_modules_es_object_assign_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_assign_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_symbol_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.symbol.js */ "./node_modules/core-js/modules/es.symbol.js");
+/* harmony import */ var core_js_modules_es_symbol_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_es_symbol_description_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.symbol.description.js */ "./node_modules/core-js/modules/es.symbol.description.js");
+/* harmony import */ var core_js_modules_es_symbol_description_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_description_js__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_es_symbol_iterator_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/es.symbol.iterator.js */ "./node_modules/core-js/modules/es.symbol.iterator.js");
+/* harmony import */ var core_js_modules_es_symbol_iterator_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_iterator_js__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var core_js_modules_es_array_iterator_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! core-js/modules/es.array.iterator.js */ "./node_modules/core-js/modules/es.array.iterator.js");
+/* harmony import */ var core_js_modules_es_array_iterator_js__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_iterator_js__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var core_js_modules_es_string_iterator_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! core-js/modules/es.string.iterator.js */ "./node_modules/core-js/modules/es.string.iterator.js");
+/* harmony import */ var core_js_modules_es_string_iterator_js__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator_js__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator.js */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
+/* harmony import */ var core_js_modules_web_dom_collections_iterator_js__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator_js__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _components_BamoBaseComponent_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/BamoBaseComponent.vue */ "./src/components/BamoBaseComponent.vue");
+/* harmony import */ var _util_Codec__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./util/Codec */ "./src/util/Codec.js");
+/* harmony import */ var _util_Settings__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./util/Settings */ "./src/util/Settings.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -21474,15 +24696,17 @@ var btn;
 var exportWindow;
 var cssData;
 var minecraftFolder;
-Plugin.register('BAMO', {
+Plugin.register('bamo', {
   title: 'BAMO Exporter',
   author: 'Ryytikki',
-  description: 'Exports block metadata for use in the BAMO mod',
+  description: 'Create custom Minecraft blocks without having to write a single line of code when paired with the BAMO mod. https://www.curseforge.com/minecraft/mc-mods/bamo-block-and-move-on',
   icon: 'bar_chart',
-  version: '0.3.3',
-  variant: 'both',
+  tags: ['Minecraft: Java Edition'],
+  version: '0.4.3',
+  variant: 'desktop',
   onload: function onload() {
-    // Setting that holds the resource pack folder location
+    (0,_util_Codec__WEBPACK_IMPORTED_MODULE_12__.loadCodec)(); // Setting that holds the resource pack folder location
+
     minecraftFolder = new Setting('minecraftFolder', {
       name: 'Minecraft Folder Location',
       description: 'Location of the Minecraft folder on your PC',
@@ -21492,13 +24716,29 @@ Plugin.register('BAMO', {
     }); // Export button in menu
 
     btn = new Action('bamo', {
-      name: 'BAMO Export',
-      description: 'Exports block metadata for BAMO mod',
-      icon: 'fa-cube',
+      name: 'BAMO Exporter',
+      description: 'Exports a block for the BAMO mod',
+      icon: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAN6SURBVDhPJZJrTJtVGMd/b99CYUOgLTA6oKV1HWvHitwnGyZzW7INw5RIXBbjjJc598WpM+oXxz6a+JFETVzch8XEaGKcM9lCNIToqGDHTSiXAV2h5VZKW6illPb1fV/Pyck5Oec5z/O/PMKHv5yVtFotO7spIpENQMBYYSQ4HcBgMGAymViPhIlFo5ABnU5HPB5naWkJh8OBBo1ANBPDrCvBnm/GVWlnpmOUwnI9ceFf/n7kwWU8QH15NXvy84ilN9XENpuNdG4GjbPKxmzHEFXHqvhne5bJ2BOyCrIoOFhI5PISznonvpw1BEGg9dkGNt5dxpfwkyzcYfHyHMIZa4nkuPQR499+jiaZQ/2fzYy1PUIryuA0GvZ069l8aRlzn5OpE4O0nj2Ce8CPLkvkiMuEcOfjDmlsch67rZzW6krevvEDV187zvjcMjnZWoaGAghPCaRCcawXr5E99B2NLju37g1Qbd2HaCnK6xqZX6PWXsZMcJ1cXZqSIj0PBqbwr0ZIaTLUHSxDX5yP5/d7WCtMzAbWKTXkceH5GoSRL69Id3qG2N7ZJZNMYLlwk+CPN8nK3cvrZ+rZTWf45tdB9azQUs7Nhy0MjPupshQjZglSl+wdb5xr4PDTZYRHethv2kcoKjswtYgki3ffPUVR4V4WQjE240kCa1EanRWk0xLi1fbmrpXwFsOPg2rwuG8di0lPdCvBqKyDIM+2FgeSBF7fKhkpoyJ5MDBNtlZEtBbnd9UfKqdncEYOhWxZ3d88j1X+TY4KNXg2EGI5vKm+XTz1jCxeKcGlVVxVZrmR5KHwVBR99XStKkx5cQHd751XkfR5JnmrrVFd7okFxmQUD0emKeu8gXfah3D7+ouSYpmSRBElntjhVN0Bvvi+j9O1ZnrFFo4m+siI2QRWo/wx5uPNF5oYlJNMBGMIn3a2SO4JP++cP8rDUR819lI2EylO1Nj46q4bfa4GSdSxlUhSmJerAFbpXGlvVotqFPuUz57JRWS6DAdSBFc26Pf6Oeaykkhr6B2e4/orz6n79k6Kay8fp3dkHrd3AeHW++3S5JNVFdrtTzr5+ud+vAsh6ioN9HmXZS3a1ardP/VzssHOX7L/SpKGQxXqvdjWZO8KhqJ8dukk92UnzKUGtOkkxnMfYAyPEk2mZUeiaqMtrESotpWyv6iA/4vO8x8IAITQHDgPDwAAAABJRU5ErkJggg==',
       click: function click() {
         if (Project.name != undefined) {
+          if (Texture.all.length == 0) {
+            Blockbench.showMessageBox({
+              buttons: ["Ok"],
+              title: "Error",
+              message: "Please create a texture"
+            });
+            return;
+          } // If the bamoSettings for the file havent been generated, generate
+
+
+          if (_typeof(_util_Settings__WEBPACK_IMPORTED_MODULE_13__["default"][Project.uuid]) !== 'object') {
+            _util_Settings__WEBPACK_IMPORTED_MODULE_13__["default"][Project.uuid] = Object.assign({}, _util_Settings__WEBPACK_IMPORTED_MODULE_13__.BAMO_SETTINGS_DEFAULT);
+            _util_Settings__WEBPACK_IMPORTED_MODULE_13__["default"][Project.uuid].displayName = Project.name;
+          }
+
           if (Settings.get('minecraftFolder') != undefined && Settings.get('minecraftFolder') != '') {
-            exportWindow.show(); //exportWindow.content_vue.reset();
+            exportWindow.show();
+            exportWindow.content_vue.updateValues();
           } else {
             Blockbench.showMessageBox({
               buttons: ["Ok"],
@@ -21515,13 +24755,13 @@ Plugin.register('BAMO', {
         }
       }
     });
-    MenuBar.addAction(btn, 'file'); // Dialog that opens when you click the button1
+    MenuBar.addAction(btn, 'tools'); // Dialog that opens when you click the button1
     // See the BamoComponent object for details
 
     exportWindow = new Dialog('BAMOExportWindow', {
       id: "BAMO",
       title: 'BAMO Exporter',
-      component: _components_BamoComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+      component: _components_BamoBaseComponent_vue__WEBPACK_IMPORTED_MODULE_11__["default"],
       buttons: [],
       padding: !1,
       width: 720,
@@ -21531,12 +24771,13 @@ Plugin.register('BAMO', {
   },
   onunload: function onunload() {
     btn["delete"]();
-    minecraftFolder["delete"]();
-    cssData["delete"]();
+    minecraftFolder["delete"](); //cssData.delete();
+
+    (0,_util_Codec__WEBPACK_IMPORTED_MODULE_12__.unloadCodec)();
   }
 });
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=BAMO.js.map
+//# sourceMappingURL=bamo.js.map

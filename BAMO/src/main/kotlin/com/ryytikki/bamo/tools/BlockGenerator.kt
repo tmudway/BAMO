@@ -1,5 +1,6 @@
 package com.ryytikki.bamo.tools
 
+import com.ryytikki.bamo.Bamo.ID
 import com.ryytikki.bamo.Bamo
 import com.ryytikki.bamo.blocks.*
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -17,6 +18,8 @@ import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraftforge.fml.loading.FMLPaths
+import net.minecraft.particles.BasicParticleType
+import net.minecraft.particles.ParticleTypes
 import net.minecraftforge.registries.ForgeRegistries
 import thedarkcolour.kotlinforforge.forge.KDeferredRegister
 import thedarkcolour.kotlinforforge.forge.ObjectHolderDelegate
@@ -31,23 +34,36 @@ import kotlin.io.path.readText
 
 @Serializable
 data class JSONData(
-    val displayName : String,             // Done
-    val typeList: List<String>,           // Done
-    val material : String,                // Done
-    val blastRes : Float,                 // Done
-    val slip : Float,                     // Done
-    val gravity : Boolean,                // Done
-    val rotType : String,                 // WIP
-    val sounds : String,                  // Done
-    val lum : Int,                        // Done
-    val maxStack : Int,                   // DONE
-    val fireproof : Boolean,              // WIP
-    val creativeTab : String,             // DONE
-    val transparency: String = "Solid",   // DONE
-    val hitbox: List<Array<DoubleArray>>, // DONE
-    val blockType: String = "",           // WIP
-//    val lang: String,                     // WIP
+    val displayName : String,                           // Done
+    val typeList: List<String>,                         // WIP
+    val material : String,                              // Done
+    val blastRes : Float,                               // Done
+    val slip : Float,                                   // Done
+    val gravity : Boolean,                              // Done
+    val rotType : String,                               // WIP
+    val sounds : String,                                // Done
+    val lum : Int,                                      // Done
+    val maxStack : Int,                                 // DONE
+    val fireproof : Boolean,                            // WIP
+    val creativeTab : String,                           // DONE
+    val transparency: String = "Solid",                 // DONE
+    val hitbox: List<Array<DoubleArray>> = emptyList(), // DONE
+    val hitboxBuffer: String = "",
+    val blockType: String = "",
+    val particleType: String = "",
+    val particlePos: DoubleArray = doubleArrayOf(0.0, 0.0, 0.0),
+    val particleSpread: DoubleArray = doubleArrayOf(0.0, 0.0, 0.0),
+    val particleVel: DoubleArray = doubleArrayOf(0.0, 0.0, 0.0),
+//    val lang: String,                                   // WIP
     val nameGenType: String = "old",
+)
+
+data class ParticleData(
+    val enabled: Boolean,
+    val type: BasicParticleType,
+    val pos: DoubleArray,
+    val spread: DoubleArray,
+    val vel: DoubleArray
 )
 
 data class BlockData(
@@ -59,6 +75,8 @@ data class BlockData(
     var lum: Int,
     var fireproof: Boolean,
     var hitbox: List<Array<DoubleArray>>,
+    var hitboxBuffer: String,
+    var particles: ParticleData,
 )
 
 val matMap = mapOf<String, Material>(
@@ -170,6 +188,62 @@ val tabsMap = mapOf<String, ItemGroup>(
     "Transportation" to ItemGroup.TAB_TRANSPORTATION
 )
 
+val particleMap = mapOf<String, BasicParticleType>(
+    "Ambient Entity Effect" to ParticleTypes.AMBIENT_ENTITY_EFFECT,
+    "Angry Villager" to ParticleTypes.ANGRY_VILLAGER,
+    "Ash" to ParticleTypes.ASH,
+    "Bubble" to ParticleTypes.BUBBLE,
+    "Bubble Pop" to ParticleTypes.BUBBLE_POP,
+    "Campfire Smoke" to ParticleTypes.CAMPFIRE_COSY_SMOKE,
+    "Cloud" to ParticleTypes.CLOUD,
+    "Composter" to ParticleTypes.COMPOSTER,
+    "Crimson Spore" to ParticleTypes.CRIMSON_SPORE,
+    "Crit" to ParticleTypes.CRIT,
+    "Damage Indicator" to ParticleTypes.DAMAGE_INDICATOR,
+    "Dolphin" to ParticleTypes.DOLPHIN,
+    "Dripping Honey" to ParticleTypes.DRIPPING_HONEY,
+    "Dripping Lava" to ParticleTypes.DRIPPING_LAVA,
+    "Dripping Obsidian Tear" to ParticleTypes.DRIPPING_OBSIDIAN_TEAR,
+    "Dripping Water" to ParticleTypes.DRIPPING_WATER,
+    "Elder Guardian" to ParticleTypes.ELDER_GUARDIAN,
+    "Enchant" to ParticleTypes.ENCHANT,
+    "Enchanted Hit" to ParticleTypes.ENCHANTED_HIT,
+    "End Rod" to ParticleTypes.END_ROD,
+    "Entity Effect" to ParticleTypes.ENTITY_EFFECT,
+    "Explosion" to ParticleTypes.EXPLOSION,
+    "Falling Honey" to ParticleTypes.FALLING_HONEY,
+    "Falling Lava" to ParticleTypes.FALLING_LAVA,
+    "Falling Nectar" to ParticleTypes.FALLING_NECTAR,
+    "Falling Obsidian Tear" to ParticleTypes.FALLING_OBSIDIAN_TEAR,
+    "Falling Water" to ParticleTypes.FALLING_WATER,
+    "Firework" to ParticleTypes.FIREWORK,
+    "Fishing" to ParticleTypes.FISHING,
+    "Flame" to ParticleTypes.FLAME,
+    "Flash" to ParticleTypes.FLASH,
+    "Happy Villager" to ParticleTypes.HAPPY_VILLAGER,
+    "Heart" to ParticleTypes.HEART,
+    "Slime Item" to ParticleTypes.ITEM_SLIME,
+    "Snowball item" to ParticleTypes.ITEM_SNOWBALL,
+    "Landing Honey" to ParticleTypes.LANDING_HONEY,
+    "Landing Lava" to ParticleTypes.LANDING_LAVA,
+    "Landing Obsidian Tear" to ParticleTypes.LANDING_OBSIDIAN_TEAR,
+    "Lava" to ParticleTypes.LAVA,
+    "Mycelium" to ParticleTypes.MYCELIUM,
+    "Nautilus" to ParticleTypes.NAUTILUS,
+    "Note" to ParticleTypes.NOTE,
+    "Rain" to ParticleTypes.RAIN,
+    "Reverse Portal" to ParticleTypes.REVERSE_PORTAL,
+    "Soul" to ParticleTypes.SOUL,
+    "Soulfire Flame" to ParticleTypes.SOUL_FIRE_FLAME,
+    "Sweep Attack" to ParticleTypes.SWEEP_ATTACK,
+    "Totem of Undying" to ParticleTypes.TOTEM_OF_UNDYING,
+    "Undewater" to ParticleTypes.UNDERWATER,
+    "Warped Spore" to ParticleTypes.WARPED_SPORE,
+    "White Ash" to ParticleTypes.WHITE_ASH,
+    "Witch" to ParticleTypes.WITCH
+)
+
+
 /** Helper to simplify iterating over zip entries */
 private fun ZipFile.forEntries(func: (ZipFile, ZipEntry) -> Unit) = use { zip ->
     val entries = zip.entries()
@@ -232,17 +306,18 @@ object BlockGenerator {
 
     private fun registerBlockFromJson(data: JSONData): ObjectHolderDelegate<Block>{
 
+        var pData = ParticleData((data.particleType != ""), particleMap[data.particleType]?: ParticleTypes.SMOKE, data.particlePos, data.particleSpread, data.particleVel)
+
         val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName, data.blastRes, data.slip,
-            (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof, data.hitbox)
+            (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof, data.hitbox, data.hitboxBuffer, pData)
 
         var blockName = ""
 
         if (data.nameGenType == "old"){
-            blockName = data.displayName.replace(" ", "").lowercase()
+            blockName = data.displayName.replace("\\s+".toRegex(), "").lowercase()
         }else{
-            blockName = data.displayName.replace(" ", "_").lowercase()
+            blockName = data.displayName.replace("\\s+".toRegex(), "_").lowercase()
         }
-
 
         val block = BLOCK_REGISTRY.registerObject(blockName) {
 
@@ -273,16 +348,19 @@ object BlockGenerator {
     }
 
     private fun registerDependantBlockFromJson(data: JSONData, pBlock: ObjectHolderDelegate<Block>, type:String): ObjectHolderDelegate<Block>{
-        val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName + " " + type.replaceFirstChar {if (it.isLowerCase()) it.titlecase(Locale.getDefault())else it.toString()}, data.blastRes, data.slip,
-            (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof, data.hitbox)
+        var pData = ParticleData((data.particleType != ""), particleMap[data.particleType]?: ParticleTypes.SMOKE, data.particlePos, data.particleSpread, data.particleVel)
+
+        val bData = BlockData((matMap[data.material]?:Material.DIRT), data.displayName, data.blastRes, data.slip,
+            (soundsMap[data.sounds] ?: SoundType.GRASS), data.lum, data.fireproof, data.hitbox, data.hitboxBuffer, pData)
 
         var blockName = ""
 
         if (data.nameGenType == "old"){
-            blockName = data.displayName.replace(" ", "").lowercase()
+            blockName = data.displayName.replace("\\s+".toRegex(), "").lowercase()
         }else{
-            blockName = data.displayName.replace(" ", "_").lowercase()
+            blockName = data.displayName.replace("\\s+".toRegex(), "_").lowercase()
         }
+        blockName = "$blockName" + "_$type"
 
         val block = BLOCK_REGISTRY.registerObject(blockName + "_" + type) {
             when(type){

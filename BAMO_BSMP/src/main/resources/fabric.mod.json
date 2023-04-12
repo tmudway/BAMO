@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "bamo",
+  "version": "${version}",
+  "name": "BAMO",
+  "description": "Block And Move On, a mod for simplifying the import process of custom blocks using BlockBench. Currently tailored towards the C&C mod project but can be used by anyone looking to bring custom blocks into the game without coding",
+  "authors": [
+    "Ryytikki",
+    "DenimRed"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/bamo-block-and-move-on",
+    "sources": "https://github.com/tmudway/BAMO"
+  },
+  "license": "ARR",
+  "icon": "assets/bamo/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      {
+        "adapter": "kotlin",
+        "value": "com.ryytikki.bamo.BamoKt::init"
+      }
+    ],
+    "client": [
+      {
+        "adapter": "kotlin",
+        "value": "com.ryytikki.bamo.BamoKt::initClient"
+      }
+    ]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.8.7",
+    "fabric": "*",
+    "fabric-language-kotlin": "*",
+    "minecraft": "1.18.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}
