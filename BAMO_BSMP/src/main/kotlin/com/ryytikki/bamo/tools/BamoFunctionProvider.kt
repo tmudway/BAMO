@@ -3,8 +3,9 @@ import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
 import net.minecraft.block.Material
-import net.minecraft.text.LiteralText
+import net.minecraft.util.math.random.Random
 import net.minecraft.text.MutableText
+import net.minecraft.text.Text
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
@@ -121,7 +122,7 @@ class BamoFunctionProvider(parent: Block, data: BlockData){
     }
 
     public fun getName(): MutableText {
-        return LiteralText(data.displayName)
+        return Text.literal(data.displayName)
     }
 
     public fun getDescID(): String {

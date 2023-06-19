@@ -49,10 +49,9 @@ class MergedResourcePack(
     override fun findResources(
         type: ResourceType,
         namespace: String,
-        path: String,
-        maxDepth: Int,
-        filter: Predicate<String>
-    ) = combinedPacks.flatMap { it.findResources(type, namespace, path, maxDepth, filter) }
+        prefix: String,
+        allowedPathPredicate: Predicate<Identifier>
+    ) = combinedPacks.flatMap { it.findResources(type, namespace, prefix, allowedPathPredicate) }
 
     override fun getNamespaces(type: ResourceType) =
         if (type === CLIENT_RESOURCES) resourcePacks.keys else dataPacks.keys

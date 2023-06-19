@@ -17,7 +17,7 @@ import net.minecraft.resource.ResourcePackProfile.Factory
 import net.minecraft.resource.ResourcePackProfile.InsertionPosition.TOP
 import net.minecraft.resource.metadata.PackResourceMetadata
 import net.minecraft.server.MinecraftServer
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import java.io.File
 import java.io.FileFilter
 import java.util.function.Consumer
@@ -51,7 +51,7 @@ object BamoPackFinder : ResourcePackProvider {
         val packs = compiledInfo.map { it.createResourcePack() }
         // Since the merged pack is programmatic, we can always assume current version
         val version = SharedConstants.getGameVersion().getPackVersion(PackType.RESOURCE)
-        val metadata = PackResourceMetadata(TranslatableText("$ID.resources.$DIR_NAME", packs.size), version)
+        val metadata = PackResourceMetadata(Text.translatable("$ID.resources.$DIR_NAME", packs.size), version)
         val packSupplier = { MergedResourcePack(DIR_NAME, "BAMO Pack Resources", metadata, packs) }
         val packInfo = ResourcePackProfile.of(DIR_NAME, true, packSupplier, infoFactory, TOP, PACK_SOURCE_NONE)
         // Should never be null, but still

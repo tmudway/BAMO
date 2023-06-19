@@ -1,13 +1,9 @@
 package com.ryytikki.bamo.tools
 
-import com.mojang.bridge.game.PackType
 import com.ryytikki.bamo.ID
 import com.ryytikki.bamo.LOGGER
-import net.fabricmc.api.EnvType
 import net.fabricmc.fabric.mixin.resource.loader.ResourcePackManagerAccessor
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.SharedConstants
-import net.minecraft.client.MinecraftClient
 import net.minecraft.resource.ZipResourcePack
 import net.minecraft.resource.DirectoryResourcePack
 import net.minecraft.resource.ResourcePackProvider
@@ -15,9 +11,7 @@ import net.minecraft.resource.ResourcePackSource.PACK_SOURCE_NONE
 import net.minecraft.resource.ResourcePackProfile
 import net.minecraft.resource.ResourcePackProfile.Factory
 import net.minecraft.resource.ResourcePackProfile.InsertionPosition.TOP
-import net.minecraft.resource.metadata.PackResourceMetadata
 import net.minecraft.server.MinecraftServer
-import net.minecraft.text.TranslatableText
 import java.io.File
 import java.io.FileFilter
 import java.util.function.Consumer
