@@ -2,8 +2,8 @@ package com.ryytikki.bamo.blocks
 
 import com.ryytikki.bamo.tools.BamoFunctionProvider
 import com.ryytikki.bamo.tools.BlockData
-import net.minecraft.block.Block
 import net.minecraft.block.BlockState
+import net.minecraft.block.FallingBlock
 import net.minecraft.block.ShapeContext
 import net.minecraft.text.MutableText
 import net.minecraft.util.math.BlockPos
@@ -12,7 +12,7 @@ import net.minecraft.world.BlockView
 import net.minecraft.world.World
 import java.util.*
 
-class BAMOFallingBlock(prop: Settings, data: BlockData) : Block(prop){
+class BAMOFallingBlock(prop: Settings, data: BlockData) : FallingBlock(prop){
     private val bamoFunc: BamoFunctionProvider
 
     init {
