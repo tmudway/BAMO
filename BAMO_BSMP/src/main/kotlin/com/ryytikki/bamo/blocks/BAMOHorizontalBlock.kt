@@ -11,6 +11,7 @@ import net.minecraft.state.property.DirectionProperty
 import net.minecraft.state.property.Properties
 import net.minecraft.text.MutableText
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.random.Random
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.world.BlockView
@@ -32,7 +33,7 @@ class BAMOHorizontalBlock(prop: Settings, data: BlockData) : Block(prop){
     }
 
     override fun getPlacementState(ctx: ItemPlacementContext): BlockState? {
-        return this.defaultState.with(Properties.HORIZONTAL_FACING, (ctx.playerFacing.opposite?:Direction.NORTH))
+        return this.defaultState.with(Properties.HORIZONTAL_FACING, (ctx.horizontalPlayerFacing.opposite?:Direction.NORTH))
     }
 
     @Deprecated("Deprecated in Java")
@@ -48,6 +49,7 @@ class BAMOHorizontalBlock(prop: Settings, data: BlockData) : Block(prop){
         return bamoFunc.getDescID()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun randomDisplayTick(state: BlockState?, world: World?, pos: BlockPos?, random: Random?) {
         return bamoFunc.randomDisplayTick(world, pos, random)
     }

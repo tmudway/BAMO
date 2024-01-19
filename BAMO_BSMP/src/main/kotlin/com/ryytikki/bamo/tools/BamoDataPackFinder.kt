@@ -17,7 +17,7 @@ import net.minecraft.resource.ResourcePackProfile.Factory
 import net.minecraft.resource.ResourcePackProfile.InsertionPosition.TOP
 import net.minecraft.resource.metadata.PackResourceMetadata
 import net.minecraft.server.MinecraftServer
-import net.minecraft.text.TranslatableText
+import net.minecraft.text.Text
 import java.io.File
 import java.io.FileFilter
 import java.util.function.Consumer

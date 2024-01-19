@@ -2,18 +2,18 @@ package com.ryytikki.bamo.tools
 import net.minecraft.block.AbstractBlock
 import net.minecraft.block.Block
 import net.minecraft.block.Blocks
-import net.minecraft.block.Material
-import net.minecraft.text.LiteralText
+import net.minecraft.text.Text
 import net.minecraft.text.MutableText
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.random.Random
 import net.minecraft.util.math.Direction
 import net.minecraft.util.shape.VoxelShape
 import net.minecraft.util.shape.VoxelShapes
 import net.minecraft.world.World
 import java.util.*
-
+//data.material
 fun initBlockProperties(data: BlockData) : AbstractBlock.Settings{
-    return AbstractBlock.Settings.of(data.material)
+    return AbstractBlock.Settings.create()
         .strength(3.0f, data.blastRes)
         .slipperiness(data.slip)
         .sounds(data.sounds)
@@ -121,7 +121,7 @@ class BamoFunctionProvider(parent: Block, data: BlockData){
     }
 
     public fun getName(): MutableText {
-        return LiteralText(data.displayName)
+        return Text.literal(data.displayName)
     }
 
     public fun getDescID(): String {

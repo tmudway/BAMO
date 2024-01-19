@@ -1,8 +1,8 @@
 package com.ryytikki.bamo.tools
 
-import com.ibm.icu.text.MessagePattern
 import com.ryytikki.bamo.ID
 import com.ryytikki.bamo.blocks.*
+import com.ryytikki.bamo.tools.compatability.Material
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
@@ -13,23 +13,25 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
-import net.minecraft.block.Blocks
+import net.minecraft.block.MapColor
+import net.minecraft.block.piston.PistonBehavior
 import net.minecraft.sound.BlockSoundGroup
-import net.minecraft.block.Material
-import net.minecraft.client.particle.Particle
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
+import net.minecraft.item.ItemGroups
 import net.minecraft.particle.DefaultParticleType
-import net.minecraft.particle.ParticleType
 import net.minecraft.particle.ParticleTypes
-import net.minecraft.util.registry.Registry
+import net.minecraft.registry.Registry
+import net.minecraft.registry.Registries
 import java.nio.file.Files
 import java.util.function.Supplier
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import kotlin.io.path.readText
+import kotlin.collections.*
+import net.minecraft.registry.RegistryKey
 
 @Serializable
 data class JSONData(
@@ -177,7 +179,7 @@ val matMap = mapOf<String, Material>(
     "Plant" to Material.PLANT,
     "Portal" to Material.PORTAL,
     "Replaceable Plant" to Material.REPLACEABLE_PLANT,
-    "Replaceable Fireproof Plant" to Material.REPLACEABLE_PLANT,
+    "Replaceable Fireproof Plant" to Material.REPLACEABLE_FIREPROOF_PLANT,
     "Replaceable Water Plant" to Material.REPLACEABLE_UNDERWATER_PLANT,
     "Sand" to Material.AGGREGATE,
     "Shulker Shell" to Material.SHULKER_BOX,
@@ -243,17 +245,17 @@ val soundsMap = mapOf<String, BlockSoundGroup>(
     "Wet Grass" to BlockSoundGroup.WET_GRASS
 )
 
-val tabsMap = mapOf<String, ItemGroup>(
-    "Building Blocks" to ItemGroup.BUILDING_BLOCKS,
-    "Brewing" to ItemGroup.BREWING,
-    "Combat" to ItemGroup.COMBAT,
-    "Food" to ItemGroup.FOOD,
-    "Decorations" to ItemGroup.DECORATIONS,
+val tabsMap = mapOf<String, RegistryKey<ItemGroup>>(
+    "Building Blocks" to ItemGroups.BUILDING_BLOCKS,
+    "Brewing" to ItemGroups.INGREDIENTS,
+    "Combat" to ItemGroups.COMBAT,
+    "Food" to ItemGroups.FOOD_AND_DRINK,
+    "Decorations" to ItemGroups.COLORED_BLOCKS,
     //"Materials" to ItemGroup.TAB_MATERIALS,
-    "Misc" to ItemGroup.MISC,
-    "Redstone" to ItemGroup.REDSTONE,
-    "Tools" to ItemGroup.TOOLS,
-    "Transportation" to ItemGroup.TRANSPORTATION
+    "Misc" to ItemGroups.NATURAL,
+    "Redstone" to ItemGroups.REDSTONE,
+    "Tools" to ItemGroups.TOOLS,
+    "Transportation" to ItemGroups.FUNCTIONAL
 )
 
 /** Helper to simplify iterating over zip entries */
@@ -295,14 +297,14 @@ object BlockGenerator {
     // use of the new KDeferredRegister
 
     private val blockData = mutableMapOf<Block, JSONData>()
-    private val bamoCrateBlock:Block = Block(FabricBlockSettings.of(Material.METAL))
+    private val bamoCrateBlock:Block = Block(FabricBlockSettings.create().mapColor(MapColor.IRON_GRAY).pistonBehavior(PistonBehavior.NORMAL).solid())
 
     fun generateBlocks() {
 
         // Generate the BAMO Crate
 
-        Registry.register(Registry.BLOCK, "bamo:bamo_crate", bamoCrateBlock)
-        Registry.register(Registry.ITEM, "bamo:bamo_crate", BlockItem(bamoCrateBlock, FabricItemSettings().group(ItemGroup.DECORATIONS).maxCount(64)))
+        Registry.register(Registries.BLOCK, "bamo:bamo_crate", bamoCrateBlock)
+        Registry.register(Registries.ITEM, "bamo:bamo_crate", BlockItem(bamoCrateBlock, FabricItemSettings().group(ItemGroups.COLORED_BLOCKS).maxCount(64)))
 
         // Loop through all the objects
         collectJsonObjects().forEach { data ->
@@ -326,7 +328,7 @@ object BlockGenerator {
 
         var pData = ParticleData((data.particleType != ""), particleMap[data.particleType]?: ParticleTypes.SMOKE, data.particlePos, data.particleSpread, data.particleVel)
 
-        val bData = BlockData((matMap[data.material]?:Material.SOIL), data.displayName, data.blastRes, data.slip,
+        val bData = BlockData((matMap[data.material]?: Material.SOIL), data.displayName, data.blastRes, data.slip,
             (soundsMap[data.sounds] ?: BlockSoundGroup.GRASS), data.lum, data.fireproof, data.hitbox, data.hitboxBuffer, pData)
 
         var blockName = ""
@@ -342,22 +344,22 @@ object BlockGenerator {
         val block:Block
 
             if (data.blockType == "Flower") {
-                block = Registry.register(Registry.BLOCK, blockName, BAMOFlowerBlock(initFlowerBlockProperties(bData), bData))
+                block = Registry.register(Registries.BLOCK, blockName, BAMOFlowerBlock(initFlowerBlockProperties(bData), bData))
             }else{
                 if (data.gravity) {
-                    block = Registry.register(Registry.BLOCK, blockName, BAMOFallingBlock(initBlockProperties(bData), bData))
+                    block = Registry.register(Registries.BLOCK, blockName, BAMOFallingBlock(initBlockProperties(bData), bData))
                 } else {
                     if (data.rotType == "y_axis") {
-                        block = Registry.register(Registry.BLOCK, blockName, BAMOHorizontalBlock(initBlockProperties(bData), bData))
+                        block = Registry.register(Registries.BLOCK, blockName, BAMOHorizontalBlock(initBlockProperties(bData), bData))
                     } else {
-                        block = Registry.register(Registry.BLOCK, blockName, BAMOBlock(initBlockProperties(bData), bData))
+                        block = Registry.register(Registries.BLOCK, blockName, BAMOBlock(initBlockProperties(bData), bData))
                     }
                 }
             }
 
 
         // Register the item version of the block
-        Registry.register(Registry.ITEM, blockName, BlockItem(block, Item.Settings().group((tabsMap[data.creativeTab]?: ItemGroup.BUILDING_BLOCKS)).maxCount(data.maxStack)))
+        Registry.register(Registries.ITEM, blockName, BlockItem(block, Item.Settings().group((tabsMap[data.creativeTab]?: ItemGroups.BUILDING_BLOCKS)).maxCount(data.maxStack)))
 
         return block
     }
@@ -366,7 +368,7 @@ object BlockGenerator {
 
         var pData = ParticleData((data.particleType != ""), particleMap[data.particleType]?: ParticleTypes.SMOKE, data.particlePos, data.particleSpread, data.particleVel)
 
-        val bData = BlockData((matMap[data.material]?:Material.SOIL), data.displayName + " $type", data.blastRes, data.slip,
+        val bData = BlockData((matMap[data.material]?: Material.SOIL), data.displayName + " $type", data.blastRes, data.slip,
             (soundsMap[data.sounds] ?: BlockSoundGroup.GRASS), data.lum, data.fireproof, data.hitbox, data.hitboxBuffer, pData)
 
         var blockName = ""
@@ -382,17 +384,17 @@ object BlockGenerator {
         val block:Block
         if(type == "stairs"){
             val state: Supplier<BlockState> = Supplier {pBlock.defaultState}
-            block = Registry.register(Registry.BLOCK, blockName, BAMOStairsBlock(state, initBlockProperties(bData), bData))
+            block = Registry.register(Registries.BLOCK, blockName, BAMOStairsBlock(state, initBlockProperties(bData), bData))
         }else if(type == "slab") {
-            block = Registry.register(Registry.BLOCK, blockName, BAMOSlabBlock(initBlockProperties(bData), bData))
+            block = Registry.register(Registries.BLOCK, blockName, BAMOSlabBlock(initBlockProperties(bData), bData))
         }else if(type == "wall"){
-            block = Registry.register(Registry.BLOCK, blockName, BAMOWallBlock(initBlockProperties(bData), bData))
+            block = Registry.register(Registries.BLOCK, blockName, BAMOWallBlock(initBlockProperties(bData), bData))
         }else{
-            block = Registry.register(Registry.BLOCK, blockName, BAMOBlock(initBlockProperties(bData), bData))
+            block = Registry.register(Registries.BLOCK, blockName, BAMOBlock(initBlockProperties(bData), bData))
         }
 
         // Register the item version of the block
-        Registry.register(Registry.ITEM, blockName, BlockItem(block, Item.Settings().group((tabsMap[data.creativeTab]?: ItemGroup.BUILDING_BLOCKS)).maxCount(data.maxStack)))
+        Registry.register(Registries.ITEM, blockName, BlockItem(block, Item.Settings().group((tabsMap[data.creativeTab]?: ItemGroups.BUILDING_BLOCKS)).maxCount(data.maxStack)))
 
         return block
     }
