@@ -1,6 +1,7 @@
 package com.ryytikki.bamo.tools
 
 import com.ryytikki.bamo.ID
+import com.ryytikki.bamo.LOGGER
 import com.ryytikki.bamo.blocks.*
 import com.ryytikki.bamo.tools.compatability.Material
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -8,30 +9,32 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
+import net.fabricmc.fabric.api.`object`.builder.v1.block.FabricBlockSettings
 import net.minecraft.block.Block
 import net.minecraft.block.BlockState
 import net.minecraft.block.MapColor
 import net.minecraft.block.piston.PistonBehavior
-import net.minecraft.sound.BlockSoundGroup
 import net.minecraft.client.render.RenderLayer
 import net.minecraft.item.BlockItem
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemGroups
+import net.minecraft.item.ItemStack
 import net.minecraft.particle.DefaultParticleType
 import net.minecraft.particle.ParticleTypes
-import net.minecraft.registry.Registry
 import net.minecraft.registry.Registries
+import net.minecraft.registry.Registry
+import net.minecraft.registry.RegistryKey
+import net.minecraft.sound.BlockSoundGroup
 import java.nio.file.Files
 import java.util.function.Supplier
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
-import kotlin.io.path.readText
 import kotlin.collections.*
-import net.minecraft.registry.RegistryKey
+import kotlin.io.path.readText
 
 @Serializable
 data class JSONData(
@@ -258,6 +261,8 @@ val tabsMap = mapOf<String, RegistryKey<ItemGroup>>(
     "Transportation" to ItemGroups.FUNCTIONAL
 )
 
+val tab2BlockMap = mutableMapOf<RegistryKey<ItemGroup>, ArrayList<ItemStack>>()
+
 /** Helper to simplify iterating over zip entries */
 private fun ZipFile.forEntries(func: (ZipFile, ZipEntry) -> Unit) = use { zip ->
     val entries = zip.entries()
@@ -304,7 +309,8 @@ object BlockGenerator {
         // Generate the BAMO Crate
 
         Registry.register(Registries.BLOCK, "bamo:bamo_crate", bamoCrateBlock)
-        Registry.register(Registries.ITEM, "bamo:bamo_crate", BlockItem(bamoCrateBlock, FabricItemSettings().group(ItemGroups.COLORED_BLOCKS).maxCount(64)))
+        val crateItem = Registry.register(Registries.ITEM, "bamo:bamo_crate", BlockItem(bamoCrateBlock, FabricItemSettings().maxCount(64)))
+        addToGroup(ItemGroups.COLORED_BLOCKS, crateItem)
 
         // Loop through all the objects
         collectJsonObjects().forEach { data ->
@@ -319,6 +325,13 @@ object BlockGenerator {
                     val chBlock = registerDependantBlockFromJson(data, block, type)
                     blockData[chBlock] = data
                 }
+            }
+        }
+
+        //Register ItemGroup Events for all groups that are used
+        tab2BlockMap.forEach { (key, list) ->
+            ItemGroupEvents.modifyEntriesEvent(key).register { content ->
+                content.addAll(list)
             }
         }
     }
@@ -359,7 +372,9 @@ object BlockGenerator {
 
 
         // Register the item version of the block
-        Registry.register(Registries.ITEM, blockName, BlockItem(block, Item.Settings().group((tabsMap[data.creativeTab]?: ItemGroups.BUILDING_BLOCKS)).maxCount(data.maxStack)))
+        val item = Registry.register(Registries.ITEM, blockName, BlockItem(block, Item.Settings().maxCount(data.maxStack)))
+        //Add item to our map for registering to item group later
+        addToGroup((tabsMap[data.creativeTab]?: ItemGroups.BUILDING_BLOCKS), item)
 
         return block
     }
@@ -394,7 +409,9 @@ object BlockGenerator {
         }
 
         // Register the item version of the block
-        Registry.register(Registries.ITEM, blockName, BlockItem(block, Item.Settings().group((tabsMap[data.creativeTab]?: ItemGroups.BUILDING_BLOCKS)).maxCount(data.maxStack)))
+        val item = Registry.register(Registries.ITEM, blockName, BlockItem(block, Item.Settings().maxCount(data.maxStack)))
+        //Add item to our map for registering to item group later
+        addToGroup((tabsMap[data.creativeTab]?: ItemGroups.BUILDING_BLOCKS), item)
 
         return block
     }
@@ -414,5 +431,10 @@ object BlockGenerator {
 
         BlockRenderLayerMap.INSTANCE.putBlock(bamoCrateBlock, RenderLayer.getCutout())
 
+    }
+
+    private fun addToGroup(group: RegistryKey<ItemGroup>, item: Item) {
+        if (!tab2BlockMap.containsKey(group)) tab2BlockMap[group] = arrayListOf()
+        tab2BlockMap[group]!!.add(ItemStack(item))
     }
 }
