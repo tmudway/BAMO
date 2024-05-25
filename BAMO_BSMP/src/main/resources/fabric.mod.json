@@ -30,6 +30,7 @@
     ]
   },
   "mixins": [],
+  "accessWidener": "bamo.accesswidener",
   "depends": {
     "fabricloader": ">=0.8.7",
     "fabric": "*",
