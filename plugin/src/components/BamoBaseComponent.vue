@@ -398,6 +398,7 @@ export default {
 
             var modelData = JSON.parse(codecData);
             var ns = this.properties.namespace
+            var animated = this.properties.animated
             // Copy texture files
             Texture.all.forEach(function(tx){
                 var image;
@@ -410,6 +411,10 @@ export default {
         
                     fs.writeFile(blockTexturesFolder + "\\" + cleanFileName(tx.name), image, (err) => {if (err != null) {console.log("Error Found writing texture data:", err);}});
                     zip.file("assets/" + ns + "/textures/" + blockTextureFolderVersion + "/" + cleanFileName(tx.name), image)
+                    if (animated){
+                        fs.writeFile(blockTexturesFolder + "\\" + cleanFileName(tx.name) + ".mcmeta", '{"animation" : {}}', (err) => {if (err != null) {console.log("Error Found writing animation data:", err);}})
+                        zip.file("assets/" + ns + "/textures/" + blockTextureFolderVersion + "/" + cleanFileName(tx.name) + ".mcmeta", '{"animation" : {}}')
+                    }
                 }
             })
 
