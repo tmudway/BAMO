@@ -21,10 +21,9 @@ import java.util.*
 val HORIZONTAL_FACING:DirectionProperty = Properties.HORIZONTAL_FACING
 
 class BAMOHorizontalBlock(prop: Settings, data: BlockData) : Block(prop){
-    private val bamoFunc: BamoFunctionProvider
+    private val bamoFunc: BamoFunctionProvider = BamoFunctionProvider(this, data)
 
     init {
-        bamoFunc = BamoFunctionProvider(this, data)
         defaultState = this.stateManager.defaultState.with(Properties.HORIZONTAL_FACING, Direction.NORTH)
     }
 

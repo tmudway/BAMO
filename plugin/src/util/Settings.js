@@ -1,6 +1,7 @@
 export const BAMO_SETTINGS_DEFAULT = {
     displayName: "",
     namespace: "bamo",
+    version: "1.20.1",
     typeList: [],
     material: "Dirt",
     blastRes: 6,
